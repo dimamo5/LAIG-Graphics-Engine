@@ -27,7 +27,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 	
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
+	var error = this.parseInitials(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -43,6 +43,7 @@ MySceneGraph.prototype.onXMLReady=function()
 
 /* Elements parser */
 
+
 //>>> INITIALS PARSER
 MySceneGraph.prototype.parseInitials= function(rootElement){
 
@@ -57,26 +58,26 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 	}
 	
 	//frustum
-	var frustum = elems.getElementsByTagName('frustum');
+	var frustum = elems[0].getElementsByTagName('frustum');
 	if (frustum[0] == null || frustum.length != 1) {
 		return "frustum element is missing or there are more than one element found.";
 	}
 
-	this.frustum = { near : frustum[0].attributes.getNamedItem("near").value,
-	           		 far : frustum[0].attributes.getNamedItem("far").value };
+	this.scene.frustum = { near : this.reader.getFloat(frustum[0],"near",true),
+	           		 far : this.reader.getFloat(frustum[0],"far",true) };
 	
 	//translate
-	var translate = elems.getElementsByTagName('translate');
+	var translate = elems[0].getElementsByTagName('translate');
 	if(translate[0] == null || translate.length != 1) {
 		return "translate element is missing or there are more than one element found.";
 	}
 
-	this.translate = { x:translate[0].attributes.getNamedItem("x").value,
-					   y:translate[0].attributes.getNamedItem("y").value,
-					   z:translate[0].attributes.getNamedItem("z").value};
+	this.scene.translate = { x : this.reader.getFloat(translate[0],"x",true),
+					   y : this.reader.getFloat(translate[0],"y",true),
+					   z : this.reader.getFloat(translate[0],"z",true) };
 
 	//rotation (expect 3 elements)
-	var rotation = elems.getElementsByTagName('rotation');
+	var rotation = elems[0].getElementsByTagName('rotation');
 	if(rotation == null) {
 		return "rotation element is missing";
 	}
@@ -89,29 +90,48 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 	for(var i=0; i < nrot; i++){
 
 		var e = rotation[i];
+		var axis = this.reader.getString(e,"axis",true);
 
-		//percorre todos os elementos (3)
-		this.rotation[i] = { axis : e.getNamedItem("axis").value,
-		 					 angle : e.getNamedItem("angle").value};
+		switch (axis)	{
+			case "x":
+				this.scene.rotationX_angle = this.reader.getFloat(e,"angle",true);
+				break;
+
+			case "y":			
+				this.scene.rotationY_angle = this.reader.getFloat(e,"angle",true);
+				break;			
+
+			case "z":
+				this.scene.rotationZ_angle = this.reader.getFloat(e,"angle",true);
+				break;	
+
+			default:
+				return "error on axis value";
+		}
 	}
+
+	//verifica se algum dos eixos ficou por preencher
+	if( this.rotationX_angle == 'undefined' | this.rotationY_angle == 'undefined' | this.rotationZ_angle == 'undefined')
+		return "error defining axis";
+
 	
 	//scale
-	var scale = elems.getElementsByTagName('scale');
+	var scale = elems[0].getElementsByTagName('scale');
 	if(scale[0] == null || scale.length != 1) {
 		return "scale element is missing or there are more than one element found.";
 	}
 
-	this.scale = { sx : scale[0].attributes.getNamedItem("sx").value,
-				   sy : scale[0].attributes.getNamedItem("sy").value,
-				   sz : scale[0].attributes.getNamedItem("sz").value};
+	this.scene.scale = { sx : this.reader.getFloat(scale[0],"sx",true),
+				   sy : this.reader.getFloat(scale[0],"sy",true),
+				   sz : this.reader.getFloat(scale[0],"sz",true) };
 	
 	//reference
-	var reference = elems.getElementsByTagName('reference');
-	if(reference[0] == null || reference.length != 1) {
+	var reference = elems[0].getElementsByTagName('reference');
+	if ( reference[0] == null || reference.length != 1 ) {
 		return "reference element is missing or there are more than one element found.";
 	}
 
-	this.reference = reference[0].attributes.getNamedItem("length").value;
+	this.scene.reference = this.reader.getFloat(reference[0],"length",true);
 }
 
 
@@ -128,34 +148,34 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 	}
 	
 	//ambient
-	var ambient = elems.getElementsByTagName('ambient');
+	var ambient = elems[0].getElementsByTagName('ambient');
 	if (ambient[0] == null || ambient.length != 1) {
 		return "ambient element is missing or there are more than one element found.";
 	}
 
-	this.ambient = { r:ambient[0].attributes.getNamedItem("r").value,
-					 g:ambient[0].attributes.getNamedItem("g").value,
-					 b:ambient[0].attributes.getNamedItem("b").value,
-					 a:ambient[0].attributes.getNamedItem("a").value };
+	this.scene.ambient = { r: this.reader.getFloat(ambient[0],"r",true),
+					 g: this.reader.getFloat(ambient[0],"g",true),
+					 b: this.reader.getFloat(ambient[0],"b",true) ,
+					 a: this.reader.getFloat(ambient[0],"a",true) };
 
 	//doubleside
-	var doubleside = elems.getElementsByTagName('doubleside');
+	var doubleside = elems[0].getElementsByTagName('doubleside');
 	if (doubleside[0] == null || doubleside.length != 1) {
 		return "doubleside element is missing or there are more than one element found.";
 	}
 
-	this.doubleside = doubleside[0].attributes.getNamedItem("value").value;
+	this.scene.doubleside = this.reader.getBoolean(doubleside[0],"value",true);
 
 	//background 
-	var background = elems.getElementsByTagName('background');
+	var background = elems[0].getElementsByTagName('background');
 	if (background[0] == null || background.length != 1) {
 		return "background element is missing or there are more than one element found.";
 	}
 
-	this.background = {	r:background[0].attributes.getNamedItem("r").value,
-						g:background[0].attributes.getNamedItem("g").value, 
-						b:background[0].attributes.getNamedItem("b").value, 
-						a:background[0].attributes.getNamedItem("a").value };
+	this.scene.background = { r: this.reader.getFloat(background[0],"r",true),
+						g: this.reader.getFloat(background[0],"g",true), 
+						b: this.reader.getFloat(background[0],"b",true), 
+						a: this.reader.getFloat(background[0],"a",true) };
 }
 
 // LIGHTS  <<<<<< checkar 
@@ -172,73 +192,81 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	}
 
 	//retorna lista de elementos "LIGHT" abaixo do node "LIGHTS"
-	var lightsList = elems.getElementsByTagName('LIGHT');
+	var lightsList = elems[0].getElementsByTagName('LIGHT');
 	if(lightsList.length == 0){
 		return "no lights found";
 	}
 	
-	//cria array associativo para elementos "LIGHT"
-	this.lights = assocArray;
+	//array de lights
+	this.scene.lights = [];
 
 	//carrega todos os elementos "light"
 	for(var i = 0; i < lightsList.length;i++){
 		
-		var id = lightsList[i].attributes.getNamedItem("id").value;
+		var id = this.reader.getString(lightsList[i],"id",true );
 
 		var enable = lightsList[i].getElementsByTagName('enable');
-
 		if(enable[0] == null || enable.length != 1) {
 			return "enable element is missing or there are more than one element found.";
 		}
+
+		var enable_val = this.reader.Boolean(enable[0],"value",true);
 
 		var pos = lightsList[i].getElementsByTagName('position');
 		if(pos[0] == null || pos.length != 1) {
 			return "position element is missing or there are more than one element found.";
 		}
 
-		var positionList = { x : pos[0].attributes.getNamedItem("x").value, 
-							 y : pos[0].attributes.getNamedItem("y").value,
-							 z : pos[0].attributes.getNamedItem("z").value,
-							 w : pos[0].attributes.getNamedItem("w").value };
+		var positionList = { x : this.reader.getFloat(pos[0],"x",true), 
+							 y : this.reader.getFloat(pos[0],"y",true),
+							 z : this.reader.getFloat(pos[0],"z",true),
+							 w : this.reader.getFloat(pos[0],"w",true) };
 
 		var ambient = lightsList[i].getElementsByTagName('ambient');
 		if(ambient[0] == null || ambient.length != 1) {
 			return "ambient element is missing or there are more than one element found.";
 		}
 
-		var ambientList = { r : ambient[0].attributes.getNamedItem("r").value,
-							g : ambient[0].attributes.getNamedItem("g").value,
-							b : ambient[0].attributes.getNamedItem("b").value,
-							a : ambient[0].attributes.getNamedItem("a").value };
+		var ambientList = { r : this.reader.getFloat(ambient[0],"r",true),
+							g : this.reader.getFloat(ambient[0],"g",true),
+							b : this.reader.getFloat(ambient[0],"b",true),
+							a : this.reader.getFloat(ambient[0],"a",true) };
 
 		var diffuse = lightsList[i].getElementsByTagName('diffuse');
 		if(diffuse[0] == null || diffuse.length != 1) {
 			return "diffuse element is missing or there are more than one element found.";
 		}
 
-		var diffuseList = { r : diffuse[0].attributes.getNamedItem("r").value,
-							g : diffuse[0].attributes.getNamedItem("g").value,
-							b : diffuse[0].attributes.getNamedItem("b").value,
-							a : diffuse[0].attributes.getNamedItem("a").value };
+		var diffuseList = { r : this.reader.getFloat(diffuse[0],"r",true),
+							g : this.reader.getFloat(diffuse[0],"g",true),
+							b : this.reader.getFloat(diffuse[0],"b",true),
+							a : this.reader.getFloat(diffuse[0],"a",true) };
 
 		var specullar = lightsList[i].getElementsByTagName('specullar');
 		if(specullar[0] == null || specullar.length != 1) {
 			return "diffuse element is missing or there are more than one element found.";
 		}
 
-		var specullarList = { r : specullar[0].attributes.getNamedItem("r").value,
-						      g : specullar[0].attributes.getNamedItem("g").value,
-							  b : specullar[0].attributes.getNamedItem("b").value,
-							  a : specullar[0].attributes.getNamedItem("a").value };
+		var specullarList = { r : this.reader.getFloat(specullar[0],"r",true),
+						      g : this.reader.getFloat(specullar[0],"g",true),
+							  b : this.reader.getFloat(specullar[0],"b",true),
+							  a : this.reader.getFloat(specullar[0],"a",true) };
 
-		var val = { enable : enable[0].attributes.getNamedItem("value").value,
-					position : positionList,
-					ambient : ambientList,
-					diffuse : diffuseList,
-					specullar : specullarList };
+		//criacao do objecto light
+		var light_Obj = new CGFLight(this.scene,id);
 
+		if(enable_val == true ) //enable_val : T/F
+			light_Obj.enable();
+		else 
+			light_Obj.disable();
 
-		this.lights.add(id,val); //carrega elemento "light" para array associativo
+		//sets dos atributos da CGFLight
+		light_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
+		light_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
+		light_Obj.setSpecullar(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
+		light_Obj.setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
+
+		this.lights[i] = light_Obj;
 	}
 }
 
@@ -255,7 +283,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 	}
 
 	
-	var texturesList = elems.getElementsByTagName('TEXTURE');
+	var texturesList = elems[0].getElementsByTagName('TEXTURE');
 	if(texturesList.length == 0){
 		return "no textures found";
 	}
@@ -269,12 +297,12 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 
 		var file = texturesList[i].getElementsByTagName('file');
 		if(file == null || file.length != 1){
-			return "file element is missing or there are more than one element found."
+			return "file element is missing or there are more than one element found.";
 		}
 
 		var amplif_factorList = texturesList[i].attributes.getNamedItem("amplif_factor");
 		if(amplif_factor == null || amplif_factor.length != 1){
-			return "amplif_factor element is missing or there are more than one element found."
+			return "amplif_factor element is missing or there are more than one element found.";
 		}
 
 		var amplif_factorList = {s : amplif_factor[0].attributes.getNamedItem("s"),
@@ -290,6 +318,8 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 }
 	
 //MATERIALS
+
+
 
 
 
