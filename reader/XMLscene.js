@@ -13,7 +13,7 @@ XMLscene.prototype.init = function (application) {
 
     this.initLights();
 
-    this.gl.clearColor(1.0, 0.0, 0.0, 1.0);
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
@@ -24,16 +24,23 @@ XMLscene.prototype.init = function (application) {
 	
 	this.materialDefault = new CGFappearance(this);
 	
-	this.testeAppearance = new CGFappearance(this);
-	this.testeAppearance.loadTexture("../resources/table.png");
-	//this.testeAppearance.setSpecular(0.8,1,1,1);
-	//this.testeAppearance.setDiffuse(0.8,0.8,0.8,1);
-	//this.testeAppearance.setShininess(120);
+	this.tableAppearance = new CGFappearance(this);
+	this.tableAppearance.setAmbient(0.2,0.2,0.2,1);
+	this.tableAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.tableAppearance.setSpecular(0.1,0.1,0.1,1);
+	this.tableAppearance.loadTexture("../resources/table.png");
+	this.tableAppearance.setShininess(120);
+
+	this.materialMetal = new CGFappearance(this);
+	this.materialMetal.setAmbient(0.73,0.75,0.8,1);
+	this.materialMetal.setDiffuse(0.73,0.75,0.8,1);
+	this.materialMetal.setSpecular(1,1,1,1);
+	this.materialMetal.setShininess(120);
 	
 	this.trig=new MyTriangle(this,0,0,0,5,0,0,0,2.5,0,1,1);
-	this.rect =new MyRectangle(this,0,10,10,0,1,1);
+	this.rect =new MyRectangle(this,0,1,1,0,1,1);
+	this.circle =new MyCircle(this,20);
 	
-
 	this.axis=new CGFaxis(this);
 };
 
@@ -117,10 +124,12 @@ XMLscene.prototype.display = function () {
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
 
+	this.updateLights();
+
 	// Draw axis
 	this.axis.display();
 
-	this.setDefaultAppearance();
+	this.materialDefault.apply();
 	
 	// ---- END Background, camera and axis setup
 
@@ -132,10 +141,12 @@ XMLscene.prototype.display = function () {
 		this.lights[0].update();
 	};	*/
 
-	this.updateLights();
 	
-	this.testeAppearance.apply();
-	this.rect.display();
+	
+	this.pushMatrix();
+		this.tableAppearance.apply();
+		this.circle.display();
+	this.popMatrix();
 
     this.shader.unbind();
 };

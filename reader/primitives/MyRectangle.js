@@ -27,8 +27,8 @@ MyRectangle.prototype.initBuffers = function() {
     ];
 
     this.indices = [
-        3,1,0,
-        0,2,3
+        0,1,2,
+        2,1,3
     ];
 
 
@@ -39,7 +39,7 @@ MyRectangle.prototype.initBuffers = function() {
 			0,0,1
     ]
 
-    this.vexCoords = [
+    this.texCoords = [
 			0,0,
 			0,this.t,
 			this.s,0,
