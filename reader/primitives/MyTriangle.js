@@ -1,4 +1,4 @@
-function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3){
+function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3,s,t){
     CGFobject.call(this,scene);
 
     //Vertice 1
@@ -41,13 +41,11 @@ MyTriangle.prototype.initBuffers = function() {
 			0,0,1,
     ]
 	
-	this.vertxCoords = [ 
-			0,this.t,
-			this.s/2,0,
-			t,s
+	this.vexCoords = [ 
+			0,0,
+			this.s,this.t,
+			this.s/2,0
 	]
-	
-	this.vert
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();

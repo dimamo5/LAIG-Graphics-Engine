@@ -1,5 +1,5 @@
 
-function MyRectangle(scene, x1,y1,x2,y2){
+function MyRectangle(scene, x1,y1,x2,y2,s,t){
     CGFobject.call(this,scene);
 
     this.x1 = x1;
@@ -7,6 +7,9 @@ function MyRectangle(scene, x1,y1,x2,y2){
     
     this.x2 = x2;
     this.y2 = y2;
+
+    this.s=s;
+    this.t=t;
 
     this.initBuffers();
 }
@@ -35,6 +38,15 @@ MyRectangle.prototype.initBuffers = function() {
 			0,0,1,
 			0,0,1
     ]
+
+    this.vexCoords = [
+			0,0,
+			0,this.t,
+			this.s,0,
+			this.s,this.t
+    ]
+
+
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();

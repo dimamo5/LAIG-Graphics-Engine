@@ -37,7 +37,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	this.loadedOk=true;
 	
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-	this.scene.onGraphLoaded();
+	//this.scene.onGraphLoaded();
 };
 
 

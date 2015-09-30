@@ -1,6 +1,6 @@
 function assocArray() {
 
-    this.array[];
+    this.array={};
 }
 
 
