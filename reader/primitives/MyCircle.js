@@ -14,7 +14,6 @@ function MyCircle(scene, slices) {
   	this.vertices = []; 	
  	this.indices = [];
  	this.normals = [];
-	this.texCoords = [];
 
 	var ang = 2*Math.PI/this.slices; //ang radians
     var z_cord = 0;
@@ -22,7 +21,6 @@ function MyCircle(scene, slices) {
 
     //(slices + 1) vertices
     this.vertices.push(0,0,z_cord); //centro do circulo
-    this.texCoords.push(0.5,0.5);
     this.normals.push(0,0,1);
 
 	for(var vert = 0; vert < this.slices; vert++){
@@ -32,7 +30,6 @@ function MyCircle(scene, slices) {
         this.vertices.push(z_cord);
 
         this.normals.push(0,0,1); //0,0,1 visto que o circulo esta perpedicular a z
-        this.texCoords.push(Math.cos(-ang*vert)/2 + 0.5, Math.sin(-ang*vert)/2 + 0.5);
 	}
  
 	for(var k = 0; k < this.slices ; k++){ 
