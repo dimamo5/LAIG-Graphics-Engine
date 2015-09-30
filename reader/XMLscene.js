@@ -19,6 +19,20 @@ XMLscene.prototype.init = function (application) {
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+	
+	this.enableTextures(true);
+	
+	this.materialDefault = new CGFappearance(this);
+	
+	this.testeAppearance = new CGFappearance(this);
+	this.testeAppearance.loadTexture("../resources/images/clock.png");
+	this.testeAppearance.setSpecular(0.8,1,1,1);
+	this.testeAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.testeAppearance.setShininess(10);
+	
+	this.trig=new MyTriangle();
+	
+	
 
 	this.axis=new CGFaxis(this);
 };
@@ -83,6 +97,8 @@ XMLscene.prototype.display = function () {
 	{
 		this.lights[0].update();
 	};	
+	
+	this.trig.display();
 
     this.shader.unbind();
 };

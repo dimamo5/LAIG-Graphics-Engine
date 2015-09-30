@@ -15,6 +15,9 @@ function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3){
     this.x3 = x3;
     this.y3 = y3;
     this.z3 = z3;
+	
+	this.s=s;
+	this.t=t;
 
     this.initBuffers();
 }
@@ -37,6 +40,14 @@ MyTriangle.prototype.initBuffers = function() {
 			0,0,1,
 			0,0,1,
     ]
+	
+	this.vertxCoords = [ 
+			0,this.t,
+			this.s/2,0,
+			t,s
+	]
+	
+	this.vert
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
