@@ -40,6 +40,7 @@ XMLscene.prototype.init = function (application) {
 	this.trig=new MyTriangle(this,0,0,0,5,0,0,0,2.5,0,1,1);
 	this.rect =new MyRectangle(this,0,1,1,0,1,1);
 	this.circle =new MyCircle(this,20);
+	this.cs = new MyCylinderSurface(this,1,0.5,5,20);
 	
 	this.axis=new CGFaxis(this);
 };
@@ -144,8 +145,7 @@ XMLscene.prototype.display = function () {
 	
 	
 	this.pushMatrix();
-		this.tableAppearance.apply();
-		this.circle.display();
+		this.cs.display();
 	this.popMatrix();
 
     this.shader.unbind();
