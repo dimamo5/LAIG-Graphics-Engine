@@ -13,7 +13,7 @@ XMLscene.prototype.init = function (application) {
 
     this.initLights();
 
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0); //usar atributos da cena
 
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
