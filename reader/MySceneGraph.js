@@ -64,7 +64,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 	}
 
 	this.scene.frustum = { near : this.reader.getFloat(frustum[0],"near",true),
-	           		 far : this.reader.getFloat(frustum[0],"far",true) };
+	           		 	   far : this.reader.getFloat(frustum[0],"far",true) };
 	
 	//translate
 	var translate = elems[0].getElementsByTagName('translation');
@@ -122,8 +122,8 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 	}
 
 	this.scene.scale = { sx : this.reader.getFloat(scale[0],"sx",true),
-				   sy : this.reader.getFloat(scale[0],"sy",true),
-				   sz : this.reader.getFloat(scale[0],"sz",true) };
+					     sy : this.reader.getFloat(scale[0],"sy",true),
+					     sz : this.reader.getFloat(scale[0],"sz",true) };
 	
 	//reference
 	var reference = elems[0].getElementsByTagName('reference');
@@ -132,7 +132,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 	}
 
 	this.scene.reference = this.reader.getFloat(reference[0],"length",true);
-}
+};
 
 
 //ILUMINATION
@@ -176,10 +176,9 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 						g: this.reader.getFloat(background[0],"g",true), 
 						b: this.reader.getFloat(background[0],"b",true), 
 						a: this.reader.getFloat(background[0],"a",true) };
-}
+};
 
-// LIGHTS  <<<<<< checkar 
-//É suposto funcionar se nao existirem elementos "LIGHT"?
+// LIGHTS  
 MySceneGraph.prototype.parseLights= function(rootElement){
 
 	var elems = rootElement.getElementsByTagName('LIGHTS');	
@@ -268,7 +267,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 
 		this.lights[i] = light_Obj;
 	}
-}
+};
 
 //TEXTURES 
 MySceneGraph.prototype.parseTextures= function(rootElement) {
@@ -287,7 +286,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		return "no textures found";
 	}
 	
-	this.textures = new assocArray;
+	this.textures =  { assocArray }; //boa pratica
 
 	//carrega todos os elementos "texture"
 	for(var i = 0; i < texturesList.length; i++){
@@ -309,7 +308,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 
 		this.textures.add(id, new MyTexture(this.scene, url,amplif_s,amplif_t, id)); //carrega elemento "texture" para arraya associativo
 	}
-}
+};
 	
 //MATERIALS
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
@@ -328,7 +327,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		return "no materials found";
 	}
 
-	this.materials = new assocArray;
+	this.materials =  {assocArray}; //boa pratica??
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i < materialsList.length; i++){
@@ -393,53 +392,77 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 		this.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
 	}
-}
+};
 
+//parse LEAVES
+MySceneGraph.prototype.parseLeaves = function(rootElement){
 
-
-
-/*
- * Example of method that parses elements of one block and stores information in a specific data structure
- */
-MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
-	
-	var elems =  rootElement.getElementsByTagName('globals');
+	var elems = rootElement.getElementsByTagName('LEAVES');	
 	if (elems == null) {
-		return "globals element is missing.";
+		return "LEAVES element is missing.";
 	}
 
 	if (elems.length != 1) {
-		return "either zero or more than one 'globals' element found.";
+		return "either zero or more than one LEAVES element found.";
 	}
 
-	// various examples of different types of access
-	var globals = elems[0];
-	this.background = this.reader.getRGBA(globals, 'background');
-	this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill","line","point"]);
-	this.cullface = this.reader.getItem(globals, 'cullface', ["back","front","none", "frontandback"]);
-	this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw","cw"]);
+	this.scene.graph_tree = new GraphTree();  //cria arvore (grafo) que aramazena nodes/leafs
 
-	console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
-
-	var tempList=rootElement.getElementsByTagName('list');
-
-	if (tempList == null) {
-		return "list element is missing.";
+	var leavesList = elems[0].getElementsByTagName('LEAF');
+	if(leavesList.length == 0){
+		return "no leaves found";
 	}
-	
-	this.list=[];
-	// iterate over every element
-	var nnodes=tempList[0].children.length;
-	for (var i=0; i< nnodes; i++)
-	{
-		var e=tempList[0].children[i];
 
-		// process each element and store its information
-		this.list[e.id]=e.attributes.getNamedItem("coords").value;
-		console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
-	};
+	for(var i= 0; i < leavesList.length; i++){
 
+		var id = this.reader.getString(leavesList[i],"id",true);		
+		var type = this.reader.getString(leavesList[i],"type",true);
+		var args = this.reader.getString(leavesList[i],"args",true);
+
+		var leaf_Obj = new GraphTree_leaf(id,type,args);
+
+		this.scene.graph_tree.graphElements.add(id,leaf_Obj); 
+	}
 };
+
+//Parse NODES
+
+MySceneGraph.prototype.parseNodes = function(){
+
+	var elems = rootElement.getElementsByTagName('NODES');	
+	if (elems == null) {
+		return "NODES element is missing.";
+	}
+
+	if (elems.length != 1) {
+		return "either zero or more than one NODES element found.";
+	}
+
+	var root = elems[0].getElementsByTagName('ROOT');
+	if(root[0] == null || root.length != 1) {
+		return "root element is missing or there are more than one element found in lsx.";
+	}
+
+	var id = this.reader.getString(root[0],"id",true);
+	this.scene.graph_tree.root_id = id;
+
+	var nodeslist = elems[0].getElementsByTagName('NODE');
+	if(nodeslist.length == 0){
+		return "no nodes found";
+	}
+
+	for(var i= 0; i < nodeslist.length; i++){
+
+	//...Ver nota desktop
+
+
+	}
+};
+
+
+
+
+
 	
 /*
  * Callback to be executed on any read error
