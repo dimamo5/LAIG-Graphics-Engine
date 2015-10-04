@@ -52,7 +52,6 @@ MyCylinderSurface.prototype.initBuffers = function() {
 			this.indices.push(i*this.slices+j,(i+1)*this.slices+((j+1)%this.slices),(i+1)*this.slices+j);
 		}
 	}
-	console.log(this.normals);
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();

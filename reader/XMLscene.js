@@ -42,6 +42,7 @@ XMLscene.prototype.init = function (application) {
 	this.circle =new MyCircle(this,20);
 	this.cs = new MyCylinderSurface(this,1,1,1,20,20);
 	//this.cs = new MyCylinder(this,1,2,0,20,20);
+	this.bola=new MySphere(this,1,40,40);
 	
 	this.axis=new CGFaxis(this);
 };
@@ -52,15 +53,15 @@ XMLscene.prototype.initLights = function () {
 	this.shader.bind();
 	
 	// Positions for four lights
-	this.lights[0].setPosition(0, 3, 0.5, 1);
+	this.lights[0].setPosition(0, 2, 0, 1);
 	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-	this.lights[2].setPosition(1, 5, 7.5, 1.0);
+	this.lights[2].setPosition(0, -2, 0, 1.0);
 	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
 
 
 	this.lights[0].setAmbient(0, 0, 0, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[0].setSpecular(1.0,1.0,0,1.0);
+	this.lights[0].setSpecular(1.0,1.0,1.0,1.0);
 	this.lights[0].setVisible( true);
 	this.lights[0].enable();
 
@@ -74,7 +75,8 @@ XMLscene.prototype.initLights = function () {
 	this.lights[2].setConstantAttenuation(0);
 	this.lights[2].setLinearAttenuation(1);
 	this.lights[2].setQuadraticAttenuation(0);
-	//this.lights[2].enable();
+	this.lights[2].setVisible( true);
+	this.lights[2].enable();
 	
 	this.lights[3].setAmbient(0, 0, 0, 1);
 	this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -147,7 +149,7 @@ XMLscene.prototype.display = function () {
 	
 	
 	this.pushMatrix();
-		this.cs.display();
+		this.bola.display();
 	this.popMatrix();
 
     this.shader.unbind();
