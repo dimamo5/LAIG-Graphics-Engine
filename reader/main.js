@@ -15,6 +15,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'assocMap.js',
 				'primitives/MyRectangle.js','primitives/MyCircle.js','primitives/MyCylinderSurface.js',
 				'GraphTree.js','GraphTree_node.js','GraphTree_leaf.js',
 
+
 main=function()
 {
 	// Standard application, scene and interface setup

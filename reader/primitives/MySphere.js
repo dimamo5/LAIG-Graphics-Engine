@@ -2,19 +2,20 @@
  * MyLamp
  * @constructor
  */
- function MyLamp(scene, slices, stacks) {
+ function MySphere(scene, radius,slices, stacks) {
  	CGFobject.call(this,scene);
 	
 	this.slices=slices;
 	this.stacks=stacks;
+	this.radius=radius;
 
  	this.initBuffers();
  };
 
- MyLamp.prototype = Object.create(CGFobject.prototype);
- MyLamp.prototype.constructor = MyLamp;
+ MySphere.prototype = Object.create(CGFobject.prototype);
+ MySphere.prototype.constructor = MySphere;
 
- MyLamp.prototype.initBuffers = function() {
+ MySphere.prototype.initBuffers = function() {
 
  	this.vertices = []; 	
  	this.indices = [];
@@ -25,8 +26,8 @@
 	//teta == 360/n_slices
 	//(r,teta,phi);
 	
-	var phi = (Math.PI/2)/this.stacks; //phi radians
-	var teta = 2*Math.PI/this.slices; //teta radians
+	var teta = (Math.PI)/this.stacks; //phi radians
+	var phi = 2*Math.PI/this.slices; //teta radians
 	var comprimento = 1;
 	var raio = 1;
 	var inc = comprimento/this.stacks; //incremento em z
@@ -44,11 +45,11 @@
 			
 			this.vertices.push(z); //x
 			this.vertices.push(x); //y
-			this.vertices.push(Math.abs(y)); //z na realidade, abs corrige em z
+			this.vertices.push(y); //z na realidade, abs corrige em z
 
 			this.texCoords.push(stepS,stepT);
 
-			this.normals.push(z,x,Math.abs(y)); //correccao em z, elimina semi esfera extra(bug)
+			this.normals.push(z,x,y); //correccao em z, elimina semi esfera extra(bug)
 		
 			stepS+=1/this.slices;
 		}
