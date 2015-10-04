@@ -41,8 +41,11 @@ XMLscene.prototype.init = function (application) {
 	this.rect =new MyRectangle(this,0,1,1,0,1,1);
 	this.circle =new MyCircle(this,20);
 	this.cs = new MyCylinderSurface(this,1,1,1,20,20);
+<<<<<<< HEAD
 	//this.cs = new MyCylinder(this,1,2,0,20,20);
 	this.bola=new MySphere(this,1,40,40);
+=======
+>>>>>>> origin/master
 	
 	this.axis=new CGFaxis(this);
 };
