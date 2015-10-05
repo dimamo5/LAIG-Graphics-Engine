@@ -28,7 +28,7 @@ XMLscene.prototype.init = function (application) {
 	this.tableAppearance.setAmbient(0.2,0.2,0.2,1);
 	this.tableAppearance.setDiffuse(0.8,0.8,0.8,1);
 	this.tableAppearance.setSpecular(0.1,0.1,0.1,1);
-	this.tableAppearance.loadTexture("../resources/table.png");
+	this.tableAppearance.loadTexture("../resources/doge.png");
 	this.tableAppearance.setShininess(120);
 
 	this.materialMetal = new CGFappearance(this);
@@ -40,12 +40,8 @@ XMLscene.prototype.init = function (application) {
 	this.trig=new MyTriangle(this,0,0,0,5,0,0,0,2.5,0,1,1);
 	this.rect =new MyRectangle(this,0,1,1,0,1,1);
 	this.circle =new MyCircle(this,20);
-	this.cs = new MyCylinderSurface(this,1,1,1,20,20);
-<<<<<<< HEAD
-	//this.cs = new MyCylinder(this,1,2,0,20,20);
+	this.cs = new MyCylinderSurface(this,3,1,1,5,7);
 	this.bola=new MySphere(this,1,40,40);
-=======
->>>>>>> origin/master
 	
 	this.axis=new CGFaxis(this);
 };
@@ -152,7 +148,8 @@ XMLscene.prototype.display = function () {
 	
 	
 	this.pushMatrix();
-		this.bola.display();
+		this.tableAppearance.apply();
+		this.cs.display();
 	this.popMatrix();
 
     this.shader.unbind();

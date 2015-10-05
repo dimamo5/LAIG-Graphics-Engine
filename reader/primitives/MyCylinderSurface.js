@@ -22,11 +22,14 @@ MyCylinderSurface.prototype.initBuffers = function() {
 	var decremento = (this.tRadius - this.bRadius) / this.stacks;
 	var raio_actual;
 
+	var s=0,t=0;
+
 	this.vertices=[];
  	this.normals=[];
+ 	this.texCoords=[];
 
- 	for(i = 0; i < this.stacks+1;i++){
- 		for(j = 0; j < this.slices;j++){
+ 	for(i = 0; i <= this.stacks;i++){
+ 		for(j = 0; j <= this.slices;j++){
 			raio_actual = i * decremento + this.bRadius;
 			
 			var x = Math.cos(j*angulo_circ);
@@ -41,17 +44,32 @@ MyCylinderSurface.prototype.initBuffers = function() {
 			var z_normal = raio_actual * Math.sin(angulo_incl);		 // z = r*sin(alpha)
 					
  			this.normals.push(x_normal,y_normal,z_normal);
+
+ 			this.texCoords.push(s,t);
+ 			s+=1/this.slices;
  		}
+ 		s=0;
+ 		t += 1/this.stacks;
  	}
 
  	this.indices=[];
 
-	for(i=0; i < this.stacks;i++){
+	/*for(i=0; i < this.stacks;i++){
 		for(j=0; j < this.slices;j++){
 			this.indices.push(i*this.slices+j,i*this.slices+((j+1)%this.slices),(i+1)*this.slices+(j+1)%this.slices);
 			this.indices.push(i*this.slices+j,(i+1)*this.slices+((j+1)%this.slices),(i+1)*this.slices+j);
 		}
+	}*/
+
+	for(var i=0; i < this.stacks;i++){
+		for(var k = 0; k < this.slices ; k++){
+			
+				this.indices.push(i*(this.slices+1) + k, i*(this.slices+1)+(k+1) ,(i+1)*(this.slices+1)+k+1);
+				this.indices.push(i*(this.slices+1)+k,(i+1)*(this.slices+1) +k+1, (i+1)*(this.slices+1) + k);
+		}
 	}
+
+	console.log(this.vertices.length/3);
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
