@@ -59,7 +59,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "translate element is missing or there are more than one element found.";
 	}
 
-	this.scene.translate = { x : this.reader.getFloat(translate[0],"x",true),
+	this.scene.translation = { x : this.reader.getFloat(translate[0],"x",true),
 					   y : this.reader.getFloat(translate[0],"y",true),
 					   z : this.reader.getFloat(translate[0],"z",true) };
 
