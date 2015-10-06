@@ -443,24 +443,93 @@ MySceneGraph.prototype.parseNodes = function(){
 		return "root element is missing or there are more than one element found in lsx.";
 	}
 
-	var id = this.reader.getString(root[0],"id",true);
-	this.scene.graph_tree.root_id = id;
+	var root_id = this.reader.getString(root[0],"id",true);
+	this.scene.graph_tree.root_id = root_id;
 
 	var nodeslist = elems[0].getElementsByTagName('NODE');
 	if(nodeslist.length == 0){
 		return "no nodes found";
 	}
 
+	//leitura dos nodes
 	for(var i= 0; i < nodeslist.length; i++){
 
-	//...Ver nota desktop
+		var node_id = this.reader.getString(nodeslist[i],"id",true);
 
+		var material = nodeslist[i].getElementsByTagName('MATERIAL');	
+		if(material == null || material == undefined || material.length != 1)
+			return "node MATERIAL  not found or more that one found";
 
+		var material_id = this.reader.getString(material[0], "id",true);
+
+		var texture = nodeslist[i].getElementsByTagName('TEXTURE');	
+		if(texture == null || texture == undefined || texture.length != 1)
+			return "node TEXTURE not found or more that one found";
+
+		var texture_id = this.reader.getString(texture[0], "id",true);
+
+		//instanciação do node
+		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
+
+		//tamanho da lista dos filhos do node (texture,material,translation...)
+		var childList_length = nodeslist[i].childNodes.length;
+		var child = nodeslist[i].firstChild;
+		 
+		//leitura das transformacoes para array devido 
+		for(var j = 0; j < childList_length; j++){
+			
+			var transf = [];
+			
+			if(child.nodeName == "TRANSLATION" ){				
+				transf.push(child.nodeName); 		//tipo da transformacao
+				transf.push(child.getAttributeNode("x").nodeValue);
+				transf.push(child.getAttributeNode("y").nodeValue);
+				transf.push(child.getAttributeNode("z").nodeValue);
+
+				node_Obj.transformations.push(tranf); 
+
+			}else if(child.nodeName == "ROTATION" ){				
+				transf.push(child.nodeName);		//tipo da transformacao
+				transf.push(child.getAttributeNode("axis").nodeValue);  //eixo da rotacao
+				transf.push(child.getAttributeNode("angle").nodeValue);
+
+				node_Obj.transformations.push(tranf); 
+
+			}else if(child.nodeName == "SCALE" ){				
+				transf.push(child.nodeName);		//tipo da transformacao	
+				transf.push(child.getAttributeNode("sx").nodeValue);
+				transf.push(child.getAttributeNode("sy").nodeValue);
+				transf.push(child.getAttributeNode("sz").nodeValue);
+
+				node_Obj.transformations.push(tranf); 
+
+			}else if (child.noName == "DESCENDANTS")  //no more transformations
+					break;
+
+			child = child.nextSibling;
+		}  		
+		
+		//tratar dos descendants
+		var descendantsList = nodeslist[i].getElementsByTagName('DESCENDANTS');
+		if(descendantsList.length == 0){
+			return "no descendants found";
+		}
+
+		for(var j = 0; j < descendantsList.length; j++){
+
+			var id = this.reader.getString(descendantsList[i],"id",true);
+			node_Obj.descendants.push(id);
+		}
+		
+		//adiciona node ao graphTree da cena		
+		this.scene.graph_tree.graph_elements.add(node_id, node_Obj);
 	}
 };
 
 
-
+//TODO: criar funcao que chama todos os parsers
+//actualizar XMLScene para usar valores das varaiveis carregadas do xml
+//exemplo : background color,etc...
 
 
 	
