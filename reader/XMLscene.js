@@ -103,9 +103,10 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
-	this.setGlobalAmbientLight(this.ambiente.r,this.ambiente.g,this.ambiente.b,this.ambiente.a);
+	this.setGlobalAmbientLight(this.ambient.r, this.ambient.g, this.ambient.b, this.ambient.a);
 	this.camera = new CGFcamera(0.4, this.frustum.near, this.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 	this.gl.clearColor(this.background.r,this.background.g, this.background.b, this.background.a);
+	console.log(this.background);
 };
 
 XMLscene.prototype.updateLights = function() {
@@ -130,9 +131,9 @@ XMLscene.prototype.display = function () {
 
 	this.setDefaultAppearance();
 
-	this.updateLights();
+	//this.updateLights();
 	
-	this.axis.display();		
+	//this.axis.display();		
 	
 	// ---- END Background, camera and axis setup
 
@@ -142,7 +143,7 @@ XMLscene.prototype.display = function () {
 
 	if (this.graph.loadedOk)
 	{
-		this.updateLights();
+		//this.updateLights();
 	};	
 
 

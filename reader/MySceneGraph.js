@@ -7,7 +7,6 @@ function MySceneGraph(filename, scene) {
 		
 	// File reading 
 	this.reader = new CGFXMLreader();
-
 	/*
 	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
 	 * After the file is read, the reader calls onXMLReady on this object.
@@ -55,6 +54,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	
 	//translate
 	var translate = elems[0].getElementsByTagName('translation');
+	console.log(translate[0]);
 	if(translate[0] == null || translate.length != 1) {
 		return "translate element is missing or there are more than one element found.";
 	}
@@ -145,14 +145,6 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 						   b: this.reader.getFloat(ambient[0],"b",true),
 						   a: this.reader.getFloat(ambient[0],"a",true) };
 
-	//doubleside
-	var doubleside = elems[0].getElementsByTagName('doubleside');
-	if (doubleside[0] == null || doubleside.length != 1) {
-		return "doubleside element is missing or there are more than one element found.";
-	}
-
-	this.scene.doubleside = this.reader.getBoolean(doubleside[0],"value",true);
-
 	//background 
 	var background = elems[0].getElementsByTagName('background');
 	if (background[0] == null || background.length != 1) {
@@ -196,7 +188,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 			return "enable element is missing or there are more than one element found.";
 		}
 
-		var enable_val = this.reader.Boolean(enable[0],"value",true);
+		var enable_val = this.reader.getBoolean(enable[0],"value",true);
 
 		var pos = lightsList[i].getElementsByTagName('position');
 		if(pos[0] == null || pos.length != 1) {
@@ -217,7 +209,9 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							g : this.reader.getFloat(ambient[0],"g",true),
 							b : this.reader.getFloat(ambient[0],"b",true),
 							a : this.reader.getFloat(ambient[0],"a",true) };
-
+		
+		console.log(lightsList[0]);
+		
 		var diffuse = lightsList[i].getElementsByTagName('diffuse');
 		if(diffuse[0] == null || diffuse.length != 1) {
 			return "diffuse element is missing or there are more than one element found.";
@@ -228,9 +222,9 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							b : this.reader.getFloat(diffuse[0],"b",true),
 							a : this.reader.getFloat(diffuse[0],"a",true) };
 
-		var specullar = lightsList[i].getElementsByTagName('specullar');
+		var specullar = lightsList[i].getElementsByTagName('specular');
 		if(specullar[0] == null || specullar.length != 1) {
-			return "diffuse element is missing or there are more than one element found.";
+			return "specullar element is missing or there are more than one element found.";
 		}
 
 		var specullarList = { r : this.reader.getFloat(specullar[0],"r",true),
@@ -239,7 +233,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							  a : this.reader.getFloat(specullar[0],"a",true) };
 
 		//criacao do objecto light
-		var light_Obj = new CGFLight(this.scene,id);
+		var light_Obj = new CGFlight(this.scene,id);
 
 		if(enable_val == true ) //enable_val : T/F
 			light_Obj.enable();
@@ -249,10 +243,10 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		//sets dos atributos da CGFLight
 		light_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
 		light_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
-		light_Obj.setSpecullar(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
+		light_Obj.setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
 		light_Obj.setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
 
-		this.lights.push(light_Obj);
+		this.scene.lights.push(light_Obj);
 	}
 };
 
@@ -517,7 +511,7 @@ MySceneGraph.prototype.onXMLReady=function()
 {
 	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
-	
+
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
 	var parser = [ this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
@@ -525,8 +519,8 @@ MySceneGraph.prototype.onXMLReady=function()
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i < 3; i++){
-		error = parser[i](rootElement);
-		verifyError(error);
+		error = parser[i].call(this,rootElement);
+		this.verifyError(error);
 	}
 
 	this.loadedOk=true;
