@@ -1,6 +1,8 @@
 
 function XMLscene() {
     CGFscene.call(this);
+	
+    graph_tree = new GraphTree();  //cria arvore (grafo) que aramazena nodes/leafs
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -10,12 +12,9 @@ XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
     this.initCameras();
-
     this.initLights();
 
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0); //usar atributos da cena
-	
-
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);	
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
@@ -24,7 +23,7 @@ XMLscene.prototype.init = function (application) {
 	this.enableTextures(true);
 	
 	this.materialDefault = new CGFappearance(this);
-	
+
 	this.tableAppearance = new CGFappearance(this);
 	this.tableAppearance.setAmbient(0.2,0.2,0.2,1);
 	this.tableAppearance.setDiffuse(0.8,0.8,0.8,1);
@@ -43,16 +42,17 @@ XMLscene.prototype.init = function (application) {
 	this.cs = new MyCylinderSurface(this,3,1,1,5,7);
 	this.bola=new MySphere(this,1,40,40);
 	
-	this.axis=new CGFaxis(this);
+	this.axis=new CGFaxis(this,this.axis_length);
 };
 
 XMLscene.prototype.initLights = function () {
+	
 	this.setGlobalAmbientLight(0,0,0,1.0);
 
 	this.shader.bind();
 	
 	// Positions for four lights
-	this.lights[0].setPosition(0, 2, 1, 1);
+	/*this.lights[0].setPosition(0, 2, 0, 1);
 	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
 	this.lights[2].setPosition(0, -2, 0, 1.0);
 	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
@@ -83,7 +83,7 @@ XMLscene.prototype.initLights = function () {
 	this.lights[3].setConstantAttenuation(0);
 	this.lights[3].setLinearAttenuation(0);
 	this.lights[3].setQuadraticAttenuation(1);
-	//this.lights[3].enable();
+	//this.lights[3].enable();*/
 
 	this.shader.unbind();
 };
@@ -103,9 +103,9 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
-	this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
-	this.lights[0].setVisible(true);
-    this.lights[0].enable();
+	this.setGlobalAmbientLight(this.ambiente.r,this.ambiente.g,this.ambiente.b,this.ambiente.a);
+	this.camera = new CGFcamera(0.4, this.frustum.near, this.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+	this.gl.clearColor(this.background.r,this.background.g, this.background.b, this.background.a);
 };
 
 XMLscene.prototype.updateLights = function() {
@@ -128,25 +128,27 @@ XMLscene.prototype.display = function () {
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
 
+	this.setDefaultAppearance();
+
 	this.updateLights();
-
-	// Draw axis
-	this.axis.display();
-
-	this.materialDefault.apply();
+	
+	this.axis.display();		
 	
 	// ---- END Background, camera and axis setup
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
-	/*if (this.graph.loadedOk)
-	{
-		this.lights[0].update();
-	};	*/
 
-	
-	
+	if (this.graph.loadedOk)
+	{
+		this.updateLights();
+	};	
+
+
+	//chamar super funcao recursiva !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 	this.pushMatrix();
 		this.tableAppearance.apply();
 		this.trig.display();

@@ -23,7 +23,7 @@ assocMap.prototype.remove = function(id){
    delete this.associative_map[id];
 }
 
-assocArray.prototype.get = function(id){
+assocMap.prototype.get = function(id){
 
     return this.associative_map[id];    
 }
