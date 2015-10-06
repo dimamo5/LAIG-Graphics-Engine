@@ -54,12 +54,6 @@ MyCylinderSurface.prototype.initBuffers = function() {
 
  	this.indices=[];
 
-	/*for(i=0; i < this.stacks;i++){
-		for(j=0; j < this.slices;j++){
-			this.indices.push(i*this.slices+j,i*this.slices+((j+1)%this.slices),(i+1)*this.slices+(j+1)%this.slices);
-			this.indices.push(i*this.slices+j,(i+1)*this.slices+((j+1)%this.slices),(i+1)*this.slices+j);
-		}
-	}*/
 
 	for(var i=0; i < this.stacks;i++){
 		for(var k = 0; k < this.slices ; k++){

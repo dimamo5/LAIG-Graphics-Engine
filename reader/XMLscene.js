@@ -38,9 +38,8 @@ XMLscene.prototype.init = function (application) {
 	this.materialMetal.setSpecular(1,1,1,1);
 	this.materialMetal.setShininess(120);
 	
-	this.trig=new MyTriangle(this,0,0,0,5,0,0,0,2.5,0,1,1);
+	this.trig=new MyTriangle(this,0,0.5,0,-0.5,-0.5,0, 0.5,-0.5,0,1,1);
 	this.rect =new MyRectangle(this,0,1,1,0,1,1);
-	this.circle =new MyCircle(this,20);
 	this.cs = new MyCylinderSurface(this,3,1,1,5,7);
 	this.bola=new MySphere(this,1,40,40);
 	
@@ -53,7 +52,7 @@ XMLscene.prototype.initLights = function () {
 	this.shader.bind();
 	
 	// Positions for four lights
-	this.lights[0].setPosition(0, 2, 0, 1);
+	this.lights[0].setPosition(0, 2, 1, 1);
 	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
 	this.lights[2].setPosition(0, -2, 0, 1.0);
 	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
@@ -150,7 +149,7 @@ XMLscene.prototype.display = function () {
 	
 	this.pushMatrix();
 		this.tableAppearance.apply();
-		this.cs.display();
+		this.trig.display();
 	this.popMatrix();
 
     this.shader.unbind();

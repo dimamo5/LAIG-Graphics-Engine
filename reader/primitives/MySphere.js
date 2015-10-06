@@ -22,9 +22,6 @@
  	this.normals = [];
  	this.texCoords=[];
 	
-	 // phi = pi/n_stacks;
-	//teta == 360/n_slices
-	//(r,teta,phi);
 	
 	var teta = (Math.PI)/this.stacks; //phi radians
 	var phi = 2*Math.PI/this.slices; //teta radians
@@ -37,7 +34,7 @@
 	var stepT=0;
 
 	for(var i=0; i <= this.stacks; i++){
-		for(var vert = 0; vert < this.slices; vert++){
+		for(var vert = 0; vert <= this.slices; vert++){
 
 			x = raio*Math.sin(vert*teta)*Math.cos(i*phi); //x = rsin0cosf			
 			y = raio*Math.sin(vert*teta)*Math.sin(i*phi); //y = rsin0sinf			
@@ -58,22 +55,14 @@
 		stepT+= 1/this.stacks;
 	}
 
-	console.log(this.textCoords);
 
-	//indices
 	for(var i=0; i < this.stacks;i++){
 		for(var k = 0; k < this.slices ; k++){
-			//caso especial ligacao da ultima face de cada stack (conflito de i/k resolvido)
-			if(k==this.slices-1){
-				this.indices.push(i*this.slices, (i+1)*this.slices ,(i+1)*this.slices+(this.slices-1));
-				this.indices.push((i+1)*this.slices+(this.slices-1), i*this.slices + (this.slices-1),i*this.slices );
-
-			}else{
-				this.indices.push(i*this.slices + k, i*this.slices+(k+1) ,(i+1)*this.slices+k);
-				this.indices.push(i*this.slices+k+1,(i+1)*this.slices +k+1, (i+1)*this.slices + k);
-			}
+			
+				this.indices.push(i*(this.slices+1) + k, i*(this.slices+1)+(k+1) ,(i+1)*(this.slices+1)+k+1);
+				this.indices.push(i*(this.slices+1)+k,(i+1)*(this.slices+1) +k+1, (i+1)*(this.slices+1) + k);
 		}
-	} 
+	}
 
 
  	this.primitiveType = this.scene.gl.TRIANGLES;

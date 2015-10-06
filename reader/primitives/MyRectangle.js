@@ -19,6 +19,9 @@ MyRectangle.prototype.constructor = MyRectangle;
 
 MyRectangle.prototype.initBuffers = function() {
 
+	var width = this.x2-this.x1;
+	var height = this.y2 -this.y1;
+
     this.vertices = [
         this.x1,this.y1,0,
         this.x1,this.y2,0,
@@ -39,12 +42,12 @@ MyRectangle.prototype.initBuffers = function() {
 			0,0,1
     ]
 
-    this.texCoords = [
-			0,0,
-			0,this.t,
-			this.s,0,
-			this.s,this.t
-    ]
+   this.texCoords = [
+		0.0, 1.0 * height / this.t,
+	 	1.0 * width / this.s, 1.0 * height / this.t,
+      	0.0, 0.0,
+      	1.0 * width / this.s, 0.0
+     ];
 
 
 
