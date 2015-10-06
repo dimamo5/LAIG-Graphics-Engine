@@ -1,4 +1,3 @@
-
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 	
@@ -21,31 +20,19 @@ function MySceneGraph(filename, scene) {
 /*
  * Callback to be executed after successful reading
  */
-MySceneGraph.prototype.onXMLReady=function() 
-{
-	console.log("XML Loading finished.");
-	var rootElement = this.reader.xmlDoc.documentElement;
-	
-	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseInitials(rootElement);
+MySceneGraph.prototype.verifyError = function(error){
 
 	if (error != null) {
 		this.onXMLError(error);
 		return;
 	}	
-
-	this.loadedOk=true;
-	
-	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-	//this.scene.onGraphLoaded();
-};
-
+}
 
 /* Elements parser */
 
 
 //>>> INITIALS PARSER
-MySceneGraph.prototype.parseInitials= function(rootElement){
+MySceneGraph.prototype.parseInitials = function(rootElement){
 
 	var elems =  rootElement.getElementsByTagName('INITIALS');
 	
@@ -59,7 +46,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 	
 	//frustum
 	var frustum = elems[0].getElementsByTagName('frustum');
-	if (frustum[0] == null || frustum.length != 1) {
+	if (frustum == null || frustum[0] == undefined || frustum.length != 1) {
 		return "frustum element is missing or there are more than one element found.";
 	}
 
@@ -131,7 +118,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement){
 		return "reference element is missing or there are more than one element found.";
 	}
 
-	this.scene.reference = this.reader.getFloat(reference[0],"length",true);
+	this.scene.axis_length = this.reader.getFloat(reference[0],"length",true);
 };
 
 
@@ -154,9 +141,9 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 	}
 
 	this.scene.ambient = { r: this.reader.getFloat(ambient[0],"r",true),
-					 g: this.reader.getFloat(ambient[0],"g",true),
-					 b: this.reader.getFloat(ambient[0],"b",true) ,
-					 a: this.reader.getFloat(ambient[0],"a",true) };
+						   g: this.reader.getFloat(ambient[0],"g",true),
+						   b: this.reader.getFloat(ambient[0],"b",true),
+						   a: this.reader.getFloat(ambient[0],"a",true) };
 
 	//doubleside
 	var doubleside = elems[0].getElementsByTagName('doubleside');
@@ -265,7 +252,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		light_Obj.setSpecullar(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
 		light_Obj.setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
 
-		this.lights[i] = light_Obj;
+		this.lights.push(light_Obj);
 	}
 };
 
@@ -406,8 +393,6 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		return "either zero or more than one LEAVES element found.";
 	}
 
-	this.scene.graph_tree = new GraphTree();  //cria arvore (grafo) que aramazena nodes/leafs
-
 	var leavesList = elems[0].getElementsByTagName('LEAF');
 	if(leavesList.length == 0){
 		return "no leaves found";
@@ -526,13 +511,31 @@ MySceneGraph.prototype.parseNodes = function(){
 	}
 };
 
-
-//TODO: criar funcao que chama todos os parsers
-//actualizar XMLScene para usar valores das varaiveis carregadas do xml
-//exemplo : background color,etc...
-
-
 	
+
+MySceneGraph.prototype.onXMLReady=function() 
+{
+	console.log("XML Loading finished.");
+	var rootElement = this.reader.xmlDoc.documentElement;
+	
+	// Here should go the calls for different functions to parse the various blocks
+	var error;
+	var parser = [ this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
+				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
+				  
+	//executa as chamadas aos parsers e verifica a ocorrencia de erros
+	for(var i = 0; i < 3; i++){
+		error = parser[i](rootElement);
+		verifyError(error);
+	}
+
+	this.loadedOk=true;
+	
+	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
+	this.scene.onGraphLoaded();
+};
+
+
 /*
  * Callback to be executed on any read error
  */
