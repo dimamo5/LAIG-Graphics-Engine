@@ -70,9 +70,11 @@ XMLscene.prototype.onGraphLoaded = function ()
 {
 	this.setGlobalAmbientLight(this.ambient.r, this.ambient.g, this.ambient.b, this.ambient.a);
 	//this.camera = new CGFcamera(0.4, this.frustum.near, this.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+	this.camera.near=this.frustum.near;
+	this.camera.far=this.frustum.far;
 	this.axis = new CGFaxis(this,this.axis_length);
 	this.gl.clearColor(this.background.r,this.background.g, this.background.b, this.background.a);
-	
+
 };
 
 XMLscene.prototype.updateLights = function() {
