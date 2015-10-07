@@ -262,7 +262,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		return "no textures found";
 	}
 	
-	this.textures =  { assocArray }; //boa pratica
+	this.textures =  new assocMap(); //boa pratica
 
 	//carrega todos os elementos "texture"
 	for(var i = 0; i < texturesList.length; i++){
@@ -275,12 +275,12 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		var url = this.reader.getString(file[0],"path",true);		
 
 		var amplif_factorList = texturesList[i].getElementsByTagName('amplif_factor');
-		if(amplif_factor == null || amplif_factor.length != 1){
+		if(amplif_factorList == null || amplif_factorList.length != 1){
 			return "amplif_factor element is missing or there are more than one element found.";
 		}
 
-		var amplif_s = this.reader.getFloat(amplif_factor[0],"s",true),
-			amplif_t = this.reader.getFloat(amplif_factor[0],"t",true) ;
+		var amplif_s = this.reader.getFloat(amplif_factorList[0],"s",true),
+			amplif_t = this.reader.getFloat(amplif_factorList[0],"t",true) ;
 
 		this.textures.add(id, new MyTexture(this.scene, url,amplif_s,amplif_t, id)); //carrega elemento "texture" para arraya associativo
 	}
@@ -303,7 +303,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		return "no materials found";
 	}
 
-	this.materials =  {assocArray}; //boa pratica??
+	this.materials = new assocMap(); //boa pratica??
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i < materialsList.length; i++){
@@ -316,9 +316,9 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 		var shininess_value = this.reader.getFloat(shininess[0],"value",true);		
 
-		var specullar = materialsList[i].getElementsByTagName('specullar');
+		var specullar = materialsList[i].getElementsByTagName('specular');
 		if(specullar[0] == null || specullar.length != 1) {
-			return "diffuse element is missing or there are more than one element found.";
+			return "specular element is missing or there are more than one element found.";
 		}
 
 		var specullarList = { r : this.reader.getFloat(specullar[0],"r",true),
@@ -357,11 +357,11 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 							 a : this.reader.getFloat(emission[0],"a",true) };
 
 
-		var material_Obj = new CGFAppearance(this.scene);
+		var material_Obj = new CGFappearance(this.scene);
 
 		//sets dos atributos da CGFAppearance
 		material_Obj.setShininess(shininess_value);
-		material_Obj.setSpecullar(specullarList.r,specullarList.g,specullarList.b,specullarList.a);		
+		material_Obj.setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);		
 		material_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
 		material_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
 		material_Obj.setEmission(emissionList.r,emissionList.g,emissionList.b,emissionList.a);
@@ -513,7 +513,7 @@ MySceneGraph.prototype.onXMLReady=function()
 				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
-	for(var i = 0; i < 3; i++){
+	for(var i = 0; i < 5; i++){
 		error = parser[i].call(this,rootElement);
 		this.verifyError(error);
 	}
