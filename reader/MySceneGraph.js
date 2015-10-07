@@ -175,13 +175,13 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		return "no lights found";
 	}
 	
-	//array de lights
-	//this.scene.lights = [];
+	//mapeamento do indice(string) da light no xml para indice da mesma luz no array lights
+	this.scene.lights_map = new assocMap();
 
 	//carrega todos os elementos "light"
 	for(var i = 0; i < lightsList.length; i++){
 		
-		var id = this.reader.getString(lightsList[i],"id",true );
+		var light_id = this.reader.getString(lightsList[i],"id",true );
 
 		var enable = lightsList[i].getElementsByTagName('enable');
 		if(enable[0] == null || enable.length != 1) {
@@ -230,25 +230,6 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							  b : this.reader.getFloat(specullar[0],"b",true),
 							  a : this.reader.getFloat(specullar[0],"a",true) };
 
-		//criacao do objecto light
-		//var light_Obj = 
-		
-		//this.scene.lights[i] = new CGFlight(this.scene,id);
-
-
-		/*if(enable_val == true ) //enable_val : T/F
-			light_Obj.enable();
-		else 
-			light_Obj.disable();*/
-
-		//sets dos atributos da CGFLight
-		/*
-		light_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
-		light_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
-		light_Obj.setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
-		light_Obj.setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
-		light_Obj.setVisible(true);*/
-
 		this.scene.lights[i].setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
 		this.scene.lights[i].setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
 		this.scene.lights[i].setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
@@ -260,8 +241,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		else 
 			this.scene.lights[i].disable();
 
-		
-		//this.scene.lights[i] = light_Obj;
+		this.scene.lights_map.add(light_id,i);
 	}
 };
 

@@ -7,7 +7,7 @@ assocMap.prototype.add = function(id,val) {
 
     var content = null;
     
-    if(this.array[id] != undefined){
+    if(this.associative_map[id] != undefined){
 
         content = this.associative_map[id];
     }
