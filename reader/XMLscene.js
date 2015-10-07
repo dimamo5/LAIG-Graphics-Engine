@@ -1,4 +1,3 @@
-
 function XMLscene() {
     CGFscene.call(this);
 	
@@ -50,40 +49,6 @@ XMLscene.prototype.initLights = function () {
 	this.setGlobalAmbientLight(0,0,0,1.0);
 
 	this.shader.bind();
-	
-	// Positions for four lights
-	/*this.lights[0].setPosition(0, 2, 0, 1);
-	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-	this.lights[2].setPosition(0, -2, 0, 1.0);
-	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-
-
-	this.lights[0].setAmbient(0, 0, 0, 1);
-	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[0].setSpecular(1.0,1.0,1.0,1.0);
-	this.lights[0].setVisible( true);
-	this.lights[0].enable();
-
-	this.lights[1].setAmbient(0, 0, 0, 1);
-	this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	//this.lights[1].enable();
-
-	this.lights[2].setAmbient(0, 0, 0, 1);
-	this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[2].setSpecular(1.0, 1.0, 1.0, 1.0);
-	this.lights[2].setConstantAttenuation(0);
-	this.lights[2].setLinearAttenuation(1);
-	this.lights[2].setQuadraticAttenuation(0);
-	this.lights[2].setVisible( true);
-	this.lights[2].enable();
-	
-	this.lights[3].setAmbient(0, 0, 0, 1);
-	this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[3].setSpecular(1.0,1.0,0,1.0);
-	this.lights[3].setConstantAttenuation(0);
-	this.lights[3].setLinearAttenuation(0);
-	this.lights[3].setQuadraticAttenuation(1);
-	//this.lights[3].enable();*/
 
 	this.shader.unbind();
 };
@@ -107,12 +72,13 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.camera = new CGFcamera(0.4, this.frustum.near, this.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 	this.axis = new CGFaxis(this,this.axis_length);
 	this.gl.clearColor(this.background.r,this.background.g, this.background.b, this.background.a);
-	console.log(this.background);
 };
 
 XMLscene.prototype.updateLights = function() {
-	for (i = 0; i < this.lights.length; i++)
-		this.lights[i].update();
+	
+	for (var j = 0; j < this.lights.length; j++){
+		this.lights[j].update();
+	}
 }
 
 XMLscene.prototype.display = function () {
@@ -142,19 +108,20 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 
-	if (this.graph.loadedOk)
+	if (this.graph.loadedOk == true)
 	{
-		//this.updateLights();
+		console.log("load fixe");
+		this.updateLights();
 	};	
 
 
 	//chamar super funcao recursiva !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
+/*
 	this.pushMatrix();
 		this.tableAppearance.apply();
 		this.trig.display();
-	this.popMatrix();
+	this.popMatrix(); */
 
     this.shader.unbind();
 };

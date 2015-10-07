@@ -108,10 +108,10 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "scale element is missing or there are more than one element found.";
 	}
 
-	this.scene.scale = { sx : this.reader.getFloat(scale[0],"sx",true),
-					     sy : this.reader.getFloat(scale[0],"sy",true),
-					     sz : this.reader.getFloat(scale[0],"sz",true) };
-	
+	this.scene.scale_initial = { sx : this.reader.getFloat(scale[0],"sx",true),
+								 sy : this.reader.getFloat(scale[0],"sy",true),
+								 sz : this.reader.getFloat(scale[0],"sz",true) };
+
 	//reference
 	var reference = elems[0].getElementsByTagName('reference');
 	if ( reference[0] == null || reference.length != 1 ) {
@@ -176,7 +176,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	}
 	
 	//array de lights
-	this.scene.lights = [];
+	//this.scene.lights = [];
 
 	//carrega todos os elementos "light"
 	for(var i = 0; i < lightsList.length; i++){
@@ -209,9 +209,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							g : this.reader.getFloat(ambient[0],"g",true),
 							b : this.reader.getFloat(ambient[0],"b",true),
 							a : this.reader.getFloat(ambient[0],"a",true) };
-		
-		console.log(lightsList[0]);
-		
+				
 		var diffuse = lightsList[i].getElementsByTagName('diffuse');
 		if(diffuse[0] == null || diffuse.length != 1) {
 			return "diffuse element is missing or there are more than one element found.";
@@ -233,20 +231,37 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							  a : this.reader.getFloat(specullar[0],"a",true) };
 
 		//criacao do objecto light
-		var light_Obj = new CGFlight(this.scene,id);
+		//var light_Obj = 
+		
+		//this.scene.lights[i] = new CGFlight(this.scene,id);
 
-		if(enable_val == true ) //enable_val : T/F
+
+		/*if(enable_val == true ) //enable_val : T/F
 			light_Obj.enable();
 		else 
-			light_Obj.disable();
+			light_Obj.disable();*/
 
 		//sets dos atributos da CGFLight
+		/*
 		light_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
 		light_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
 		light_Obj.setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
 		light_Obj.setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
+		light_Obj.setVisible(true);*/
 
-		this.scene.lights.push(light_Obj);
+		this.scene.lights[i].setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
+		this.scene.lights[i].setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
+		this.scene.lights[i].setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);
+		this.scene.lights[i].setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
+		this.scene.lights[i].setVisible(true);
+
+		if(enable_val == true ) //enable_val : T/F
+			this.scene.lights[i].enable();
+		else 
+			this.scene.lights[i].disable();
+
+		
+		//this.scene.lights[i] = light_Obj;
 	}
 };
 
@@ -522,11 +537,12 @@ MySceneGraph.prototype.onXMLReady=function()
 		error = parser[i].call(this,rootElement);
 		this.verifyError(error);
 	}
-
+	if(error==undefined){
 	this.loadedOk=true;
 	
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
+	}
 };
 
 
