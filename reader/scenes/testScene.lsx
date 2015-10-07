@@ -110,12 +110,13 @@
         <ROTATION axis="cc" angle="ff" />
         <SCALE sx="ff" sy="ff" sz="ff" />
 
-        < !-- declaring descendents, ate least one node or one leaf must be present -->
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="ss" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
-                                          <!--      identifier of another node, later defined in the lsx file. -->
-            </DESCENDANTS>
+        	<DESCENDANT id="cenas" />
+            <DESCENDANT id="mesa" />       <!--  is the identifier of a node or of leaf; -->
+            <DESCENDANT id="candeeiro1" /> <!--     may be repeatad as necessary. It can refer an -->
+                                           <!--      identifier of another node, later defined in the lsx file. -->
+        </DESCENDANTS>
 
     </NODE>
 						 
@@ -137,7 +138,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="perna" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -158,7 +159,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="perna" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -180,7 +181,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="perna" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -202,7 +203,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="perna" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -224,7 +225,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fasecubo" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -247,7 +248,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fasecubo" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -270,7 +271,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fasecubo" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -293,7 +294,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fasecubo" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 	</NODE>
@@ -315,7 +316,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fasecubo" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -338,7 +339,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fasecubo" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!"--     may be repeatad as necessary. It can refer an -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
                                           <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
@@ -359,7 +360,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="fase1" />       <!-- "ss" is the identifier of a node or of leaf; -->
-            <DESCENDANT id="fase2" />                              <!"--     may be repeatad as necessary. It can refer an -->
+            <DESCENDANT id="fase2" />       <!--     may be repeatad as necessary. It can refer an -->
 			<DESCENDANT id="fase3" />
 			<DESCENDANT id="fase4" />
 			<DESCENDANT id="fase5" />
@@ -454,8 +455,8 @@
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="cilindroCandeiro" />       <!-- "ss" is the identifier of a node or of leaf; -->
-			<!--      identifier of another node, later defined in the lsx file. -->
+            <DESCENDANT id="cilindroCandeiro" />       <!-- "ss" is the identifier of a node or of leaf -->
+														<!-- identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
 	</NODE>
@@ -476,7 +477,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="candeiro" />       <!-- "ss" is the identifier of a node or of leaf; -->
-			<!--      identifier of another node, later defined in the lsx file. -->
+											   <!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
 	</NODE>

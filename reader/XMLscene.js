@@ -1,7 +1,7 @@
 function XMLscene() {
     CGFscene.call(this);
 	
-    graph_tree = new GraphTree();  //cria arvore (grafo) que aramazena nodes/leafs
+    this.graph_tree = new GraphTree();  //cria arvore (grafo) que aramazena nodes/leafs
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);

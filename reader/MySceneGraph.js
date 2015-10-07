@@ -401,7 +401,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 
 //Parse NODES
 
-MySceneGraph.prototype.parseNodes = function(){
+MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var elems = rootElement.getElementsByTagName('NODES');	
 	if (elems == null) {
@@ -426,7 +426,7 @@ MySceneGraph.prototype.parseNodes = function(){
 	}
 
 	//leitura dos nodes
-	for(var i= 0; i < nodeslist.length; i++){
+	for(var i = 0; i < nodeslist.length; i++){
 
 		var node_id = this.reader.getString(nodeslist[i],"id",true);
 
@@ -460,14 +460,14 @@ MySceneGraph.prototype.parseNodes = function(){
 				transf.push(child.getAttributeNode("y").nodeValue);
 				transf.push(child.getAttributeNode("z").nodeValue);
 
-				node_Obj.transformations.push(tranf); 
+				node_Obj.transformations.push(transf); 
 
 			}else if(child.nodeName == "ROTATION" ){				
 				transf.push(child.nodeName);		//tipo da transformacao
 				transf.push(child.getAttributeNode("axis").nodeValue);  //eixo da rotacao
 				transf.push(child.getAttributeNode("angle").nodeValue);
 
-				node_Obj.transformations.push(tranf); 
+				node_Obj.transformations.push(transf); 
 
 			}else if(child.nodeName == "SCALE" ){				
 				transf.push(child.nodeName);		//tipo da transformacao	
@@ -475,7 +475,7 @@ MySceneGraph.prototype.parseNodes = function(){
 				transf.push(child.getAttributeNode("sy").nodeValue);
 				transf.push(child.getAttributeNode("sz").nodeValue);
 
-				node_Obj.transformations.push(tranf); 
+				node_Obj.transformations.push(transf); 
 
 			}else if (child.noName == "DESCENDANTS")  //no more transformations
 					break;
@@ -484,19 +484,20 @@ MySceneGraph.prototype.parseNodes = function(){
 		}  		
 		
 		//tratar dos descendants
-		var descendantsList = nodeslist[i].getElementsByTagName('DESCENDANTS');
-		if(descendantsList.length == 0){
+		var descendants_elems = nodeslist[i].getElementsByTagName('DESCENDANTS');
+		if(descendants_elems.length == 0){
 			return "no descendants found";
 		}
 
-		for(var j = 0; j < descendantsList.length; j++){
+		var descendantsList = descendants_elems[0].getElementsByTagName('DESCENDANT');
 
-			var id = this.reader.getString(descendantsList[i],"id",true);
+		for(var j = 0; j < descendantsList.length; j++){
+			var id = this.reader.getString(descendantsList[j],"id",true);
 			node_Obj.descendants.push(id);
 		}
 		
 		//adiciona node ao graphTree da cena		
-		this.scene.graph_tree.graph_elements.add(node_id, node_Obj);
+		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
 };
 
@@ -513,7 +514,7 @@ MySceneGraph.prototype.onXMLReady=function()
 				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
-	for(var i = 0; i < 5; i++){
+	for(var i = 0; i < parser.length; i++){
 		error = parser[i].call(this,rootElement);
 		this.verifyError(error);
 	}
