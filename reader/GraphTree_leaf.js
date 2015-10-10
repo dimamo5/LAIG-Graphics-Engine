@@ -5,6 +5,7 @@ function GraphTree_leaf(id,type, args) {
     this.args = args;
 }
 
+GraphTree_leaf.prototype.constructor = GraphTree_leaf;
 /* 
 retorna 1 array do tipo : { tipo de primitiva, arg1, arg2 ...}
 */

@@ -69,7 +69,6 @@ XMLscene.prototype.setDefaultAppearance = function () {
 XMLscene.prototype.onGraphLoaded = function () 
 {
 	this.setGlobalAmbientLight(this.ambient.r, this.ambient.g, this.ambient.b, this.ambient.a);
-	//this.camera = new CGFcamera(0.4, this.frustum.near, this.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 	this.camera.near=this.frustum.near;
 	this.camera.far=this.frustum.far;
 	this.axis = new CGFaxis(this,this.axis_length);
@@ -113,12 +112,14 @@ XMLscene.prototype.display = function () {
 
 	if (this.graph.loadedOk == true)
 	{
-		//console.log("load fixe");
 		this.updateLights();
+		this.getObjects(this.graph_tree.root_id);
 	};	
 
 
 	//chamar super funcao recursiva !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 
 /*
 	this.pushMatrix();
@@ -129,3 +130,40 @@ XMLscene.prototype.display = function () {
     this.shader.unbind();
 };
 
+
+XMLscene.prototype.getObjects = function (currNodeId) {
+	var currNode=this.graph_tree.graphElements.get(currNodeId);
+
+	if(currNode instanceof GraphTree_node){
+			this.pushMatrix();
+			this.multMatrix(currNode.getMatrix());
+		for(var i =0; i<currNode.descendants.length;i++){
+			this.getObjects(currNode.descendants[i]);
+			this.popMatrix();
+			}
+	}else if(currNode instanceof GraphTree_leaf){
+				var object;
+				var args=currNode.parseArgs();
+				switch(currNode.type){
+					case "triangle":                
+            			object=new MyTriangle(this,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8],1,1);
+            		break;     
+        
+        			case "rectangle":            
+            			object=new MyRectangle(this,args[0],args[1],args[2],args[3],1,1);
+           			break;             
+
+        			case "cylinder":            
+     					object=new MyCylinderSurface(this,args[0],args[1],args[2],args[3],args[4]);
+            		break;              
+       
+        			case "sphere":
+                    	object=new MySphere(this,args[0],args[1],args[2]);
+            		break;
+
+				}
+				object.display();
+			}
+		
+		
+}

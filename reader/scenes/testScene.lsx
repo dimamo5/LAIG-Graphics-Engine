@@ -80,11 +80,7 @@
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
-    <LEAF id="ss" type="rectangle" args="ff ff ff ff" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
-    <LEAF id="ss" type="cylinder" args="ff ff ff ii ii" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
-    <LEAF id="ss" type="sphere" args="ff ii ii" />            <!-- radius, parts along radius, parts per section -->
-    <LEAF id="ss" type="triangle" args="ff ff ff  ff ff ff  ff ff ff" />   <!-- coordinates of each vertex -->
-	<LEAF id="perna" type="cylinder" args="5 1 1 5 10" />
+    <LEAF id="perna" type="cylinder" args="5 1 1 5 10" />
 	<LEAF id="fasecubo" type="rectangle" args="0.5 0.5 -0.5 -0.5" />
 	<LEAF id="abajurEsfera" type="sphere" args="3 10 10" />
 	<LEAF id="cilindroCandeiro" type="cylinder" args="2 0.5 0.5 5 10" />	
@@ -112,8 +108,7 @@
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-        	<DESCENDANT id="cenas" />
-            <DESCENDANT id="mesa" />       <!--  is the identifier of a node or of leaf; -->
+            <!-- <DESCENDANT id="mesa" />         is the identifier of a node or of leaf; -->
             <DESCENDANT id="candeeiro1" /> <!--     may be repeatad as necessary. It can refer an -->
                                            <!--      identifier of another node, later defined in the lsx file. -->
         </DESCENDANTS>

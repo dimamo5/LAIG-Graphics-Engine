@@ -499,6 +499,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		//adiciona node ao graphTree da cena		
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
+	
 };
 
 	
