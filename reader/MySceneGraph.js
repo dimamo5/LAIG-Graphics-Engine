@@ -125,13 +125,13 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 //ILUMINATION
 MySceneGraph.prototype.parseIlumination= function(rootElement){
 
-	var elems =  rootElement.getElementsByTagName('ILUMINATION');	
+	var elems =  rootElement.getElementsByTagName('ILLUMINATION');	
 	if (elems == null) {
 		return "ILUMINATION element is missing.";
 	}
 
 	if (elems.length != 1) {
-		return "either zero or more than one <ILUMINATION> element found.";
+		return "either zero or more than one <ILLUMINATION> element found.";
 	}
 	
 	//ambient

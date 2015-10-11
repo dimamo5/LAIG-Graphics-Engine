@@ -11,10 +11,10 @@
 </INITIALS>
 
 
-<ILUMINATION>
+<ILLUMINATION>
     <ambient r="0" g="0" b="0" a="1.0" />            <!-- global ambient -->
     <background r="0.0" g="0.0" b="0" a="1.0" />         <!-- background color -->
-</ILUMINATION>
+</ILLUMINATION>
 
 
 <LIGHTS>
@@ -80,7 +80,7 @@
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
-    <LEAF id="perna" type="cylinder" args="5 1 1 5 10" />
+    <LEAF id="perna" type="cylinder" args="5 1 1 10 20" />
 	<LEAF id="fasecubo" type="rectangle" args="0.5 0.5 -0.5 -0.5" />
 	<LEAF id="abajurEsfera" type="sphere" args="3 10 10" />
 	<LEAF id="cilindroCandeiro" type="cylinder" args="2 0.5 0.5 5 10" />	
@@ -105,7 +105,8 @@
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="cubounitario" />     <!--    is the identifier of a node or of leaf; -->
+        	
+            <DESCENDANT id="mesa" />     <!--    is the identifier of a node or of leaf; -->
             <!-- <DESCENDANT id="candeiro" />     may be repeatad as necessary. It can refer an -->
                                            <!--      identifier of another node, later defined in the lsx file. -->
         </DESCENDANTS>
@@ -124,7 +125,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="2" y="2" z="2" />
+        <TRANSLATION x="-1.5" y="0" z="-1.5" />
+        <SCALE sx="0.1" sy="0.3" sz="0.1" />
+        <ROTATION axis="x" angle="90" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -146,7 +149,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="2" y="2" z="-2" />
+        <TRANSLATION x="1.5" y="0" z="1.5" />
+        <SCALE sx="0.1" sy="0.3" sz="0.1" />
+        <ROTATION axis="x" angle="90" />
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
@@ -167,7 +172,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="-2" y="2" z="2" />
+        <TRANSLATION x="-1.5" y="0" z="1.5" />
+        <SCALE sx="0.1" sy="0.3" sz="0.1" />
+        <ROTATION axis="x" angle="90" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -189,7 +196,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="-2" y="2" z="-2" />
+       	<TRANSLATION x="1.5" y="0" z="-1.5" />
+        <SCALE sx="0.1" sy="0.3" sz="0.1" />
+        <ROTATION axis="x" angle="90" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -211,7 +220,7 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="0" y="0" z="-0.5" />
+        <TRANSLATION x="0" y="0" z="0.5" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -233,7 +242,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="0" y="0" z="0.5" />
+        <TRANSLATION x="0" y="0" z="-0.5" />
+        <ROTATION axis="x" angle="180"/>
+
 		
         
 
@@ -256,8 +267,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <ROTATION axis="x" angle="90" />
-		<TRANSLATION x="0" y="0" z="0" />
+        
+		<TRANSLATION x="-0.5" y="0" z="0" />
+		<ROTATION axis="y" angle="270" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -279,8 +291,8 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <ROTATION axis="x" angle="90" />
 		<TRANSLATION x="0" y="0.5" z="0" />
+		<ROTATION axis="x" angle="270" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -301,8 +313,8 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <ROTATION axis="y" angle="90" />
-		<TRANSLATION x="-0.5" y="0" z="0" />
+		<TRANSLATION x="0.5" y="0" z="0" />
+		<ROTATION axis="y" angle="90" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -324,8 +336,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <ROTATION axis="y" angle="90" />
-		<TRANSLATION x="0.5" y="0" z="0" />
+        
+		<TRANSLATION x="0" y="-0.5" z="0" />
+		<ROTATION axis="x" angle="90" />
         
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -373,8 +386,9 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <SCALE sx="2" sy="1" sz="2" />
-		<TRANSLATION x="0" y="2" z="0" />
+        
+		<TRANSLATION x="0" y="0" z="0" />
+		<SCALE sx="3" sy="0.5" sz="3" />
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
@@ -395,9 +409,7 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <SCALE sx="2" sy="1" sz="2" />
-		<TRANSLATION x="0" y="2" z="0" />
-
+       
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="tampomesa" />       <!-- "ss" is the identifier of a node or of leaf; -->

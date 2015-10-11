@@ -14,9 +14,9 @@ GraphTree_node.prototype.getMatrix=function(){
 
     for(var i=0;i<this.transformations.length;i++){
         if(this.transformations[i][0]=="TRANSLATION"){
-            mat4.translate(matrix,matrix,[this.transformations[i][1],this.transformations[i][2],this.transformations[i][3]]);
+            mat4.translate(matrix,matrix,vec3.fromValues(this.transformations[i][1],this.transformations[i][2],this.transformations[i][3]));
         }else if(this.transformations[i][0]=="ROTATION"){
-            mat4.rotate(matrix,matrix,degToRad(this.transformations[i][2]),this.transformations[i][1]);
+            mat4.rotate(matrix,matrix,degToRad(this.transformations[i][2]),vec3.fromValues(this.transformations[i][1][0],this.transformations[i][1][1],this.transformations[i][1][2]));
         }else if(this.transformations[i][0]=="SCALE"){
             mat4.scale(matrix, matrix, vec3.fromValues(this.transformations[i][1],this.transformations[i][2],this.transformations[i][3]));
         }
