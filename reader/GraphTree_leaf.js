@@ -15,7 +15,7 @@ GraphTree_leaf.prototype.parseArgs = function() {
     switch(this.type){        
        
         case "triangle":                
-            array.push(this.type);
+            //array.push(this.type);
             var str_splited = this.args.split(" "); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
             
             for(var i = 0; i < 9 ; i++){
@@ -24,7 +24,7 @@ GraphTree_leaf.prototype.parseArgs = function() {
             break;     
         
         case "rectangle":            
-            array.push(this.type);
+            //array.push(this.type);
             var str_splited = this.args.split(" ");    
                      
             for(var i = 0; i < 4 ; i++){
@@ -37,7 +37,7 @@ GraphTree_leaf.prototype.parseArgs = function() {
             break;
 
         case "cylinder":            
-            array.push(this.type);
+            //array.push(this.type);
             var str_splited = this.args.split(" ");    
             
             var i;        
@@ -51,7 +51,7 @@ GraphTree_leaf.prototype.parseArgs = function() {
             break;              
        
         case "sphere":
-            array.push(this.type);
+            //array.push(this.type);
             var str_splited = this.args.split(" ");    
                                 
             for(var i=0; i < 3 ; i++){

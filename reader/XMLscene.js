@@ -139,7 +139,7 @@ XMLscene.prototype.getObjects = function (currNodeId) {
 			this.multMatrix(currNode.getMatrix());
 		for(var i =0; i<currNode.descendants.length;i++){
 			this.getObjects(currNode.descendants[i]);
-			this.popMatrix();
+			
 			}
 	}else if(currNode instanceof GraphTree_leaf){
 				var object;
@@ -163,6 +163,7 @@ XMLscene.prototype.getObjects = function (currNodeId) {
 
 				}
 				object.display();
+				this.popMatrix();
 			}
 		
 		

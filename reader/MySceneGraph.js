@@ -464,7 +464,21 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 			}else if(child.nodeName == "ROTATION" ){				
 				transf.push(child.nodeName);		//tipo da transformacao
-				transf.push(child.getAttributeNode("axis").nodeValue);  //eixo da rotacao
+
+				var axis=child.getAttributeNode("axis").nodeValue;
+				switch(axis){
+					case("x"):
+						transf.push([1,0,0]);
+					break;
+
+					case("y"):
+						transf.push([0,1,0]);
+					break;
+
+					case("z"):
+						transf.push([0,0,1]);
+					break;
+				}
 				transf.push(child.getAttributeNode("angle").nodeValue);
 
 				node_Obj.transformations.push(transf); 
@@ -499,7 +513,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		//adiciona node ao graphTree da cena		
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
-	
+
 };
 
 	
