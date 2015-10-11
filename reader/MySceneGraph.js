@@ -262,7 +262,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		return "no textures found";
 	}
 	
-	this.textures =  new assocMap(); //boa pratica
+	this.scene.textures =  new assocMap(); //boa pratica
 
 	//carrega todos os elementos "texture"
 	for(var i = 0; i < texturesList.length; i++){
@@ -282,7 +282,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		var amplif_s = this.reader.getFloat(amplif_factorList[0],"s",true),
 			amplif_t = this.reader.getFloat(amplif_factorList[0],"t",true) ;
 
-		this.textures.add(id, new MyTexture(this.scene, url,amplif_s,amplif_t, id)); //carrega elemento "texture" para arraya associativo
+		this.scene.textures.add(id, new MyTexture(this.scene, url,amplif_s,amplif_t, id)); //carrega elemento "texture" para arraya associativo
 	}
 };
 	
@@ -303,7 +303,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		return "no materials found";
 	}
 
-	this.materials = new assocMap(); //boa pratica??
+	this.scene.materials = new assocMap(); //boa pratica??
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i < materialsList.length; i++){
@@ -366,7 +366,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		material_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
 		material_Obj.setEmission(emissionList.r,emissionList.g,emissionList.b,emissionList.a);
 
-		this.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
+		this.scene.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
 	}
 };
 

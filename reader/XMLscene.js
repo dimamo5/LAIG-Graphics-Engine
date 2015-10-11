@@ -131,16 +131,33 @@ XMLscene.prototype.display = function () {
 };
 
 
-XMLscene.prototype.getObjects = function (currNodeId) {
+XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 	var currNode=this.graph_tree.graphElements.get(currNodeId);
+	var nextTextId, nextMaterialId;
+
 
 	if(currNode instanceof GraphTree_node){
-			
+		if(currNode.texture_id=="null"){
+		nextTextId=textId;
+		}else if(currNode.texture_id=="clear"){
+		nextTextId=undefined;
+		}else{
+		nextTextId=currNode.texture_id;
+		}
+
+		if(currNode.material_id=="null"){
+		nextMaterialId=materialId;
+		}else if(currNode.material_id=="clear"){
+		nextMaterialId=undefined;
+		}else{
+		nextMaterialId=currNode.material_id;
+		}
+		
 		for(var i =0; i<currNode.descendants.length;i++){
 			this.pushMatrix();
 			this.multMatrix(currNode.getMatrix());
 
-			this.getObjects(currNode.descendants[i]);
+			this.getObjects(currNode.descendants[i],nextTextId,nextMaterialId);
 			this.popMatrix();
 			
 			}
@@ -165,7 +182,13 @@ XMLscene.prototype.getObjects = function (currNodeId) {
             		break;
 
 				}
+				
+				var material=this.materials.get(materialId);
+				var text=this.textures.get(textId);
+				material.setTexture(text);
+				material.apply();
 				object.display();
+				material.setTexture(null);
 				
 			}
 		
