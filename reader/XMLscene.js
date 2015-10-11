@@ -23,24 +23,6 @@ XMLscene.prototype.init = function (application) {
 	
 	this.materialDefault = new CGFappearance(this);
 
-	this.tableAppearance = new CGFappearance(this);
-	this.tableAppearance.setAmbient(0.2,0.2,0.2,1);
-	this.tableAppearance.setDiffuse(0.8,0.8,0.8,1);
-	this.tableAppearance.setSpecular(0.1,0.1,0.1,1);
-	this.tableAppearance.loadTexture("../resources/doge.png");
-	this.tableAppearance.setShininess(120);
-
-	this.materialMetal = new CGFappearance(this);
-	this.materialMetal.setAmbient(0.73,0.75,0.8,1);
-	this.materialMetal.setDiffuse(0.73,0.75,0.8,1);
-	this.materialMetal.setSpecular(1,1,1,1);
-	this.materialMetal.setShininess(120);
-	
-	this.trig=new MyTriangle(this,0,0.5,0,-0.5,-0.5,0, 0.5,-0.5,0,1,1);
-	this.rect =new MyRectangle(this,0,1,1,0,1,1);
-	this.cs = new MyCylinderSurface(this,3,1,1,5,7);
-	this.bola=new MySphere(this,1,40,40);
-	
 	this.axis=new CGFaxis(this);
 };
 
@@ -121,11 +103,6 @@ XMLscene.prototype.display = function () {
 
 
 
-/*
-	this.pushMatrix();
-		this.tableAppearance.apply();
-		this.trig.display();
-	this.popMatrix(); */
 
     this.shader.unbind();
 };
@@ -185,10 +162,14 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				
 				var material=this.materials.get(materialId);
 				var text=this.textures.get(textId);
-				material.setTexture(text);
+				if(material!=undefined){
+					if(text!=undefined){
+						material.setTexture(text);
+					}
 				material.apply();
+				}
 				object.display();
-				material.setTexture(null);
+				//material.setTexture(null);
 				
 			}
 		
