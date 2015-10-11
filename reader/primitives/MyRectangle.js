@@ -24,14 +24,14 @@ MyRectangle.prototype.initBuffers = function() {
 
     this.vertices = [
         this.x1,this.y1,0,
-        this.x1,this.y2,0,
         this.x2,this.y1,0,
+        this.x1,this.y2,0,
         this.x2,this.y2,0
     ];
 
     this.indices = [
-        2,1,0,
-        3,1,2
+        1,0,2,
+        1,2,3
     ];
 
 
