@@ -36,9 +36,9 @@
 	for(var i=0; i <= this.stacks; i++){
 		for(var vert = 0; vert <= this.slices; vert++){
 
-			x = raio*Math.sin(vert*teta)*Math.cos(i*phi); //x = rsin0cosf			
-			y = raio*Math.sin(vert*teta)*Math.sin(i*phi); //y = rsin0sinf			
-			z = raio*Math.cos(vert*teta); // z
+			x = this.radius*Math.sin(vert*teta)*Math.cos(i*phi); //x = rsin0cosf			
+			y = this.radius*Math.sin(vert*teta)*Math.sin(i*phi); //y = rsin0sinf			
+			z = this.radius*Math.cos(vert*teta); // z
 			
 			this.vertices.push(z); //x
 			this.vertices.push(x); //y

@@ -82,7 +82,7 @@
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
     <LEAF id="perna" type="cylinder" args="5 1 1 10 20" />
 	<LEAF id="fasecubo" type="rectangle" args="-0.5 0.5 0.5 -0.5" />
-	<LEAF id="abajurEsfera" type="sphere" args="3 20 20" />
+	<LEAF id="abajurEsfera" type="sphere" args="1 20 20" />
 	<LEAF id="cilindroCandeiro" type="cylinder" args="2 0.15 0.15 5 10" />	
 </LEAVES>
 
@@ -120,7 +120,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -404,7 +404,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -468,9 +468,9 @@
 	<NODE id="CadeiroTecto1">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t02" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 

@@ -141,6 +141,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 	}else if(currNode instanceof GraphTree_leaf){
 				var object;
 				var args=currNode.parseArgs();
+
 				switch(currNode.type){
 					case "triangle":                
             			object=new MyTriangle(this,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8],1,1);
@@ -162,15 +163,22 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				
 				var material=this.materials.get(materialId);
 				var text=this.textures.get(textId);
+
 				if(material!=undefined){
 					if(text!=undefined){
 						material.setTexture(text);
 					}
-				material.apply();
+					material.apply();
 				}
+
 				object.display();
-				//material.setTexture(null);
 				
+				if(material!=undefined){
+					if(text != undefined){
+						material.setTexture(null);
+					}
+					this.materialDefault.apply();
+				}
 			}
 		
 		
