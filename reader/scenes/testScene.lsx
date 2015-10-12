@@ -51,9 +51,31 @@
     </TEXTURE>
 
     <TEXTURE id="paisagem">								<!-- Paisagem texture -->
-        <file path="../resources/paisagem-sol.png" />         <!-- path to file -->
+        <file path="../resources/paisagem.png" />         <!-- path to file -->
         <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     </TEXTURE>
+
+     <TEXTURE id="floor">								<!-- Paisagem texture -->
+        <file path="../resources/wood-floor.png" />         <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
+
+    <TEXTURE id="tapete">								<!-- Paisagem texture -->
+        <file path="../resources/tapete.png" />         <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
+
+    <TEXTURE id="parede_japonesa">								<!-- Paisagem texture -->
+        <file path="../resources/parede_japonesa.png" />         <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
+
+    <TEXTURE id="porta_japonesa">								<!-- Paisagem texture -->
+        <file path="../resources/porta_japonesa.png" />         <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
+
+
 
     <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
     
@@ -92,6 +114,7 @@
 	<LEAF id="cilindroCandeiro" type="cylinder" args="2 0.15 0.15 5 10" />
 	<LEAF id="parede" type="rectangle" args="0 7 15 0 " />
 	<LEAF id="chao" type="rectangle" args="15 0 0 15" />
+	<LEAF id="vaso" type ="cylinder" args="1 0.2 0.5 5 20" />
 </LEAVES>
 
 
@@ -122,16 +145,45 @@
         	<DESCENDANT id="paredePaisagem" />
         	<DESCENDANT id="chaorot" />
         	<DESCENDANT id="CadeiroTecto2" />
+        	<DESCENDANT id="tapete" />
+        	<DESCENDANT id="paralelepipedo" />
+        	<DESCENDANT id="vaso1" />
+
         </DESCENDANTS>
 
     </NODE>
 
+	<NODE id="vaso1">
+
+	<!-- next two lines are mandatory -->
+        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="floor" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+        <TRANSLATION x="1" y="0.6" z="14.5" />
+        <ROTATION axis="x" angle="-90" />
+        
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+            <DESCENDANT id="vaso" />       <!-- "ss" is the identifier of a node or of leaf; -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
+                                          <!--      identifier of another node, later defined in the lsx file. -->
+        	</DESCENDANTS>
+
+    </NODE>	
+
+
+
     <NODE id="chaorot">
 
 	<!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="floor" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -148,13 +200,39 @@
         	</DESCENDANTS>
 
     </NODE>	
+
+	<NODE id="tapete">
+
+	<!-- next two lines are mandatory -->
+        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="tapete" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+        <SCALE sx="0.4" sy="1" sz="0.5"/>
+        <TRANSLATION x="11" y="0.01" z="22.5" />
+        <ROTATION axis="x" angle="-90" />
+        
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+            <DESCENDANT id="chao" />       <!-- "ss" is the identifier of a node or of leaf; -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
+                                          <!--      identifier of another node, later defined in the lsx file. -->
+        	</DESCENDANTS>
+
+    </NODE>	
+
+
 						 
 	<NODE id="paredefrente1"	>
 
 	<!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="porta_japonesa" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -176,9 +254,9 @@
 	<NODE id="paredefrente2"	>
 
 	<!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="porta_japonesa" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -224,7 +302,7 @@
     <NODE id="perna1">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
         <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
@@ -248,9 +326,9 @@
 	<NODE id="perna2">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -271,9 +349,9 @@
 	<NODE id="perna3">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -295,9 +373,9 @@
 	<NODE id="perna4">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="m02" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -485,9 +563,9 @@
 	<NODE id="tampomesa">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -616,6 +694,29 @@
         <DESCENDANTS>
             <DESCENDANT id="candeiro" />       <!-- "ss" is the identifier of a node or of leaf; -->
 											   <!--      identifier of another node, later defined in the lsx file. -->
+            </DESCENDANTS>
+
+	</NODE>
+
+	<NODE id="paralelepipedo">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <!-- next two lines are mandatory -->
+        <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+        
+		<TRANSLATION x="7.5" y="0.5" z="14.5" />
+		<SCALE sx="15" sy="1" sz="1" />
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+            <DESCENDANT id="cubounitario" />       <!-- "ss" is the identifier of a node or of leaf; -->
+
+			<!--      identifier of another node, later defined in the lsx file. -->
             </DESCENDANTS>
 
 	</NODE>
