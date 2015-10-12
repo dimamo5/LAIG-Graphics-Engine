@@ -142,13 +142,27 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				var object;
 				var args=currNode.parseArgs();
 
+				var material=this.materials.get(materialId);
+				var text=this.textures.get(textId);
+				var s=1,t=1;
+				if(material!=undefined){
+					if(text!=undefined){
+						material.setTexture(text);
+						s=text.amplif_s;
+						t=text.amplif_t;
+
+					}
+					material.apply();
+				}
+
+
 				switch(currNode.type){
 					case "triangle":                
             			object=new MyTriangle(this,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8],1,1);
             		break;     
         
         			case "rectangle":            
-            			object=new MyRectangle(this,args[0],args[1],args[2],args[3],1,1);
+            			object=new MyRectangle(this,args[0],args[1],args[2],args[3],s,t);
            			break;             
 
         			case "cylinder":            
@@ -161,16 +175,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 
 				}
 				
-				var material=this.materials.get(materialId);
-				var text=this.textures.get(textId);
-
-				if(material!=undefined){
-					if(text!=undefined){
-						material.setTexture(text);
-					}
-					material.apply();
-				}
-
+				
 				object.display();
 				
 				if(material!=undefined){

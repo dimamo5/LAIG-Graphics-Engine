@@ -73,7 +73,7 @@ MyTriangle.prototype.initBuffers = function() {
 	  this.c / this.s, 1.0 / this.t
     ];
 
-	console.log(this.texCoords);
+	//console.log(this.texCoords);
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
