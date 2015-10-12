@@ -114,6 +114,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 
 
 	if(currNode instanceof GraphTree_node){
+		
 		if(currNode.texture_id=="null"){
 		nextTextId=textId;
 		}else if(currNode.texture_id=="clear"){
@@ -139,52 +140,28 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 			
 			}
 	}else if(currNode instanceof GraphTree_leaf){
-				var object;
-				var args=currNode.parseArgs();
-
 				var material=this.materials.get(materialId);
 				var text=this.textures.get(textId);
-				var s=1,t=1;
-				if(material!=undefined){
-					if(text!=undefined){
-						material.setTexture(text);
-						s=text.amplif_s;
-						t=text.amplif_t;
 
-					}
+				if(material!=undefined){
 					material.apply();
 				}
 
-
-				switch(currNode.type){
-					case "triangle":                
-            			object=new MyTriangle(this,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8],1,1);
-            		break;     
-        
-        			case "rectangle":            
-            			object=new MyRectangle(this,args[0],args[1],args[2],args[3],s,t);
-           			break;             
-
-        			case "cylinder":            
-     					object=new MyCylinderSurface(this,args[0],args[1],args[2],args[3],args[4]);
-            		break;              
-       
-        			case "sphere":
-                    	object=new MySphere(this,args[0],args[1],args[2]);
-            		break;
-
+				if(text!=undefined){	
+				currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
+				text.bind();	
 				}
-				
-				
-				object.display();
+								
+				currNode.object.display();
 				
 				if(material!=undefined){
-					if(text != undefined){
-						material.setTexture(null);
-					}
 					this.materialDefault.apply();
 				}
-			}
+
+				if(text!=undefined){
+						text.unbind();	
+				}
+
 		
-		
+	}
 }

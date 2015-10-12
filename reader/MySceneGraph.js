@@ -394,6 +394,8 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		var args = this.reader.getString(leavesList[i],"args",true);
 
 		var leaf_Obj = new GraphTree_leaf(id,type,args);
+		
+		leaf_Obj.createObject(this.scene);
 
 		this.scene.graph_tree.graphElements.add(id,leaf_Obj); 
 	}

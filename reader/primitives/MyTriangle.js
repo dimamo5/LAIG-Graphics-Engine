@@ -68,13 +68,22 @@ MyTriangle.prototype.initBuffers = function() {
     ]
 	
 	this.texCoords = [
-	  (this.c - this.a * Math.cos(this.beta)) / this.s, 0.0,
-	  0.0, 1 / this.t,
-	  this.c / this.s, 1.0 / this.t
+	  (this.c - this.a * Math.cos(this.beta)), this.a*Math.sin(this.beta),
+	  0.0, 0.0,
+	  this.c, 0
     ];
-
-	//console.log(this.texCoords);
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
+}
+
+MyTriangle.prototype.updateTexCoords = function(s, t) {
+	
+	this.texCoords = [
+	  (this.c - this.a * Math.cos(this.beta))/s, (this.a*Math.sin(this.beta))/t,
+	  0.0, 0.0,
+	  this.c/s, 0
+    ];
+
+	this.updateTexCoordsGLBuffers();
 }
