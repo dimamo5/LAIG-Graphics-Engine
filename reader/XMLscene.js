@@ -10,6 +10,10 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
+	this.luz1 = true;
+	this.luz2 = true;
+	this.luz3 = true;
+
     this.initCameras();
     this.initLights();
 
@@ -24,6 +28,8 @@ XMLscene.prototype.init = function (application) {
 	this.materialDefault = new CGFappearance(this);
 
 	this.axis=new CGFaxis(this);
+
+	this.setUpdatePeriod(100);
 };
 
 XMLscene.prototype.initLights = function () {
@@ -98,12 +104,6 @@ XMLscene.prototype.display = function () {
 		this.getObjects(this.graph_tree.root_id);
 	}
 
-
-	//chamar super funcao recursiva !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
     this.shader.unbind();
 };
 
@@ -116,19 +116,19 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 	if(currNode instanceof GraphTree_node){
 		
 		if(currNode.texture_id=="null"){
-		nextTextId=textId;
+			nextTextId=textId;
 		}else if(currNode.texture_id=="clear"){
-		nextTextId=undefined;
+			nextTextId=undefined;
 		}else{
-		nextTextId=currNode.texture_id;
+			nextTextId=currNode.texture_id;
 		}
 
 		if(currNode.material_id=="null"){
-		nextMaterialId=materialId;
+			nextMaterialId=materialId;
 		}else if(currNode.material_id=="clear"){
-		nextMaterialId=undefined;
+			nextMaterialId=undefined;
 		}else{
-		nextMaterialId=currNode.material_id;
+			nextMaterialId=currNode.material_id;
 		}
 		
 		for(var i =0; i<currNode.descendants.length;i++){
@@ -139,6 +139,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 			this.popMatrix();
 			
 			}
+			
 	}else if(currNode instanceof GraphTree_leaf){
 				var material=this.materials.get(materialId);
 				var text=this.textures.get(textId);
@@ -161,7 +162,28 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				if(text!==undefined){
 						text.unbind();	
 				}
+		}
+}
 
-		
+XMLscene.prototype.updateGuiLights = function (){ 
+	if(this.luz1){
+		this.lights[0].enable();
 	}
+	else this.lights[0].disable();
+
+	if(this.luz2){
+		this.lights[1].enable();
+	}
+	else this.lights[1].disable();
+
+	if(this.luz3){
+		this.lights[2].enable();
+	}
+	else 
+		this.lights[2].disable();
+};
+
+
+XMLscene.prototype.update = function(currTime){
+	this.updateGuiLights();
 }
