@@ -21,11 +21,11 @@ function MySceneGraph(filename, scene) {
  */
 MySceneGraph.prototype.verifyError = function(error){
 
-	if (error != null) {
+	if (error !== null || error !== undefined) {
 		this.onXMLError(error);
 		return;
 	}	
-}
+};
 
 /* Elements parser */
 
@@ -35,7 +35,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 
 	var elems =  rootElement.getElementsByTagName('INITIALS');
 	
-	if (elems == null) {
+	if (elems === null) {
 		return "initials element is missing.";
 	}
 
@@ -45,7 +45,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	
 	//frustum
 	var frustum = elems[0].getElementsByTagName('frustum');
-	if (frustum == null || frustum[0] == undefined || frustum.length != 1) {
+	if (frustum === null || frustum[0] === undefined || frustum.length != 1) {
 		return "frustum element is missing or there are more than one element found.";
 	}
 
@@ -54,8 +54,8 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	
 	//translate
 	var translate = elems[0].getElementsByTagName('translation');
-	console.log(translate[0]);
-	if(translate[0] == null || translate.length != 1) {
+
+	if(translate[0] === null || translate.length != 1) {
 		return "translate element is missing or there are more than one element found.";
 	}
 
@@ -65,7 +65,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 
 	//rotation (expect 3 elements)
 	var rotation = elems[0].getElementsByTagName('rotation');
-	if(rotation == null) {
+	if(rotation === null) {
 		return "rotation element is missing";
 	}
 	
@@ -98,13 +98,13 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	}
 
 	//verifica se algum dos eixos ficou por preencher
-	if( this.rotationX_angle == 'undefined' | this.rotationY_angle == 'undefined' | this.rotationZ_angle == 'undefined')
+	if( this.scene.rotationX_angle === undefined || this.scene.rotationY_angle === undefined || this.scene.rotationZ_angle === undefined)
 		return "error defining axis";
 
 	
 	//scale
 	var scale = elems[0].getElementsByTagName('scale');
-	if(scale[0] == null || scale.length != 1) {
+	if(scale[0] === null || scale.length != 1) {
 		return "scale element is missing or there are more than one element found.";
 	}
 
@@ -114,7 +114,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 
 	//reference
 	var reference = elems[0].getElementsByTagName('reference');
-	if ( reference[0] == null || reference.length != 1 ) {
+	if ( reference[0] === null || reference.length != 1 ) {
 		return "reference element is missing or there are more than one element found.";
 	}
 
@@ -126,7 +126,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 MySceneGraph.prototype.parseIlumination= function(rootElement){
 
 	var elems =  rootElement.getElementsByTagName('ILLUMINATION');	
-	if (elems == null) {
+	if (elems === null) {
 		return "ILUMINATION element is missing.";
 	}
 
@@ -136,7 +136,7 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 	
 	//ambient
 	var ambient = elems[0].getElementsByTagName('ambient');
-	if (ambient[0] == null || ambient.length != 1) {
+	if (ambient[0] === null || ambient.length != 1) {
 		return "ambient element is missing or there are more than one element found.";
 	}
 
@@ -147,7 +147,7 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 
 	//background 
 	var background = elems[0].getElementsByTagName('background');
-	if (background[0] == null || background.length != 1) {
+	if (background[0] === null || background.length != 1) {
 		return "background element is missing or there are more than one element found.";
 	}
 
@@ -161,7 +161,7 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 MySceneGraph.prototype.parseLights= function(rootElement){
 
 	var elems = rootElement.getElementsByTagName('LIGHTS');	
-	if (elems == null) {
+	if (elems === null) {
 		return "LIGHTS element is missing.";
 	}
 
@@ -171,7 +171,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 
 	//retorna lista de elementos "LIGHT" abaixo do node "LIGHTS"
 	var lightsList = elems[0].getElementsByTagName('LIGHT');
-	if(lightsList.length == 0){
+	if(lightsList.length === 0){
 		return "no lights found";
 	}
 	
@@ -184,14 +184,14 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		var light_id = this.reader.getString(lightsList[i],"id",true );
 
 		var enable = lightsList[i].getElementsByTagName('enable');
-		if(enable[0] == null || enable.length != 1) {
+		if(enable[0] === null || enable.length != 1) {
 			return "enable element is missing or there are more than one element found.";
 		}
 
 		var enable_val = this.reader.getBoolean(enable[0],"value",true);
 
 		var pos = lightsList[i].getElementsByTagName('position');
-		if(pos[0] == null || pos.length != 1) {
+		if(pos[0] === null || pos.length != 1) {
 			return "position element is missing or there are more than one element found.";
 		}
 
@@ -201,7 +201,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							 w : this.reader.getFloat(pos[0],"w",true) };
 
 		var ambient = lightsList[i].getElementsByTagName('ambient');
-		if(ambient[0] == null || ambient.length != 1) {
+		if(ambient[0] === null || ambient.length != 1) {
 			return "ambient element is missing or there are more than one element found.";
 		}
 
@@ -211,7 +211,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							a : this.reader.getFloat(ambient[0],"a",true) };
 				
 		var diffuse = lightsList[i].getElementsByTagName('diffuse');
-		if(diffuse[0] == null || diffuse.length != 1) {
+		if(diffuse[0] === null || diffuse.length != 1) {
 			return "diffuse element is missing or there are more than one element found.";
 		}
 
@@ -221,7 +221,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 							a : this.reader.getFloat(diffuse[0],"a",true) };
 
 		var specullar = lightsList[i].getElementsByTagName('specular');
-		if(specullar[0] == null || specullar.length != 1) {
+		if(specullar[0] === null || specullar.length != 1) {
 			return "specullar element is missing or there are more than one element found.";
 		}
 
@@ -236,7 +236,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		this.scene.lights[i].setPosition(positionList.x,positionList.y,positionList.z,positionList.w);
 		this.scene.lights[i].setVisible(true);
 
-		if(enable_val == true ) //enable_val : T/F
+		if(enable_val === true ) //enable_val : T/F
 			this.scene.lights[i].enable();
 		else 
 			this.scene.lights[i].disable();
@@ -249,7 +249,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 MySceneGraph.prototype.parseTextures= function(rootElement) {
 
 	var elems = rootElement.getElementsByTagName('TEXTURES');	
-	if (elems == null) {
+	if (elems === null) {
 		return "TEXTURES element is missing.";
 	}
 
@@ -258,7 +258,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 	}
 	
 	var texturesList = elems[0].getElementsByTagName('TEXTURE');
-	if(texturesList.length == 0){
+	if(texturesList.length === 0){
 		return "no textures found";
 	}
 	
@@ -269,13 +269,13 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		var id = this.reader.getString(texturesList[i],"id",true);
 
 		var file = texturesList[i].getElementsByTagName('file');
-		if(file == null || file.length != 1){
+		if(file === null || file.length != 1){
 			return "file element is missing or there are more than one element found.";
 		}
 		var url = this.reader.getString(file[0],"path",true);		
 
 		var amplif_factorList = texturesList[i].getElementsByTagName('amplif_factor');
-		if(amplif_factorList == null || amplif_factorList.length != 1){
+		if(amplif_factorList === null || amplif_factorList.length != 1){
 			return "amplif_factor element is missing or there are more than one element found.";
 		}
 
@@ -290,7 +290,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 	var elems = rootElement.getElementsByTagName('MATERIALS');	
-	if (elems == null) {
+	if (elems === null) {
 		return "MATERIALS element is missing.";
 	}
 
@@ -299,7 +299,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	}
 	
 	var materialsList = elems[0].getElementsByTagName('MATERIAL');
-	if(materialsList.length == 0){
+	if(materialsList.length === 0){
 		return "no materials found";
 	}
 
@@ -310,14 +310,14 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		var id = this.reader.getString(materialsList[i],"id",true);
 
 		var shininess = materialsList[i].getElementsByTagName('shininess');
-		if(shininess == null || shininess.length != 1){
+		if(shininess === null || shininess.length != 1){
 			return "shininess element is missing or there are more than one element found.";
 		}
 
 		var shininess_value = this.reader.getFloat(shininess[0],"value",true);		
 
 		var specullar = materialsList[i].getElementsByTagName('specular');
-		if(specullar[0] == null || specullar.length != 1) {
+		if(specullar[0] === null || specullar.length != 1) {
 			return "specular element is missing or there are more than one element found.";
 		}
 
@@ -327,7 +327,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 							  a : this.reader.getFloat(specullar[0],"a",true) };
 
 		var diffuse = materialsList[i].getElementsByTagName('diffuse');
-		if(diffuse[0] == null || diffuse.length != 1) {
+		if(diffuse[0] === null || diffuse.length != 1) {
 			return "diffuse element is missing or there are more than one element found.";
 		}
 
@@ -337,7 +337,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 							a : this.reader.getFloat(diffuse[0],"a",true) };
 
 		var ambient = materialsList[i].getElementsByTagName('ambient');
-		if(ambient[0] == null || ambient.length != 1) {
+		if(ambient[0] === null || ambient.length != 1) {
 			return "ambient element is missing or there are more than one element found.";
 		}
 
@@ -347,7 +347,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 							a : this.reader.getFloat(ambient[0],"a",true) };
 
 		var emission = materialsList[i].getElementsByTagName('emission');
-		if(emission[0] == null || emission.length != 1) {
+		if(emission[0] === null || emission.length != 1) {
 			return "emission element is missing or there are more than one element found.";
 		}
 
@@ -374,7 +374,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 MySceneGraph.prototype.parseLeaves = function(rootElement){
 
 	var elems = rootElement.getElementsByTagName('LEAVES');	
-	if (elems == null) {
+	if (elems === null) {
 		return "LEAVES element is missing.";
 	}
 
@@ -383,7 +383,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 	}
 
 	var leavesList = elems[0].getElementsByTagName('LEAF');
-	if(leavesList.length == 0){
+	if(leavesList.length === 0){
 		return "no leaves found";
 	}
 
@@ -406,7 +406,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var elems = rootElement.getElementsByTagName('NODES');	
-	if (elems == null) {
+	if (elems === null) {
 		return "NODES element is missing.";
 	}
 
@@ -415,7 +415,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 	}
 
 	var root = elems[0].getElementsByTagName('ROOT');
-	if(root[0] == null || root.length != 1) {
+	if(root[0] === null || root.length != 1) {
 		return "root element is missing or there are more than one element found in lsx.";
 	}
 
@@ -423,7 +423,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 	this.scene.graph_tree.root_id = root_id;
 
 	var nodeslist = elems[0].getElementsByTagName('NODE');
-	if(nodeslist.length == 0){
+	if(nodeslist.length === 0){
 		return "no nodes found";
 	}
 
@@ -433,19 +433,51 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		var node_id = this.reader.getString(nodeslist[i],"id",true);
 
 		var material = nodeslist[i].getElementsByTagName('MATERIAL');	
-		if(material == null || material == undefined || material.length != 1)
+		if(material === null || material === undefined || material.length != 1)
 			return "node MATERIAL  not found or more that one found";
 
 		var material_id = this.reader.getString(material[0], "id",true);
 
 		var texture = nodeslist[i].getElementsByTagName('TEXTURE');	
-		if(texture == null || texture == undefined || texture.length != 1)
+		if(texture === null || texture === undefined || texture.length != 1)
 			return "node TEXTURE not found or more that one found";
 
 		var texture_id = this.reader.getString(texture[0], "id",true);
 
 		//instanciação do node
 		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
+
+		if(this.scene.graph_tree.root_id==node_Obj.id){
+				var temp=[];
+				temp.push("TRANSLATION");
+				temp.push(this.scene.translation.x);
+				temp.push(this.scene.translation.y);
+				temp.push(this.scene.translation.z);	
+
+				node_Obj.transformations.push(temp);
+
+				temp=[];
+
+				temp.push("ROTATION",[1,0,0],this.scene.rotationX_angle);
+				node_Obj.transformations.push(temp);
+				temp=[];
+
+				temp.push("ROTATION",[0,1,0],this.scene.rotationX_angle);
+				node_Obj.transformations.push(temp);
+				temp=[];
+				
+				temp.push("ROTATION",[0,0,1],this.scene.rotationX_angle);
+				node_Obj.transformations.push(temp);
+				temp=[];
+
+				temp.push("SCALE");
+				temp.push(this.scene.scale_initial.sx);
+				temp.push(this.scene.scale_initial.sy);
+				temp.push(this.scene.scale_initial.sz);
+
+				node_Obj.transformations.push(temp);
+				
+			}
 
 		//tamanho da lista dos filhos do node (texture,material,translation...)
 		var childList_length = nodeslist[i].childNodes.length;
@@ -455,7 +487,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		for(var j = 0; j < childList_length; j++){
 			
 			var transf = [];
-			
+		
 			if(child.nodeName == "TRANSLATION" ){				
 				transf.push(child.nodeName); 		//tipo da transformacao
 				transf.push(child.getAttributeNode("x").nodeValue);
@@ -501,7 +533,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		
 		//tratar dos descendants
 		var descendants_elems = nodeslist[i].getElementsByTagName('DESCENDANTS');
-		if(descendants_elems.length == 0){
+		if(descendants_elems.length === 0){
 			return "no descendants found";
 		}
 
@@ -511,7 +543,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 			var id = this.reader.getString(descendantsList[j],"id",true);
 			node_Obj.descendants.push(id);
 		}
-		
+
 		//adiciona node ao graphTree da cena		
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
@@ -533,14 +565,17 @@ MySceneGraph.prototype.onXMLReady=function()
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i < parser.length; i++){
 		error = parser[i].call(this,rootElement);
-		this.verifyError(error);
+
+		if (error != null) {
+			this.onXMLError(error);
+		return;
 	}
-	if(error==undefined){
+	}
+
 	this.loadedOk=true;
 	
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
-	}
 };
 
 
@@ -552,5 +587,3 @@ MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);	
 	this.loadedOk=false;
 };
-
-
