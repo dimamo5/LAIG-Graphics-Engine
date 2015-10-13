@@ -462,11 +462,11 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 				node_Obj.transformations.push(temp);
 				temp=[];
 
-				temp.push("ROTATION",[0,1,0],this.scene.rotationX_angle);
+				temp.push("ROTATION",[0,1,0],this.scene.rotationY_angle);
 				node_Obj.transformations.push(temp);
 				temp=[];
 				
-				temp.push("ROTATION",[0,0,1],this.scene.rotationX_angle);
+				temp.push("ROTATION",[0,0,1],this.scene.rotationZ_angle);
 				node_Obj.transformations.push(temp);
 				temp=[];
 
