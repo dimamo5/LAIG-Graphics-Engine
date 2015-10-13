@@ -3,7 +3,7 @@ function GraphTree_leaf(id,type, args) {
     this.id = id;
     this.type = type;
     this.args = args;
-    this.object;
+    this.object={};
 }
 
 GraphTree_leaf.prototype.constructor = GraphTree_leaf;
@@ -15,7 +15,7 @@ GraphTree_leaf.prototype.createObject = function(scene) {
 
     var str_splited = this.args.split(" "); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
             for(var i=0;i<str_splited.length;i++){
-                if(str_splited[i]==""){
+                if(str_splited[i]===""){
                     str_splited.splice(i,1);
                 }
             }
@@ -51,7 +51,7 @@ GraphTree_leaf.prototype.createObject = function(scene) {
        
         case "sphere":                                   
             for(var i=0; i < 3 ; i++){
-               if(i == 0) 
+               if(i === 0) 
                 array.push( parseFloat( str_splited[i]) ); 
                else
                 array.push( parseInt( str_splited[i],10) ); 
@@ -62,6 +62,6 @@ GraphTree_leaf.prototype.createObject = function(scene) {
         default: 
             return "parseArgs() -> no acceptable primitive type found ";
     }
-}
+};
 
 

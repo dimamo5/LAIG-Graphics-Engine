@@ -24,7 +24,7 @@ GraphTree_node.prototype.getMatrix=function(){
 
     return matrix;
     
-}
+};
 
 function degToRad(degrees) {
         return degrees * Math.PI / 180;

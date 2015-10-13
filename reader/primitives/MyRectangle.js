@@ -39,7 +39,7 @@ MyRectangle.prototype.initBuffers = function() {
 			0,0,1,
 			0,0,1,
 			0,0,1
-    ]
+    ];
 
    this.texCoords = [
 		0.0, 1.0 * this.height,
@@ -52,7 +52,7 @@ MyRectangle.prototype.initBuffers = function() {
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
-}
+};
 
 MyRectangle.prototype.updateTexCoords=function(s, t){
 	
@@ -64,4 +64,4 @@ MyRectangle.prototype.updateTexCoords=function(s, t){
 
  
     this.updateTexCoordsGLBuffers();
-}
+};

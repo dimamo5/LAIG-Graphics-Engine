@@ -10,7 +10,7 @@
 	this.radius=radius;
 
  	this.initBuffers();
- };
+ }
 
  MySphere.prototype = Object.create(CGFobject.prototype);
  MySphere.prototype.constructor = MySphere;
@@ -70,4 +70,4 @@
  };
 
 MySphere.prototype.updateTexCoords = function(s, t) {
-}
+};

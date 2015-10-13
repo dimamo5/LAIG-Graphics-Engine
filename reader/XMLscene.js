@@ -63,7 +63,7 @@ XMLscene.prototype.updateLights = function() {
 	for (var j = 0; j < this.lights.length; j++){
 		this.lights[j].update();
 	}
-}
+};
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
@@ -92,11 +92,11 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 
-	if (this.graph.loadedOk == true)
+	if (this.graph.loadedOk === true)
 	{
 		this.updateLights();
 		this.getObjects(this.graph_tree.root_id);
-	};	
+	}
 
 
 	//chamar super funcao recursiva !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -143,22 +143,22 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				var material=this.materials.get(materialId);
 				var text=this.textures.get(textId);
 
-				if(material!=undefined){
+				if(material!==undefined){
 					material.apply();
 				}
 
-				if(text!=undefined){	
+				if(text!==undefined){	
 				currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
 				text.bind();	
 				}
 								
 				currNode.object.display();
 				
-				if(material!=undefined){
+				if(material!==undefined){
 					this.materialDefault.apply();
 				}
 
-				if(text!=undefined){
+				if(text!==undefined){
 						text.unbind();	
 				}
 

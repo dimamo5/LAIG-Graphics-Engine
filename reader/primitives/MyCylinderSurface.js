@@ -9,7 +9,7 @@ function MyCylinderSurface(scene,height, bRadius, tRadius, stacks, slices) {
 	this.tRadius = tRadius;
 
  	this.initBuffers();
-};
+}
 
 MyCylinderSurface.prototype = Object.create(CGFobject.prototype);
 MyCylinderSurface.prototype.constructor = MyCylinderSurface;
@@ -68,4 +68,4 @@ MyCylinderSurface.prototype.initBuffers = function() {
  };
 
  MyCylinderSurface.prototype.updateTexCoords = function(s, t) {
- }
+ };
