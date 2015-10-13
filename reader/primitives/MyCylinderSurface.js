@@ -63,8 +63,9 @@ MyCylinderSurface.prototype.initBuffers = function() {
 		}
 	}
 
-	console.log(this.vertices.length/3);
-
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
  };
+
+ MyCylinderSurface.prototype.updateTexCoords = function(s, t) {
+ }

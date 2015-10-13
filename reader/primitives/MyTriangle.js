@@ -1,4 +1,4 @@
-function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3,s,t){
+function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3){
     CGFobject.call(this,scene);
 
     //Vertice 1
@@ -15,25 +15,22 @@ function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3,s,t){
     this.x3 = x3;
     this.y3 = y3;
     this.z3 = z3;
-	
-	this.s=s;
-	this.t=t;
 
-	this.a = Math.sqrt((x1 - x3) * (x1 - x3) + 
-			 		   (y1 - y3) * (y1 - y3) +
-			 		   (z1 - z3) * (z1 - z3));
+	this.ac = Math.sqrt((x3 - x1) * (x3 - x1) + 
+			 		   (y3 - y1) * (y3 - y1) +
+			 		   (z3 - z1) * (z3 - z1));
 
-	this.b = Math.sqrt((x2 - x1) * (x2 - x1) + 
+	this.ab = Math.sqrt((x2 - x1) * (x2 - x1) + 
 			 		   (y2 - y1) * (y2 - y1) +
 			 		   (z2 - z1) * (z2 - z1));
 
-	this.c = Math.sqrt((x3 - x2) * (x3 - x2) + 
+	this.bc = Math.sqrt((x3 - x2) * (x3 - x2) + 
 			 		   (y3 - y2) * (y3 - y2) +
 			 		   (z3 - z2) * (z3 - z2));
 
-	this.cosAlpha = (-this.a*this.a + this.b*this.b + this.c * this.c) / (2 * this.b * this.c);
-	this.cosBeta =  ( this.a*this.a - this.b*this.b + this.c * this.c) / (2 * this.a * this.c);
-	this.cosGamma = ( this.a*this.a + this.b*this.b - this.c * this.c) / (2 * this.a * this.b);
+	this.cosAlpha = (-this.ac*this.ac + this.ab*this.ab + this.bc * this.bc) / (2 * this.ab * this.bc);
+	this.cosBeta =  ( this.ac*this.ac - this.ab*this.ab + this.bc * this.bc) / (2 * this.ac * this.bc);
+	this.cosGamma = ( this.ac*this.ac + this.ab*this.ab - this.bc * this.bc) / (2 * this.ac * this.ab);
 
 	this.beta = Math.acos(this.cosBeta);
 	this.alpha = Math.acos(this.cosAlpha);
@@ -68,13 +65,22 @@ MyTriangle.prototype.initBuffers = function() {
     ]
 	
 	this.texCoords = [
-	  (this.c - this.a * Math.cos(this.beta)) / this.s, 0.0,
-	  0.0, 1 / this.t,
-	  this.c / this.s, 1.0 / this.t
+	  0.0, 0.0,
+	  this.ab, 0,
+	  (this.c - this.a * Math.cos(this.beta)), this.a*Math.sin(this.beta),
     ];
-
-	console.log(this.texCoords);
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
+}
+
+MyTriangle.prototype.updateTexCoords = function(s, t) {
+	
+	this.texCoords = [
+	  0.0, 0.0,
+	  this.ab/s, 0,
+	  (this.ac*Math.cos(this.alpha))/s, (this.bc*Math.sin(this.beta))/t,	  
+    ];
+
+	this.updateTexCoordsGLBuffers();
 }

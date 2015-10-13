@@ -125,13 +125,13 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 //ILUMINATION
 MySceneGraph.prototype.parseIlumination= function(rootElement){
 
-	var elems =  rootElement.getElementsByTagName('ILUMINATION');	
+	var elems =  rootElement.getElementsByTagName('ILLUMINATION');	
 	if (elems == null) {
 		return "ILUMINATION element is missing.";
 	}
 
 	if (elems.length != 1) {
-		return "either zero or more than one <ILUMINATION> element found.";
+		return "either zero or more than one <ILLUMINATION> element found.";
 	}
 	
 	//ambient
@@ -262,7 +262,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		return "no textures found";
 	}
 	
-	this.textures =  new assocMap(); //boa pratica
+	this.scene.textures =  new assocMap(); //boa pratica
 
 	//carrega todos os elementos "texture"
 	for(var i = 0; i < texturesList.length; i++){
@@ -282,7 +282,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 		var amplif_s = this.reader.getFloat(amplif_factorList[0],"s",true),
 			amplif_t = this.reader.getFloat(amplif_factorList[0],"t",true) ;
 
-		this.textures.add(id, new MyTexture(this.scene, url,amplif_s,amplif_t, id)); //carrega elemento "texture" para arraya associativo
+		this.scene.textures.add(id, new MyTexture(this.scene, url,amplif_s,amplif_t, id)); //carrega elemento "texture" para arraya associativo
 	}
 };
 	
@@ -303,7 +303,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		return "no materials found";
 	}
 
-	this.materials = new assocMap(); //boa pratica??
+	this.scene.materials = new assocMap(); //boa pratica??
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i < materialsList.length; i++){
@@ -366,7 +366,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		material_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
 		material_Obj.setEmission(emissionList.r,emissionList.g,emissionList.b,emissionList.a);
 
-		this.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
+		this.scene.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
 	}
 };
 
@@ -394,6 +394,8 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		var args = this.reader.getString(leavesList[i],"args",true);
 
 		var leaf_Obj = new GraphTree_leaf(id,type,args);
+		
+		leaf_Obj.createObject(this.scene);
 
 		this.scene.graph_tree.graphElements.add(id,leaf_Obj); 
 	}
@@ -464,7 +466,21 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 			}else if(child.nodeName == "ROTATION" ){				
 				transf.push(child.nodeName);		//tipo da transformacao
-				transf.push(child.getAttributeNode("axis").nodeValue);  //eixo da rotacao
+
+				var axis=child.getAttributeNode("axis").nodeValue;
+				switch(axis){
+					case("x"):
+						transf.push([1,0,0]);
+					break;
+
+					case("y"):
+						transf.push([0,1,0]);
+					break;
+
+					case("z"):
+						transf.push([0,0,1]);
+					break;
+				}
 				transf.push(child.getAttributeNode("angle").nodeValue);
 
 				node_Obj.transformations.push(transf); 
@@ -499,6 +515,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		//adiciona node ao graphTree da cena		
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
+
 };
 
 	
