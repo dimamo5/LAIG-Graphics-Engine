@@ -7,15 +7,13 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="2" />                          <!-- axis length; "0" means no axis-->
+    <reference length="0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
-
 
 <ILLUMINATION>
     <ambient r="0" g="0" b="0" a="1.0" />            <!-- global ambient -->
     <background r="0.0" g="0.0" b="0" a="1.0" />         <!-- background color -->
 </ILLUMINATION>
-
 
 <LIGHTS>
     <LIGHT id="l01">                                    <!-- light identifier -->
@@ -153,7 +151,7 @@
 	<LEAF id="parede" type="rectangle" args="0 7 15 0 " />
 	<LEAF id="chao" type="rectangle" args="15 0 0 15" />
 	<LEAF id="vasoTronco" type ="cylinder" args="1 0.2 0.5 5 20" />
-	<LEAF id="incensoTriangulo" type="triangle" args="0 1 0 -0.5 0 0.5 0.5 0 0.5" />
+	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0.5  0.5 0 0.5  0 1 0" />
 	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
 </LEAVES>
 

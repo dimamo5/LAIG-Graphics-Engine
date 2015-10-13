@@ -32,37 +32,8 @@ MyInterface.prototype.init = function(application) {
 	group.add(this.scene, 'luz1');
 	group.add(this.scene, 'luz2');
 	group.add(this.scene, 'luz3');
+
+
 	
 	return true;
 };
-
-/**
- * processKeyboard
- * @param event {Event}
- */
-MyInterface.prototype.processKeyboard = function(event) {
-	// call CGFinterface default code (omit if you want to override)
-	CGFinterface.prototype.processKeyboard.call(this,event);
-	
-	// Check key codes e.g. here: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-	// or use String.fromCharCode(event.keyCode) to compare chars
-	
-	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
-	/*switch (event.keyCode)
-	{
-		case (97):	// only works for capital 'A', as it is
-			this.scene.robot.moveLeft();
-			break;
-		case(100):
-			this.scene.robot.moveRigth();
-			break;
-		case(119):
-			this.scene.robot.moveUp();
-			break;
-		case(115):
-			this.scene.robot.moveDown();
-			break;
-			
-	};*/
-};
-

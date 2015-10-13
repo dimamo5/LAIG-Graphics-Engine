@@ -29,6 +29,16 @@ MySceneGraph.prototype.verifyError = function(error){
 
 /* Elements parser */
 
+MySceneGraph.prototype.checkOrder=function(rootElement){
+	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
+	for(var i =0;i<rootElement.children.length;i++){
+		if(rootElement.children[i].nodeName!=order[i]){
+			return rootElement.children[i].nodeName+" is in the wrong place!\t";
+		}
+	}
+}
+
+
 
 //>>> INITIALS PARSER
 MySceneGraph.prototype.parseInitials = function(rootElement){
@@ -559,14 +569,14 @@ MySceneGraph.prototype.onXMLReady=function()
 
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
-	var parser = [ this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
+	var parser = [ this.checkOrder,this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
 				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i < parser.length; i++){
 		error = parser[i].call(this,rootElement);
 
-		if (error != null) {
+		if (error !== null && error !== undefined) {
 			this.onXMLError(error);
 		return;
 	}

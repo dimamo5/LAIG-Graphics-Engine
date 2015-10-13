@@ -28,20 +28,7 @@ function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3){
 			 		   (y3 - y2) * (y3 - y2) +
 			 		   (z3 - z2) * (z3 - z2));
 
-	this.v1 = vec3.fromValues(x1, y1, z1);
-	this.v2 = vec3.fromValues(x2, y2, z2);
-	this.v3 = vec3.fromValues(x3, y3, z3);
 
-	var AB = vec3.create();
-	vec3.sub(AB, this.v2, this.v1);
-	var AC = vec3.create();
-	vec3.sub(AC, this.v3, this.v1);
-	var BC = vec3.create();
-	vec3.sub(BC, this.v3, this.v2);
-
-
-	var teste=vec3.create();
-	this.angle=Math.acos(vec3.dot(AB,AC)/(vec3.sqrLen(AB)*vec3.sqrLen(AC)));
 
 	this.cosAlpha = (-this.ac*this.ac + this.ab*this.ab + this.bc * this.bc) / (2 * this.ab * this.bc);
 	this.cosBeta =  ( this.ac*this.ac - this.ab*this.ab + this.bc * this.bc) / (2 * this.ac * this.bc);
@@ -51,7 +38,7 @@ function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3){
 	this.alpha = Math.acos(this.cosAlpha);
 	this.gamma = Math.acos(this.cosGamma);
 	
-	console.log("alpha:"+this.alpha+" beta:"+this.beta+" gamma:"+this.gamma+" angle:"+this.angle);
+	console.log(this.alpha+this.beta+this.gamma);
 
     this.initBuffers();
 }
@@ -86,6 +73,14 @@ MyTriangle.prototype.initBuffers = function() {
 	  	this.ac*Math.cos(this.alpha), this.bc*Math.sin(this.alpha),	
     ];
 
+    console.log(this.ab);
+    console.log(this.ac);
+    console.log(this.bc);
+
+    console.log("Alpha:"+this.alpha);
+    console.log("beta:"+this.beta);
+    console.log("gamma:"+this.gamma);
+
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
 };
@@ -95,7 +90,7 @@ MyTriangle.prototype.updateTexCoords = function(s, t) {
 	this.texCoords = [
 	  0.0, 0.0,
 	  this.ab/s, 0,
-	  (this.ac*Math.cos(this.alpha))/s, (this.bc*Math.sin(this.gamma))/t,	  
+	  (this.ab-this.bc*Math.cos(this.gamma))/s, (this.bc*Math.sin(this.gamma))/t,	  
     ];
 
 	this.updateTexCoordsGLBuffers();
