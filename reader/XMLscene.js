@@ -9,6 +9,12 @@ XMLscene.prototype.constructor = XMLscene;
 
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
+	
+	this.luz1 = true;
+	this.luz2 = true;
+	this.luz3 = true;
+
+	console.log("lol\n");
 
     this.initCameras();
     this.initLights();
@@ -131,7 +137,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 		nextMaterialId=currNode.material_id;
 		}
 		
-		for(var i =0; i<currNode.descendants.length;i++){
+		for(var i =0; i< currNode.descendants.length;i++){
 			this.pushMatrix();
 			this.multMatrix(currNode.getMatrix());
 
@@ -139,29 +145,50 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 			this.popMatrix();
 			
 			}
-	}else if(currNode instanceof GraphTree_leaf){
-				var material=this.materials.get(materialId);
-				var text=this.textures.get(textId);
+	}else 
+		if(currNode instanceof GraphTree_leaf){
+			var material=this.materials.get(materialId);
+			var text=this.textures.get(textId);
 
-				if(material!=undefined){
-					material.apply();
-				}
+			if(material!=undefined){
+				material.apply();
+			}
 
-				if(text!=undefined){	
-				currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
-				text.bind();	
-				}
-								
-				currNode.object.display();
-				
-				if(material!=undefined){
-					this.materialDefault.apply();
-				}
+			if(text!=undefined){	
+			currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
+			text.bind();	
+			}
 
-				if(text!=undefined){
-						text.unbind();	
-				}
+			currNode.object.display();
 
-		
+			if(material!=undefined){
+				this.materialDefault.apply();
+			}
+
+			if(text!=undefined){
+					text.unbind();	
+			}
 	}
 }
+
+
+XMLscene.prototype.updateGuiLights = function (){ 
+	
+	if(this.luz1){
+		this.lights[0].enable();
+	}
+	else 
+		this.lights[0].disable();
+
+	if(this.luz2){
+		this.lights[1].enable();
+	}
+	else 
+		this.lights[1].disable();
+
+	if(this.luz3){
+		this.lights[2].enable();
+	}
+	else 
+		this.lights[2].disable();
+};
