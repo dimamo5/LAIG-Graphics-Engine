@@ -32,9 +32,6 @@ MyInterface.prototype.init = function(application) {
 	group.add(this.scene, 'luz1');
 	group.add(this.scene, 'luz2');
 	group.add(this.scene, 'luz3');
-
-	var groupAnim=this.gui.addFolder("Animações");
-	groupAnim.open();
 	
 	return true;
 };
