@@ -22,6 +22,11 @@ XMLscene.prototype.init = function (application) {
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+
+	//this.gl.enable(this.gl.BLEND);
+	//this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
+    
 	
 	this.enableTextures(true);
 	
@@ -149,19 +154,20 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				}
 
 				if(text!==undefined){	
-				currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
-				text.bind();	
+					//currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
+					text.bind();	
 				}
 								
 				currNode.object.display();
-				
-				if(material!==undefined){
-					this.materialDefault.apply();
-				}
 
 				if(text!==undefined){
 						text.unbind();	
 				}
+				
+				if(material!==undefined){
+					this.materialDefault.apply();
+				}
+				
 		}
 }
 

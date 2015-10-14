@@ -17,7 +17,7 @@
 
  MySphere.prototype.initBuffers = function() {
 
- 	this.vertices = []; 	
+this.vertices = []; 	
  	this.indices = [];
  	this.normals = [];
  	this.texCoords=[];

@@ -77,6 +77,11 @@
         <amplif_factor s="15" t="7" />                <!-- x/s, y/t -->
     </TEXTURE>
 
+    <TEXTURE id="incenso">								<!-- Paisagem texture -->
+        <file path="resources/incensoTexture.jpg" />         <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
+
 
 
     <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
@@ -107,7 +112,7 @@
         <specular r="0.5" g="0.5" b="0.5" a="1" />        		<!-- specular reflection -->
         <diffuse r="0.81" g="0.71" b="0.23" a="1" />         <!-- diffuse reflection -->
         <ambient r="0.81" g="0.71" b="0.23" a="1" />         <!-- ambient reflection -->
-        <emission r="0" g="0" b="0" a="1" />        		<!-- emission component -->
+        <emission r="0.4" g="0.4" b="0.4" a="1" />        		<!-- emission component -->
      </MATERIAL>
 
      <MATERIAL id="candeeiro">                                  	<!-- Yellow --> 
@@ -258,7 +263,7 @@
 	<!-- next two lines are mandatory -->
         <MATERIAL id="yellow" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="incenso" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
