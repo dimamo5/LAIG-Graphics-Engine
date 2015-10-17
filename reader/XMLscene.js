@@ -154,7 +154,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 				}
 
 				if(text!==undefined){	
-					//currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
+					currNode.object.updateTexCoords(text.amplif_s,text.amplif_t);
 					text.bind();	
 				}
 								

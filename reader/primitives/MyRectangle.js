@@ -9,7 +9,7 @@ function MyRectangle(scene, x1,y1,x2,y2){
     this.y2 = y2;
 
     this.width = this.x2-this.x1;
-	this.height = this.y2 -this.y1;
+	this.height = this.y1 -this.y2;
 
     this.initBuffers();
 }
@@ -22,15 +22,15 @@ MyRectangle.prototype.initBuffers = function() {
 	
 
     this.vertices = [
-        this.x1,this.y1,0,
-        this.x2,this.y1,0,
         this.x1,this.y2,0,
-        this.x2,this.y2,0
+        this.x2,this.y2,0,
+        this.x1,this.y1,0,
+        this.x2,this.y1,0
     ];
 
     this.indices = [
-        1,0,2,
-        1,2,3
+        0,1,2,
+        2,1,3
     ];
 
 
@@ -42,10 +42,10 @@ MyRectangle.prototype.initBuffers = function() {
     ];
 
    this.texCoords = [
-		0.0, 1.0 * this.height,
-	 	1.0 * this.width, 1.0 * this.height,
+		0.0, this.height,
+	 	this.width,this.height,
       	0.0, 0.0,
-      	1.0 * this.width, 0.0
+      	this.width, 0.0
      ];
 
 
@@ -57,10 +57,10 @@ MyRectangle.prototype.initBuffers = function() {
 MyRectangle.prototype.updateTexCoords=function(s, t){
 	
     this.texCoords= [
-    	0.0, 1.0 * this.height /t,
-	 	1.0 * this.width /s, 1.0 * this.height /t,
+    	0.0,this.height /t,
+	 	this.width /s,this.height /t,
       	0.0, 0.0,
-      	1.0 * this.width /s, 0.0 ];
+      	this.width /s, 0.0 ];
 
  
     this.updateTexCoordsGLBuffers();

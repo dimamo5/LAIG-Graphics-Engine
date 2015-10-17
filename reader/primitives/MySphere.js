@@ -2,6 +2,7 @@
  * MySphere
  * @constructor
  */
+ 
  function MySphere(scene, radius, slices, stacks) {
  	CGFobject.call(this,scene);
 	
@@ -33,34 +34,34 @@ this.vertices = [];
 	var stepS=0;
 	var stepT=0;
 
-	for(var i=0; i <= this.stacks; i++){
-		for(var vert = 0; vert <= this.slices; vert++){
+	for(var stack=0; stack <= this.stacks; stack++){
+		for(var slice = 0; slice <= this.slices; slice++){
 
-			x = this.radius*Math.sin(vert*teta)*Math.cos(i*phi); //x = rsin0cosf			
-			y = this.radius*Math.sin(vert*teta)*Math.sin(i*phi); //y = rsin0sinf			
-			z = this.radius*Math.cos(vert*teta); // z
+			x = this.radius*Math.sin(stack*teta)*Math.cos(slice*phi); //x = rsin0cosf			
+			y = this.radius*Math.sin(stack*teta)*Math.sin(slice*phi); //y = rsin0sinf			
+			z = this.radius*Math.cos(stack*teta); // z
 			
-			this.vertices.push(z); //x
-			this.vertices.push(x); //y
-			this.vertices.push(y); //z na realidade, abs corrige em z
+			stepS=slice/(this.slices);
+			stepT= stack/(this.stacks);
+
+			this.vertices.push(x); //x
+			this.vertices.push(y); //y
+			this.vertices.push(z); //z 
 
 			this.texCoords.push(stepS,stepT);
 
-			this.normals.push(z,x,y); //correccao em z, elimina semi esfera extra(bug)
-		
-			stepS+=1/this.slices;
+			this.normals.push(x,y,z);
+
 		}
 		
-		stepS = 0;
-		stepT+= 1/this.stacks;
 	}
 
 
 	for(var i=0; i < this.stacks;i++){
 		for(var k = 0; k < this.slices ; k++){
 			
-				this.indices.push(i*(this.slices+1) + k, i*(this.slices+1)+(k+1) ,(i+1)*(this.slices+1)+k+1);
-				this.indices.push(i*(this.slices+1)+k,(i+1)*(this.slices+1) +k+1, (i+1)*(this.slices+1) + k);
+				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k  ,(i+1)*(this.slices+1)+k+1);
+				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k+1, i*(this.slices+1) + k+1);
 		}
 	}
 

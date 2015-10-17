@@ -64,7 +64,7 @@
 
     <TEXTURE id="tapete">								<!-- Paisagem texture -->
         <file path="resources/tapete.png" />         <!-- path to file -->
-        <amplif_factor s="15" t="15" />                <!-- x/s, y/t -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     </TEXTURE>
 
     <TEXTURE id="parede_japonesa">								<!-- Paisagem texture -->
