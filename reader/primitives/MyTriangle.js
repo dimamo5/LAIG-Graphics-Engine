@@ -82,7 +82,7 @@ MyTriangle.prototype.initBuffers = function() {
 	
 	this.texCoords = [
 		0.0, 0.0,
-	  	this.ab, 0,
+	  	this.ab, 0.0,
 	  	this.ac*Math.cos(this.alpha), this.bc*Math.sin(this.alpha),	
     ];
 
@@ -105,9 +105,9 @@ MyTriangle.prototype.initBuffers = function() {
 MyTriangle.prototype.updateTexCoords = function(s, t) {
 	
 	this.texCoords = [
-	  0.0, 0.0,
-	  this.ab/s, 0,
-	  (this.ab-this.bc*Math.cos(this.gamma))/s, (this.bc*Math.sin(this.gamma))/t,	  
+	  0.0, 1.0,
+	  this.ab/s, 1.0,
+	  (this.ab-this.bc*Math.cos(this.gamma))/s,1- (this.bc*Math.sin(this.gamma))/t,	  
     ];
 
 	this.updateTexCoordsGLBuffers();

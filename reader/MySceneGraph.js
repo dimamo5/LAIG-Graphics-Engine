@@ -44,7 +44,6 @@ MySceneGraph.prototype.checkOrder=function(rootElement){
 	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
 	for(var i =0;i<rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
-			//return rootElement.children[i].nodeName+" is in the wrong place!\t";
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
 		}
 	}
@@ -84,7 +83,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "translate element is missing or there are more than one element found.";
 	}
 
-	this.scene.translation = { x : this.reader.getFloat(translate[0],"x",true),
+	var translation = { x : this.reader.getFloat(translate[0],"x",true),
 					   y : this.reader.getFloat(translate[0],"y",true),
 					   z : this.reader.getFloat(translate[0],"z",true) };
 
@@ -99,6 +98,8 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "the number of rotation elements is diferent than expected";
 	}
 
+	var rotationX_angle,rotationY_angle,rotationZ_angle;
+
 	for(var i=0; i < nrot; i++){
 
 		var e = rotation[i];
@@ -106,15 +107,15 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 
 		switch (axis)	{
 			case "x":
-				this.scene.rotationX_angle = this.reader.getFloat(e,"angle",true);
+				rotationX_angle = this.reader.getFloat(e,"angle",true);
 				break;
 
 			case "y":			
-				this.scene.rotationY_angle = this.reader.getFloat(e,"angle",true);
+				rotationY_angle = this.reader.getFloat(e,"angle",true);
 				break;			
 
 			case "z":
-				this.scene.rotationZ_angle = this.reader.getFloat(e,"angle",true);
+				rotationZ_angle = this.reader.getFloat(e,"angle",true);
 				break;	
 
 			default:
@@ -123,7 +124,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	}
 
 	//verifica se algum dos eixos ficou por preencher
-	if( this.scene.rotationX_angle === undefined || this.scene.rotationY_angle === undefined || this.scene.rotationZ_angle === undefined)
+	if(rotationX_angle === undefined ||rotationY_angle === undefined ||rotationZ_angle === undefined)
 		return "error defining axis";
 
 	
@@ -133,18 +134,18 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "scale element is missing or there are more than one element found.";
 	}
 
-	this.scene.scale_initial = { sx : this.reader.getFloat(scale[0],"sx",true),
+	var scale_initial = { sx : this.reader.getFloat(scale[0],"sx",true),
 								 sy : this.reader.getFloat(scale[0],"sy",true),
 								 sz : this.reader.getFloat(scale[0],"sz",true) };
 
 
 	var matrix =mat4.create();
 
-	mat4.translate(matrix,matrix,vec3.fromValues(this.scene.translation.x,this.scene.translation.y,this.scene.translation.z));
-	mat4.rotateX(matrix,matrix,degToRad(this.scene.rotationX_angle));
-	mat4.rotateY(matrix,matrix,degToRad(this.scene.rotationY_angle));
-	mat4.rotateZ(matrix,matrix,degToRad(this.scene.rotationZ_angle));
-	mat4.scale(matrix,matrix,vec3.fromValues(this.scene.scale_initial.sx,this.scene.scale_initial.sy,this.scene.scale_initial.sz))
+	mat4.translate(matrix,matrix,vec3.fromValues(translation.x,translation.y,translation.z));
+	mat4.rotateX(matrix,matrix,degToRad(rotationX_angle));
+	mat4.rotateY(matrix,matrix,degToRad(rotationY_angle));
+	mat4.rotateZ(matrix,matrix,degToRad(rotationZ_angle));
+	mat4.scale(matrix,matrix,vec3.fromValues(scale_initial.sx,scale_initial.sy,scale_initial.sz));
 
 	this.scene.initialTransformation=matrix;
 
@@ -351,7 +352,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		return "no materials found";
 	}
 
-	this.scene.materials = new assocMap(); //boa pratica??
+	this.scene.materials = new assocMap();
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i < materialsList.length; i++){
@@ -512,16 +513,16 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		
 			if(child.nodeName == "TRANSLATION" ){				
 				transf.push(child.nodeName); 		//tipo da transformacao
-				transf.push(child.getAttributeNode("x").nodeValue);
-				transf.push(child.getAttributeNode("y").nodeValue);
-				transf.push(child.getAttributeNode("z").nodeValue);
+				transf.push(this.reader.getFloat(child,"x",true));
+				transf.push(this.reader.getFloat(child,"y",true));
+				transf.push(this.reader.getFloat(child,"z",true));
 
 				node_Obj.transformations.push(transf); 
 
 			}else if(child.nodeName == "ROTATION" ){				
 				transf.push(child.nodeName);		//tipo da transformacao
 
-				var axis=child.getAttributeNode("axis").nodeValue;
+				var axis=this.reader.getString(child,"axis",true);
 				switch(axis){
 					case("x"):
 						transf.push([1,0,0]);
@@ -534,16 +535,18 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 					case("z"):
 						transf.push([0,0,1]);
 					break;
+					default:
+						return "Undefined axis in node rotation";
 				}
-				transf.push(child.getAttributeNode("angle").nodeValue);
+				transf.push(this.reader.getFloat(child,"angle",true));
 
 				node_Obj.transformations.push(transf); 
 
 			}else if(child.nodeName == "SCALE" ){				
 				transf.push(child.nodeName);		//tipo da transformacao	
-				transf.push(child.getAttributeNode("sx").nodeValue);
-				transf.push(child.getAttributeNode("sy").nodeValue);
-				transf.push(child.getAttributeNode("sz").nodeValue);
+				transf.push(this.reader.getFloat(child,"sx",true));
+				transf.push(this.reader.getFloat(child,"sy",true));
+				transf.push(this.reader.getFloat(child,"sz",true));
 
 				node_Obj.transformations.push(transf); 
 

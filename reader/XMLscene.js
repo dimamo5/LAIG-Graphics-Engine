@@ -29,8 +29,10 @@ XMLscene.prototype.init = function (application) {
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
-	//this.gl.enable(this.gl.BLEND);
-	//this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
+	//Transparencia nas texturas
+	this.gl.enable(this.gl.BLEND);
+	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 	this.enableTextures(true);
 	
@@ -145,8 +147,6 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 
 		if(currNode.material_id=="null"){
 			nextMaterialId=materialId;
-		}else if(currNode.material_id=="clear"){
-			nextMaterialId=undefined;
 		}else{
 			nextMaterialId=currNode.material_id;
 		}

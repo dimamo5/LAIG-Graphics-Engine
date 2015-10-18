@@ -1,0 +1,108 @@
+<SCENE>
+
+<INITIALS>
+    <frustum near="0.1" far="500"/>                      <!-- frustum planes-->
+    <translation x="0" y="0" z="0" />                 <!-- initial translate -->
+    <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
+    <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
+    <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
+    <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
+    <reference length="0" />                          <!-- axis length; "0" means no axis-->
+</INITIALS>
+
+<ILLUMINATION>
+    <ambient r="0" g="0" b="0" a="1.0" />            <!-- global ambient -->
+    <background r="0.0" g="0.0" b="0" a="1.0" />         <!-- background color -->
+</ILLUMINATION>
+
+<LIGHTS>
+    <LIGHT id="l01">                                    <!-- light identifier -->
+        <enable value ="1" />                         <!-- enable/disable -->
+        <position x="0" y="2" z="2" w="1" />       <!-- light position -->
+        <ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
+        <diffuse r="1" g="1" b="1" a="1" />        <!-- diffuse component -->
+        <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
+    </LIGHT>
+	
+
+    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
+    
+</LIGHTS>
+
+
+<TEXTURES>
+    <TEXTURE id="minion">									<!-- Table texture -->
+        <file path="resources/image.jpg" />        <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
+	
+
+
+
+    <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
+    
+</TEXTURES>
+
+
+<MATERIALS>
+
+    <MATERIAL id="m01">  								<!-- Wood -->                                
+        <shininess value="120" />
+        <specular r="0.1" g="0.1" b="0.1" a="1" />        <!-- specular reflection -->
+        <diffuse r="0.4" g="0.2" b="0.2" a="1" />         <!-- diffuse reflection -->
+        <ambient r="0.4" g="0.2" b="0.2" a="1" />         <!-- ambient reflection -->
+        <emission r="0" g="0" b="0" a="1" />        <!-- emission component -->
+     </MATERIAL>
+
+
+
+
+    <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material requires a distinct "id" -->
+
+</MATERIALS>
+
+
+<LEAVES>
+    <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
+    <LEAF id="perna" type="cylinder" args="5 1 1 10 20" />
+	<LEAF id="fasecubo" type="rectangle" args="-0.5 0.5 0.5 -0.5" />
+	<LEAF id="abajurEsfera" type="sphere" args="1 20 20" />
+	<LEAF id="cilindroCandeiro" type="cylinder" args="2 0.07 0.07 5 10" />
+	<LEAF id="parede" type="rectangle" args="0 7 15 0 " />
+	<LEAF id="chao" type="rectangle" args="15 0 0 15" />
+	<LEAF id="vasoTronco" type ="cylinder" args="1 0.2 0.5 5 20" />
+	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0  0.5 0 0  0 1 0" />
+	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
+</LEAVES>
+
+
+<NODES>
+
+    <ROOT id="root" />     <!-- identifier of root node of the scene graph; this node     -->
+                         <!--   must be defined in one of the following NODE declarations -->
+
+	<NODE id="root">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <!-- next two lines are mandatory -->
+        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="minion" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+        	
+        	<DESCENDANT id="incensoTriangulo" />
+
+        </DESCENDANTS>
+
+    </NODE>
+
+	
+</NODES>
+
+
+</SCENE>
