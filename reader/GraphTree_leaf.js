@@ -13,12 +13,12 @@ retorna 1 array do tipo : { tipo de primitiva, arg1, arg2 ...}
 GraphTree_leaf.prototype.createObject = function(scene) {
     var array = [];
 
-    var str_splited = this.args.split(" "); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
-            for(var i=0;i<str_splited.length;i++){
+    var str_splited = this.args.split(/\s+/g); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
+            /*for(var i=0;i<str_splited.length;i++){
                 if(str_splited[i]===""){
                     str_splited.splice(i,1);
                 }
-            }
+            }*/
 
     switch(this.type){        
        
