@@ -33,7 +33,6 @@ MySceneGraph.prototype.checkOrder=function(rootElement){
 	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
 	for(var i =0;i<rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
-			//return rootElement.children[i].nodeName+" is in the wrong place!\t";
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
 		}
 	}
