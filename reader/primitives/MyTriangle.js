@@ -37,8 +37,6 @@ function MyTriangle(scene, x1,y1,z1,x2,y2,z2,x3,y3,z3){
 	this.beta = Math.acos(this.cosBeta);
 	this.alpha = Math.acos(this.cosAlpha);
 	this.gamma = Math.acos(this.cosGamma);
-	
-	console.log(this.alpha+this.beta+this.gamma);
 
     this.initBuffers();
 }
@@ -73,13 +71,13 @@ MyTriangle.prototype.initBuffers = function() {
 	  	this.ac*Math.cos(this.alpha), this.bc*Math.sin(this.alpha),	
     ];
 
-    console.log(this.ab);
+    /*console.log(this.ab);
     console.log(this.ac);
     console.log(this.bc);
 
     console.log("Alpha:"+this.alpha);
     console.log("beta:"+this.beta);
-    console.log("gamma:"+this.gamma);
+    console.log("gamma:"+this.gamma);*/
 
     this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();

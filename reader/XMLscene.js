@@ -58,8 +58,6 @@ XMLscene.prototype.onGraphLoaded = function ()
     	this.lightsOn[this.lights_map.get(i)] = this.lights[i].enabled; 
     }
 
-    this.initialTransformation=this.graph_tree.graphElements.get(this.graph_tree.root_id).getMatrix();
-
     this.interface.updateInterface();
 
 };

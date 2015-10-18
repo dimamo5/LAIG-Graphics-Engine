@@ -33,7 +33,8 @@ MySceneGraph.prototype.checkOrder=function(rootElement){
 	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
 	for(var i =0;i<rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
-			return rootElement.children[i].nodeName+" is in the wrong place!\t";
+			//return rootElement.children[i].nodeName+" is in the wrong place!\t";
+			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
 		}
 	}
 }
@@ -121,6 +122,17 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	this.scene.scale_initial = { sx : this.reader.getFloat(scale[0],"sx",true),
 								 sy : this.reader.getFloat(scale[0],"sy",true),
 								 sz : this.reader.getFloat(scale[0],"sz",true) };
+
+
+	var matrix =mat4.create();
+
+	mat4.translate(matrix,matrix,vec3.fromValues(this.scene.translation.x,this.scene.translation.y,this.scene.translation.z));
+	mat4.rotateX(matrix,matrix,degToRad(this.scene.rotationX_angle));
+	mat4.rotateY(matrix,matrix,degToRad(this.scene.rotationY_angle));
+	mat4.rotateZ(matrix,matrix,degToRad(this.scene.rotationZ_angle));
+	mat4.scale(matrix,matrix,vec3.fromValues(this.scene.scale_initial.sx,this.scene.scale_initial.sy,this.scene.scale_initial.sz))
+
+	this.scene.initialTransformation=matrix;
 
 	//reference
 	var reference = elems[0].getElementsByTagName('reference');
