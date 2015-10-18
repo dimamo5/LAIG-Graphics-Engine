@@ -1,3 +1,7 @@
+/**
+ * Represents a graph tree
+ * @constructor
+ */
 function GraphTree() {
 
     this.root_id;

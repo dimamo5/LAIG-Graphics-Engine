@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MySceneGraph.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: MySceneGraph.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Represents a scene graph
  * @constructor 
  * @param {string} filename - scene's graph file name
@@ -42,7 +70,7 @@ MySceneGraph.prototype.verifyError = function(error){
  */
 MySceneGraph.prototype.checkOrder=function(rootElement){
 	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
-	for(var i =0;i<rootElement.children.length;i++){
+	for(var i =0;i&lt;rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
 			//return rootElement.children[i].nodeName+" is in the wrong place!\t";
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
@@ -50,7 +78,7 @@ MySceneGraph.prototype.checkOrder=function(rootElement){
 	}
 }
 
-/* >>>>>>>>>>>>>>>>>>>>>>>>  Elements parser  <<<<<<<<<<<<<<<<<<<<<<<<< */
+/* >>>>>>>>>>>>>>>>>>>>>>>>  Elements parser  &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; */
 
 /**
  * Parser of the initials's nodes
@@ -99,7 +127,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "the number of rotation elements is diferent than expected";
 	}
 
-	for(var i=0; i < nrot; i++){
+	for(var i=0; i &lt; nrot; i++){
 
 		var e = rotation[i];
 		var axis = this.reader.getString(e,"axis",true);
@@ -170,7 +198,7 @@ MySceneGraph.prototype.parseIlumination= function(rootElement){
 	}
 
 	if (elems.length != 1) {
-		return "either zero or more than one <ILLUMINATION> element found.";
+		return "either zero or more than one &lt;ILLUMINATION> element found.";
 	}
 	
 	//ambient
@@ -208,7 +236,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	}
 
 	if (elems.length != 1) {
-		return "either zero or more than one <LIGHTS> element found.";
+		return "either zero or more than one &lt;LIGHTS> element found.";
 	}
 
 	//retorna lista de elementos "LIGHT" abaixo do node "LIGHTS"
@@ -221,7 +249,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	this.scene.lights_map = new assocMap();
 
 	//carrega todos os elementos "light"
-	for(var i = 0; i < lightsList.length; i++){
+	for(var i = 0; i &lt; lightsList.length; i++){
 		
 		var light_id = this.reader.getString(lightsList[i],"id",true );
 
@@ -310,7 +338,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 	this.scene.textures =  new assocMap(); //boa pratica
 
 	//carrega todos os elementos "texture"
-	for(var i = 0; i < texturesList.length; i++){
+	for(var i = 0; i &lt; texturesList.length; i++){
 		var id = this.reader.getString(texturesList[i],"id",true);
 
 		var file = texturesList[i].getElementsByTagName('file');
@@ -354,7 +382,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	this.scene.materials = new assocMap(); //boa pratica??
 
 	//carrega todos os elementos "materials"
-	for(var i = 0; i < materialsList.length; i++){
+	for(var i = 0; i &lt; materialsList.length; i++){
 		var id = this.reader.getString(materialsList[i],"id",true);
 
 		var shininess = materialsList[i].getElementsByTagName('shininess');
@@ -438,7 +466,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		return "no leaves found";
 	}
 
-	for(var i= 0; i < leavesList.length; i++){
+	for(var i= 0; i &lt; leavesList.length; i++){
 
 		var id = this.reader.getString(leavesList[i],"id",true);		
 		var type = this.reader.getString(leavesList[i],"type",true);
@@ -482,7 +510,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 	}
 
 	//leitura dos nodes
-	for(var i = 0; i < nodeslist.length; i++){
+	for(var i = 0; i &lt; nodeslist.length; i++){
 
 		var node_id = this.reader.getString(nodeslist[i],"id",true);
 
@@ -506,7 +534,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		var child = nodeslist[i].firstChild;
 		 
 		//leitura das transformacoes para array devido 
-		for(var j = 0; j < childList_length; j++){
+		for(var j = 0; j &lt; childList_length; j++){
 			
 			var transf = [];
 		
@@ -561,7 +589,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 		var descendantsList = descendants_elems[0].getElementsByTagName('DESCENDANT');
 
-		for(var j = 0; j < descendantsList.length; j++){
+		for(var j = 0; j &lt; descendantsList.length; j++){
 			var id = this.reader.getString(descendantsList[j],"id",true);
 			node_Obj.descendants.push(id);
 		}
@@ -588,10 +616,10 @@ MySceneGraph.prototype.onXMLReady=function()
 				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
-	for(var i = 0; i < parser.length; i++){
+	for(var i = 0; i &lt; parser.length; i++){
 		error = parser[i].call(this,rootElement);
 
-		if (error !== null && error !== undefined) {
+		if (error !== null &amp;&amp; error !== undefined) {
 			this.onXMLError(error);
 		return;
 		}
@@ -611,4 +639,26 @@ MySceneGraph.prototype.onXMLReady=function()
 MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);	
 	this.loadedOk=false;
-};
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="assocMap.html">assocMap</a></li><li><a href="GraphTree.html">GraphTree</a></li><li><a href="GraphTree_leaf.html">GraphTree_leaf</a></li><li><a href="GraphTree_node.html">GraphTree_node</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MyTexture.html">MyTexture</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#degToRad">degToRad</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Sun Oct 18 2015 17:02:10 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
