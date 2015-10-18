@@ -1,3 +1,10 @@
+/**
+ * Represents a graph tree node
+ * @constructor
+ * @param {integer} id - texture's id
+ * @param {integer} material_id - material's id
+ * @param {integer} texture_id - texture's id
+ */
 function GraphTree_node(id,material_id,texture_id) {
 
     this.id = id;
@@ -8,10 +15,13 @@ function GraphTree_node(id,material_id,texture_id) {
     this.transformations= []; //formato : { ["tipo_transf",val1,val2,...] , [] , ...}
 }
 
+
+/** Creates transformations's matrix */
 GraphTree_node.prototype.getMatrix=function(){
-    var matrix=mat4.create();
+    var matrix=mat4.create(); //gera matriz
     mat4.identity(matrix);
 
+	//aplica transformacoes a matriz
     for(var i=0;i<this.transformations.length;i++){
         if(this.transformations[i][0]=="TRANSLATION"){
             mat4.translate(matrix,matrix,vec3.fromValues(this.transformations[i][1],this.transformations[i][2],this.transformations[i][3]));
@@ -22,11 +32,14 @@ GraphTree_node.prototype.getMatrix=function(){
         }
     }
 
-    return matrix;
-    
+    return matrix;    
 };
 
+/**
+ * Converts degrees to radians
+ * @param {integer} degrees - degrees value to be converted
+ */
 function degToRad(degrees) {
         return degrees * Math.PI / 180;
-    }
+}
 

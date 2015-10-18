@@ -1,8 +1,7 @@
 /**
  * MyInterface
  * @constructor
- */
-  
+ */  
 function MyInterface() {
 	//call CGFinterface constructor 
 	CGFinterface.call(this);
@@ -28,18 +27,19 @@ MyInterface.prototype.init = function(application) {
 	return true;
 };
 
+/**
+ * update
+ */
 MyInterface.prototype.updateInterface = function(){
     var group = this.gui.addFolder('Luzes');
     group.open();
 
     var interface = this;
-
+	
+	//actualiza as luzes na interface
     for (onOff in this.scene.lightsOn) {
         group.add(this.scene.lightsOn, onOff).onChange(function(enabled) {
             interface.scene.updateGuiLights(this.property, enabled);
         });
-    }
-
-	
-	
+    }	
 };
