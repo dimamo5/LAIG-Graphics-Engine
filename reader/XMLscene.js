@@ -128,8 +128,6 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 
 		if(currNode.material_id=="null"){
 			nextMaterialId=materialId;
-		}else if(currNode.material_id=="clear"){
-			nextMaterialId=undefined;
 		}else{
 			nextMaterialId=currNode.material_id;
 		}
