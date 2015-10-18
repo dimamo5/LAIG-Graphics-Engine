@@ -23,17 +23,23 @@ MyInterface.prototype.init = function(application) {
 	//  http://workshop.chromeexperiments.com/examples/gui
 	
 	this.gui = new dat.GUI();
-	
-	var group = this.gui.addFolder("Luzes");
-	group.open();
-	
-	console.log("interface");
-
-	group.add(this.scene, 'luz1');
-	group.add(this.scene, 'luz2');
-	group.add(this.scene, 'luz3');
-
-
-	
+	this.scene=application.scene;
+		
 	return true;
+};
+
+MyInterface.prototype.updateInterface = function(){
+    var group = this.gui.addFolder('Luzes');
+    group.open();
+
+    var interface = this;
+
+    for (onOff in this.scene.lightsOn) {
+        group.add(this.scene.lightsOn, onOff).onChange(function(enabled) {
+            interface.scene.updateGuiLights(this.property, enabled);
+        });
+    }
+
+	
+	
 };

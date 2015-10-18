@@ -30,6 +30,7 @@ main=function()
     app.setInterface(myInterface);
 
     myInterface.setActiveCamera(myScene.camera);
+    myScene.setInterface(myInterface);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 

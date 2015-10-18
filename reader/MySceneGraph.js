@@ -251,7 +251,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		else 
 			this.scene.lights[i].disable();
 
-		this.scene.lights_map.add(light_id,i);
+		this.scene.lights_map.add(i,light_id);
 	}
 };
 
@@ -456,38 +456,6 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 		//instanciação do node
 		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
-
-		if(this.scene.graph_tree.root_id==node_Obj.id){
-				var temp=[];
-				temp.push("TRANSLATION");
-				temp.push(this.scene.translation.x);
-				temp.push(this.scene.translation.y);
-				temp.push(this.scene.translation.z);	
-
-				node_Obj.transformations.push(temp);
-
-				temp=[];
-
-				temp.push("ROTATION",[1,0,0],this.scene.rotationX_angle);
-				node_Obj.transformations.push(temp);
-				temp=[];
-
-				temp.push("ROTATION",[0,1,0],this.scene.rotationY_angle);
-				node_Obj.transformations.push(temp);
-				temp=[];
-				
-				temp.push("ROTATION",[0,0,1],this.scene.rotationZ_angle);
-				node_Obj.transformations.push(temp);
-				temp=[];
-
-				temp.push("SCALE");
-				temp.push(this.scene.scale_initial.sx);
-				temp.push(this.scene.scale_initial.sy);
-				temp.push(this.scene.scale_initial.sz);
-
-				node_Obj.transformations.push(temp);
-				
-			}
 
 		//tamanho da lista dos filhos do node (texture,material,translation...)
 		var childList_length = nodeslist[i].childNodes.length;

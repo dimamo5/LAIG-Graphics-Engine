@@ -22,7 +22,7 @@ MyCylinderSurface.prototype.initBuffers = function() {
 	var decremento = (this.tRadius - this.bRadius) / this.stacks;
 	var raio_actual;
 
-	var s=0,t=0;
+	var s=0,t=1;
 
 	this.vertices=[];
  	this.normals=[];
@@ -49,7 +49,7 @@ MyCylinderSurface.prototype.initBuffers = function() {
  			s+=1/this.slices;
  		}
  		s=0;
- 		t += 1/this.stacks;
+ 		t -= 1/this.stacks;
  	}
 
  	this.indices=[];

@@ -10,12 +10,10 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
-	this.luz1 = true;
-	this.luz2 = true;
-	this.luz3 = true;
+	this.lightsOn=[];
 
     this.initCameras();
-    this.initLights();
+    //this.initLights();
 
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);	
     this.gl.clearDepth(100.0);
@@ -26,24 +24,13 @@ XMLscene.prototype.init = function (application) {
 	//this.gl.enable(this.gl.BLEND);
 	//this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
-    
-	
 	this.enableTextures(true);
 	
 	this.materialDefault = new CGFappearance(this);
 
 	this.axis=new CGFaxis(this);
 
-	this.setUpdatePeriod(100);
-};
-
-XMLscene.prototype.initLights = function () {
-	
-	this.setGlobalAmbientLight(0,0,0,1.0);
-
-	this.shader.bind();
-
-	this.shader.unbind();
+	this.interface={};
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -67,6 +54,14 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.axis = new CGFaxis(this,this.axis_length);
 	this.gl.clearColor(this.background.r,this.background.g, this.background.b, this.background.a);
 
+	for (var i = 0; i < this.lights_map.length; i++) {
+    	this.lightsOn[this.lights_map.get(i)] = this.lights[i].enabled; 
+    }
+
+    this.initialTransformation=this.graph_tree.graphElements.get(this.graph_tree.root_id).getMatrix();
+
+    this.interface.updateInterface();
+
 };
 
 XMLscene.prototype.updateLights = function() {
@@ -75,6 +70,10 @@ XMLscene.prototype.updateLights = function() {
 		this.lights[j].update();
 	}
 };
+
+XMLscene.prototype.setInterface=function(interface){
+	this.interface=interface;
+}
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
@@ -92,8 +91,6 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	this.setDefaultAppearance();
-
-	//this.updateLights();
 	
 	this.axis.display();		
 	
@@ -105,6 +102,7 @@ XMLscene.prototype.display = function () {
 
 	if (this.graph.loadedOk === true)
 	{
+		this.multMatrix(this.initialTransformation);
 		this.updateLights();
 		this.getObjects(this.graph_tree.root_id);
 	}
@@ -171,25 +169,14 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 		}
 }
 
-XMLscene.prototype.updateGuiLights = function (){ 
-	if(this.luz1){
-		this.lights[0].enable();
+XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
+	for (var i = 0; i < this.lights_map.length; i++) {
+		if (this.lights_map.get(i) == lightId) {
+			if(this.lights[i].enabled){
+				this.lights[i].disable();
+			}else this.lights[i].enable();		
+			
+		}
 	}
-	else this.lights[0].disable();
-
-	if(this.luz2){
-		this.lights[1].enable();
-	}
-	else this.lights[1].disable();
-
-	if(this.luz3){
-		this.lights[2].enable();
-	}
-	else 
-		this.lights[2].disable();
-};
-
-
-XMLscene.prototype.update = function(currTime){
-	this.updateGuiLights();
+	return;
 }
