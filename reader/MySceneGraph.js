@@ -419,6 +419,91 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	}
 };
 
+
+MySceneGraph.prototype.parseAnimations = function(rootElement) {
+
+	var elems = rootElement.getElementsByTagName('ANIMATIONS');	
+	if (elems === null) {
+		return "ANIMATIONS element is missing.";
+	}
+
+	if (elems.length != 1) {
+		return "either zero or more than one ANIMATIONS element found.";
+	}
+	
+	var animationList = elems[0].getElementsByTagName('ANIMATION');
+	if(materialsList.length === 0){
+		return "no materials found";
+	}
+
+	this.scene.animations = new assocMap();
+
+	//carrega todos os elementos "materials"
+	for(var i = 0; i < animationList.length; i++){
+		var id = this.reader.getString(animationList[i],"id",true);
+
+		var span = this.reader.getFloat(animationList[i],"span",true);
+
+		var type = this.reader.getString(animationList[i],"type",true);		
+
+		if(type !== null && type=="circular") {
+			var center=this.reader.getString(animationList[i],"center",true);
+			var radius=this.reader.getFloat(animationList[i],"radius",true);
+			var center=this.reader.getFloat(animationList[i],"startang",true);
+			var center=this.reader.getFloat(animationList[i],"rotang",true);
+		}else if(type !== null && type=="linear") {
+			//CONITNUAR AQUI
+		}
+
+		var specullarList = { r : this.reader.getFloat(specullar[0],"r",true),
+						      g : this.reader.getFloat(specullar[0],"g",true),
+							  b : this.reader.getFloat(specullar[0],"b",true),
+							  a : this.reader.getFloat(specullar[0],"a",true) };
+
+		var diffuse = materialsList[i].getElementsByTagName('diffuse');
+		if(diffuse[0] === null || diffuse.length != 1) {
+			return "diffuse element is missing or there are more than one element found.";
+		}
+
+		var diffuseList = { r : this.reader.getFloat(diffuse[0],"r",true),
+							g : this.reader.getFloat(diffuse[0],"g",true),
+							b : this.reader.getFloat(diffuse[0],"b",true),
+							a : this.reader.getFloat(diffuse[0],"a",true) };
+
+		var ambient = materialsList[i].getElementsByTagName('ambient');
+		if(ambient[0] === null || ambient.length != 1) {
+			return "ambient element is missing or there are more than one element found.";
+		}
+
+		var ambientList = { r : this.reader.getFloat(ambient[0],"r",true),
+							g : this.reader.getFloat(ambient[0],"g",true),
+							b : this.reader.getFloat(ambient[0],"b",true),
+							a : this.reader.getFloat(ambient[0],"a",true) };
+
+		var emission = materialsList[i].getElementsByTagName('emission');
+		if(emission[0] === null || emission.length != 1) {
+			return "emission element is missing or there are more than one element found.";
+		}
+
+		var emissionList = { r : this.reader.getFloat(emission[0],"r",true),
+							 g : this.reader.getFloat(emission[0],"g",true),
+							 b : this.reader.getFloat(emission[0],"b",true),
+							 a : this.reader.getFloat(emission[0],"a",true) };
+
+
+		var material_Obj = new CGFappearance(this.scene);
+
+		//sets dos atributos da CGFAppearance
+		material_Obj.setShininess(shininess_value);
+		material_Obj.setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);		
+		material_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
+		material_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
+		material_Obj.setEmission(emissionList.r,emissionList.g,emissionList.b,emissionList.a);
+
+		this.scene.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
+	}
+};
+
 /**
  * Parses the leafs
  * @param {object} rootElement - root node
