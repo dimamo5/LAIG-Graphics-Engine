@@ -6,8 +6,8 @@
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="0" />                          <!-- axis length; "0" means no axis-->
+    <scale sx="0.5" sy="0.5" sz="0.5" />                  <!-- initial scaling -->
+    <reference length="10" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
 <ILLUMINATION>
@@ -516,7 +516,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -540,7 +540,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -563,7 +563,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -587,7 +587,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -777,7 +777,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -800,7 +800,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="m01" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="t01" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
