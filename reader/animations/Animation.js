@@ -1,4 +1,9 @@
-function Animation(id, type,span){
+function Animation(id,span ,type){
+	this.id=id;
+	this.type=type;
+	this.span=span;
+
+
 	this.frameTime=0;
 	this.currentTime;
 	

@@ -458,7 +458,7 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 			anim= new LinearAnimation(id,span,type);
 
 			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
-			if (controlpoints === null) {
+			if (controlpoints === null && controlpoints<2) {
 				return "Control Points element is missing.";
 			}
 

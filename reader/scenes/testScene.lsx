@@ -147,10 +147,11 @@
 </MATERIALS>
 
 <ANIMATIONS>
-	<ANIMATION id="testeAnim" span="1" type="linear">
+	<ANIMATION id="testeAnim" span="4" type="linear">
+		<CONTROLPOINT xx="0" yy="0" zz="0"/>
 		<CONTROLPOINT xx="0" yy="0" zz="2"/>
 		<CONTROLPOINT xx="0" yy="2" zz="2"/>
-		<CONTROLPOINT xx="0" yy="0" zz="2"/>
+		<CONTROLPOINT xx="2" yy="2" zz="2"/>
 	</ANIMATION>
 
 </ANIMATIONS>

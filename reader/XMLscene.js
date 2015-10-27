@@ -127,7 +127,10 @@ XMLscene.prototype.display = function () {
 		this.multMatrix(this.initialTransformation);
 		this.updateLights();
 		this.getObjects(this.graph_tree.root_id);
+		console.log(this.animations[0].getMatrix());
 	}
+
+
 
     this.shader.unbind();
 };
@@ -162,6 +165,7 @@ XMLscene.prototype.getObjects = function (currNodeId,textId,materialId) {
 		for(var i =0; i<currNode.descendants.length;i++){
 			this.pushMatrix();
 			this.multMatrix(currNode.getMatrix());
+			//this.multMatrix(this.animations[0].getMatrix());
 
 			this.getObjects(currNode.descendants[i],nextTextId,nextMaterialId);
 			this.popMatrix();
