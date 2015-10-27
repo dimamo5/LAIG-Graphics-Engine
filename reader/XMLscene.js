@@ -19,9 +19,10 @@ XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
 	this.lightsOn=[];
+	this.animations=[];
 
     this.initCameras();
-    //this.initLights();
+    
 
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);	
     this.gl.clearDepth(100.0);
@@ -41,6 +42,8 @@ XMLscene.prototype.init = function (application) {
 	this.axis=new CGFaxis(this);
 
 	this.interface={};
+
+	this.setUpdatePeriod(100);
 };
 
 /** Initializes cameras */
@@ -70,6 +73,11 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 	for (var i = 0; i < this.lights_map.length; i++) {
     	this.lightsOn[this.lights_map.get(i)] = this.lights[i].enabled; 
+    }
+
+    for(var i =0;i<this.animations.length;i++){
+    	this.animations[i].calcDistance();
+    	console.log(this.animations[i].totalDistance);
     }
 
     this.interface.updateInterface();
@@ -201,4 +209,11 @@ XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
 		}
 	}
 	return;
+}
+
+
+XMLscene.prototype.update=function(currTime){
+	for(var i = 0; i< this.animations.length;i++){
+		this.animations[i].addTime(currTime);
+	}
 }

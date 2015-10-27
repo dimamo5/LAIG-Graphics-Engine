@@ -41,7 +41,7 @@ MySceneGraph.prototype.verifyError = function(error){
  * @param {object} rootElement - root node
  */
 MySceneGraph.prototype.checkOrder=function(rootElement){
-	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
+	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS","ANIMATIONS", "LEAVES", "NODES"];
 	for(var i =0;i<rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
@@ -432,14 +432,16 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 	}
 	
 	var animationList = elems[0].getElementsByTagName('ANIMATION');
-	if(materialsList.length === 0){
-		return "no materials found";
+	if(animationList.length === 0){
+		return "no animation found";
 	}
 
-	this.scene.animations = new assocMap();
+	this.scene.animations=[];
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i < animationList.length; i++){
+		var anim;
+
 		var id = this.reader.getString(animationList[i],"id",true);
 
 		var span = this.reader.getFloat(animationList[i],"span",true);
@@ -449,58 +451,27 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 		if(type !== null && type=="circular") {
 			var center=this.reader.getString(animationList[i],"center",true);
 			var radius=this.reader.getFloat(animationList[i],"radius",true);
-			var center=this.reader.getFloat(animationList[i],"startang",true);
-			var center=this.reader.getFloat(animationList[i],"rotang",true);
+			var startang=this.reader.getFloat(animationList[i],"startang",true);
+			var rotang=this.reader.getFloat(animationList[i],"rotang",true);
+
 		}else if(type !== null && type=="linear") {
-			//CONITNUAR AQUI
+			anim= new LinearAnimation(id,span,type);
+
+			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
+			if (controlpoints === null) {
+				return "Control Points element is missing.";
+			}
+
+			for(var cp=0;cp<controlpoints.length;cp++){
+				var x=this.reader.getFloat(controlpoints[cp],"xx",true);
+				var y=this.reader.getFloat(controlpoints[cp],"yy",true);
+				var z=this.reader.getFloat(controlpoints[cp],"zz",true);
+				anim.addControlPoint(x,y,z);
+			}
 		}
 
-		var specullarList = { r : this.reader.getFloat(specullar[0],"r",true),
-						      g : this.reader.getFloat(specullar[0],"g",true),
-							  b : this.reader.getFloat(specullar[0],"b",true),
-							  a : this.reader.getFloat(specullar[0],"a",true) };
-
-		var diffuse = materialsList[i].getElementsByTagName('diffuse');
-		if(diffuse[0] === null || diffuse.length != 1) {
-			return "diffuse element is missing or there are more than one element found.";
-		}
-
-		var diffuseList = { r : this.reader.getFloat(diffuse[0],"r",true),
-							g : this.reader.getFloat(diffuse[0],"g",true),
-							b : this.reader.getFloat(diffuse[0],"b",true),
-							a : this.reader.getFloat(diffuse[0],"a",true) };
-
-		var ambient = materialsList[i].getElementsByTagName('ambient');
-		if(ambient[0] === null || ambient.length != 1) {
-			return "ambient element is missing or there are more than one element found.";
-		}
-
-		var ambientList = { r : this.reader.getFloat(ambient[0],"r",true),
-							g : this.reader.getFloat(ambient[0],"g",true),
-							b : this.reader.getFloat(ambient[0],"b",true),
-							a : this.reader.getFloat(ambient[0],"a",true) };
-
-		var emission = materialsList[i].getElementsByTagName('emission');
-		if(emission[0] === null || emission.length != 1) {
-			return "emission element is missing or there are more than one element found.";
-		}
-
-		var emissionList = { r : this.reader.getFloat(emission[0],"r",true),
-							 g : this.reader.getFloat(emission[0],"g",true),
-							 b : this.reader.getFloat(emission[0],"b",true),
-							 a : this.reader.getFloat(emission[0],"a",true) };
-
-
-		var material_Obj = new CGFappearance(this.scene);
-
-		//sets dos atributos da CGFAppearance
-		material_Obj.setShininess(shininess_value);
-		material_Obj.setSpecular(specullarList.r,specullarList.g,specullarList.b,specullarList.a);		
-		material_Obj.setDiffuse(diffuseList.r,diffuseList.g,diffuseList.b,diffuseList.a);
-		material_Obj.setAmbient(ambientList.r,ambientList.g,ambientList.b,ambientList.a);
-		material_Obj.setEmission(emissionList.r,emissionList.g,emissionList.b,emissionList.a);
-
-		this.scene.materials.add(id, material_Obj); //carrega elemento "material" para arraya associativo
+		this.scene.animations.push(anim); //carrega elemento "material" para arraya associativo
+		console.log(this.scene.animations);
 	}
 };
 
@@ -583,6 +554,14 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 			return "node TEXTURE not found or more that one found";
 
 		var texture_id = this.reader.getString(texture[0], "id",true);
+
+		var animation = nodeslist[i].getElementsByTagName('ANIMATION');
+
+		if(animation.length > 1)
+			return "node ANIMATION more that one found";	
+		else if(animation.length!=0){
+			var animation_id = this.reader.getString(animation[0], "id",true);
+		}
 
 		//instanciação do node
 		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
@@ -673,7 +652,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
 	var parser = [ this.checkOrder,this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
-				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
+				   this.parseMaterials,this.parseAnimations, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i < parser.length; i++){

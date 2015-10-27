@@ -1,4 +1,4 @@
-function CircularAnimation(this,id, type,span,center,radius,startAng,rotAng){
+function CircularAnimation(id, type,span,center,radius,startAng,rotAng){
 	Animation.call(id,type,span);
 	//this.centerX=centerX;
 	//this.centerY=centerY;

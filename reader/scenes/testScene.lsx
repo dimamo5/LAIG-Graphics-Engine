@@ -146,6 +146,15 @@
 
 </MATERIALS>
 
+<ANIMATIONS>
+	<ANIMATION id="testeAnim" span="1" type="linear">
+		<CONTROLPOINT xx="0" yy="0" zz="2"/>
+		<CONTROLPOINT xx="0" yy="2" zz="2"/>
+		<CONTROLPOINT xx="0" yy="0" zz="2"/>
+	</ANIMATION>
+
+</ANIMATIONS>
+
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
@@ -205,6 +214,8 @@
         <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
+		
+		<ANIMATION id="testeAnim" />
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
         <ROTATION axis="y" angle="90" />
