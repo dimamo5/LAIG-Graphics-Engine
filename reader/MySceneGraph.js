@@ -468,10 +468,14 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 					var y=this.reader.getFloat(leavesList[i].children[cp],"yy",true);
 					var z=this.reader.getFloat(leavesList[i].children[cp],"zz",true);
 				}
-				controlpoint.push([x,y,z]);
+				controlpoints.push([x,y,z,1]);
 			}
 
 			leaf_Obj.createPatchObject(this.scene,order,partsU,partsV,controlpoints);
+		}
+
+		if(type=="vehicle"){
+			leaf_Obj.createVehicleObject(this.scene);
 		}
 		
 

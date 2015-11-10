@@ -17,7 +17,7 @@ MyPlane.prototype.display = function() {
     
     
     
-    var nurbsSurface = new CGFnurbsSurface(1,1,[0, 1, 0, 1],[0, 1, 0, 1],[[ [-1.0, 0.0, 1.0, 1],[-1.0, 0.0, -1.0, 1]], [[1.0, 0.0, 1.0, 1],[1.0, 0.0, -1.0, 1]]]);
+    var nurbsSurface = new CGFnurbsSurface(1,1,[0, 0, 1, 1],[0, 0, 1, 1],[[ [-0.5, 0.0, 0.5, 1],[-0.5, 0.0, -0.5, 1]], [[0.5, 0.0, 0.5, 1],[0.5, 0.0, -0.5, 1]]]);
    
      
     getSurfacePoint = function(u, v) {

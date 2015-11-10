@@ -78,7 +78,21 @@
 	<LEAF id="vasoTronco" type ="cylinder" args="1 0.2 0.5 5 20" />
 	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0  0.5 0 0  0 1 0" />
 	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
-	<LEAF id="plano" type="plane" parts="5" />
+	<!-- <LEAF id="plano" type="plane" parts="5" /> -->
+	<LEAF id="plano" type="patch" order="2" partsU="15" partsV="15">
+		<controlpoint xx="-1" yy="0.5" zz="0" />
+		<controlpoint xx="-1" yy="0" zz="0" />
+		<controlpoint xx="-1" yy="-0.5" zz="0" />
+
+		<controlpoint xx="0" yy="0" zz="3" />
+		<controlpoint xx="0" yy="-2" zz="3" />
+		<controlpoint xx="0" yy="2" zz="3" />
+
+		<controlpoint xx="1" yy="0.5" zz="0" />
+		<controlpoint xx="1" yy="0" zz="0" />
+		<controlpoint xx="1" yy="-0.5" zz="0" />
+	</LEAF>
+
 </LEAVES>
 
 

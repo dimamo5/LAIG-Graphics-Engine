@@ -1,4 +1,4 @@
-function MyPatch(scene,order nrDivsU,nrDivsV,controlPoint) {
+function MyPatch(scene,order, nrDivsU,nrDivsV,controlPoint) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.order=order;
@@ -14,7 +14,10 @@ MyPatch.prototype.constructor = MyPatch;
 
 MyPatch.prototype.display = function() {
 
-    var nurbsSurface = new CGFnurbsSurface(this.order,this.order,[0, 1, 0, 1],[0, 1, 0, 1],[[ [-1.0, 0.0, 1.0, 1],[-1.0, 0.0, -1.0, 1]], [[1.0, 0.0, 1.0, 1],[1.0, 0.0, -1.0, 1]]]);
+    var cp =this.getControlPoints();
+    var knot =this.getKnotPoint();
+    
+    var nurbsSurface = new CGFnurbsSurface(this.order,this.order,knot,knot,cp);
    
      
     getSurfacePoint = function(u, v) {
@@ -22,22 +25,31 @@ MyPatch.prototype.display = function() {
     }
     ;
     
-    var obj = new CGFnurbsObject(this.scene,getSurfacePoint,this.nrDivs,this.nrDivs);
+    var obj = new CGFnurbsObject(this.scene,getSurfacePoint,this.nrDivsU,this.nrDivsV);
     obj.display();
 
 }
 ;
 
-MyPatch.prototype.getControlPoints(this.controlPoint,u,v){
+MyPatch.prototype.getControlPoints=function(){
     var controlPoints=[];
-    for(var s=0;s<=u;s++){
+    var ind=0;
+    for(var s=0;s<=this.order;s++){
         var temp=[];
-        for(var t=0;t<=v;t++){
-           temp.push(this.controlPoint[s*t+t]);
+        for(var t=0;t<=this.order;t++){
+           temp.push(this.controlPoint[ind]);
+           ind++;
         }
         controlPoints.push(temp);
     }
     return controlPoints;
+}
+
+MyPatch.prototype.getKnotPoint = function(){
+    var antes=Array(this.order+1).fill(0);
+    var depois =Array(this.order+1).fill(1);
+    return antes.concat(depois);
+
 }
 
 //[-1.0, 0.0, 1.0, 1],[-1.0, 0.0, -1.0, 1], [1.0, 0.0, 1.0, 1],[1.0, 0.0, -1.0, 1]

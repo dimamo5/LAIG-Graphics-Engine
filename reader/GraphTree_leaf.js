@@ -77,5 +77,9 @@ GraphTree_leaf.prototype.createPlaneObject = function(scene,parts){
 }
 
 GraphTree_leaf.prototype.createPatchObject = function(scene, order,partsU,partsV,controlPoints){
-    this.object=new MyPlane(scene,order,partsU,partsV,controlPoints);  
+    this.object=new MyPatch(scene,order,partsU,partsV,controlPoints);  
+}
+
+GraphTree_leaf.prototype.createVehicleObject = function(scene){
+    this.object = new MyVehicle(scene);
 }
