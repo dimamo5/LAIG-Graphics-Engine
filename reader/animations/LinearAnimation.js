@@ -32,20 +32,22 @@ LinearAnimation.prototype.getDeslocationVector = function() {
 LinearAnimation.prototype.getMatrix = function() {
     var timeControlPoint = vec3.length(this.deslocationVector) / this.velocity;
     
-    if (this.frameTime > timeControlPoint && this.currentControlPoint <= (this.controlPoint.length) &&!this.done) {
+    if (this.frameTime > timeControlPoint && this.currentControlPoint <= (this.controlPoint.length) && !this.done) {
+        
         this.currentControlPoint++;
         this.frameTime -= timeControlPoint;
+        
         if (this.currentControlPoint == this.controlPoint.length) {
             this.deslocationVector = vec3.fromValues(0, 0, 0);
         } else {
             this.deslocationVector = this.getDeslocationVector();
+            //console.log(this.calcRotation(this.deslocationVector));
         }
     }
     
     if (this.currentControlPoint == this.controlPoint.length) {
         this.done = true;
         timeControlPoint = 1;
-        //console.log("done",this.currentControlPoint, this.deslocationVector,timeControlPoint);
     }
     
     var matrix = mat4.create();
@@ -55,10 +57,16 @@ LinearAnimation.prototype.getMatrix = function() {
     this.deslocationVector[0] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint - 1][0], 
     this.deslocationVector[1] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint - 1][1], 
     this.deslocationVector[2] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint - 1][2]));
-    
-    console.log(this.calcRotation(this.deslocationVector));
-    mat4.rotateY(matrix, matrix, this.calcRotation(this.deslocationVector));
-    
+      
+    if (this.done == true) {  //mantem posicao final        
+        var vector = vec3.create();
+        vec3.subtract(vector, this.controlPoint[this.currentControlPoint - 1], this.controlPoint[this.currentControlPoint - 2]);
+        mat4.rotateY(matrix, matrix, this.calcRotation(vector));
+    } 
+    else {
+        mat4.rotateY(matrix, matrix, this.calcRotation(this.deslocationVector));
+    }
+
     return matrix;
 }
 

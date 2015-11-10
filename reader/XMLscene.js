@@ -153,7 +153,7 @@ XMLscene.prototype.display = function() {
 XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
     var currNode = this.graph_tree.graphElements.get(currNodeId);
     var nextTextId, nextMaterialId;
-    
+    var matrixAnim= mat4.create();
     
     if (currNode instanceof GraphTree_node) {
         
@@ -170,11 +170,22 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         } else {
             nextMaterialId = currNode.material_id;
         }
+
+        if(currNode.animation_id != "null"){
+            for(var i=0;i<this.animations.length;i++){
+                if(this.animations[i].id==currNode.animation_id){
+                    matrixAnim=this.animations[i].getMatrix();  
+                    break;
+                }
+            }
+                      
+        }
         
         for (var i = 0; i < currNode.descendants.length; i++) {
             this.pushMatrix();
+            this.multMatrix(matrixAnim);
             this.multMatrix(currNode.getMatrix());
-            this.multMatrix(this.animations[0].getMatrix());
+            
             
             this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
             this.popMatrix();

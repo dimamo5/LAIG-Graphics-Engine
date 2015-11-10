@@ -7,7 +7,7 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="0" />                          <!-- axis length; "0" means no axis-->
+    <reference length="4" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
 <ILLUMINATION>
@@ -69,6 +69,15 @@
 
 </MATERIALS>
 
+<ANIMATIONS>
+	<ANIMATION id="testeAnim" span="4" type="linear">
+		<CONTROLPOINT xx="0" yy="0" zz="0"/>
+		<CONTROLPOINT xx="0" yy="0" zz="2"/>
+		<CONTROLPOINT xx="0" yy="2" zz="2"/>
+		<CONTROLPOINT xx="2" yy="2" zz="2"/>
+	</ANIMATION>
+
+</ANIMATIONS>
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
@@ -97,6 +106,12 @@
         <TEXTURE id="minion" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
+		
+		<ROTATION axis="y" angle="-180" />
+		<ROTATION axis="x" angle="-90" />
+		
+
+		<ANIMATION id="testeAnim" />
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 

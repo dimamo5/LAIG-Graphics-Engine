@@ -185,6 +185,8 @@
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
+		<ANIMATION id="testeAnim" />
+
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
@@ -215,8 +217,6 @@
         <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
-		
-		<ANIMATION id="testeAnim" />
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
         <ROTATION axis="y" angle="90" />
@@ -278,6 +278,8 @@
         <TEXTURE id="incenso" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
+
+		
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
         <TRANSLATION x="7.5" y="1" z="7.5" />

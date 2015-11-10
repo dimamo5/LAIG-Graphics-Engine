@@ -556,15 +556,17 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		var texture_id = this.reader.getString(texture[0], "id",true);
 
 		var animation = nodeslist[i].getElementsByTagName('ANIMATION');
+		
+		var animation_id="null";
 
 		if(animation.length > 1)
 			return "node ANIMATION more that one found";	
 		else if(animation.length!=0){
-			var animation_id = this.reader.getString(animation[0], "id",true);
+			animation_id = this.reader.getString(animation[0], "id",true);
 		}
 
 		//instanciação do node
-		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
+		var node_Obj = new GraphTree_node(node_id, material_id, texture_id, animation_id);
 
 		//tamanho da lista dos filhos do node (texture,material,translation...)
 		var childList_length = nodeslist[i].childNodes.length;
