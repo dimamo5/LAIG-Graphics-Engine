@@ -35,6 +35,11 @@
         <file path="resources/image.jpg" />        <!-- path to file -->
         <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     </TEXTURE>
+
+     <TEXTURE id="prof">									<!-- Table texture -->
+        <file path="resources/prof.jpg" />        <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
 	
 
 
@@ -87,7 +92,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="minion" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="prof" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
