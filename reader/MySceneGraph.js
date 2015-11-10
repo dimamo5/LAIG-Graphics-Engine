@@ -467,11 +467,11 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 				var y=this.reader.getFloat(controlpoints[cp],"yy",true);
 				var z=this.reader.getFloat(controlpoints[cp],"zz",true);
 				anim.addControlPoint(x,y,z);
-			}
+			}			
 		}
 
 		this.scene.animations.push(anim); //carrega elemento "material" para arraya associativo
-		console.log(this.scene.animations);
+		//console.log(this.scene.animations);
 	}
 };
 
