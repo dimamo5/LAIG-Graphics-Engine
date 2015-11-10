@@ -5,11 +5,10 @@
  * @param {string} type - leaf's type 
  * @param {array} args - arguments's array 
  */
-function GraphTree_leaf(id,type, args) {
+function GraphTree_leaf(id,type) {
 
     this.id = id;
     this.type = type;
-    this.args = args;
     this.object={};
 }
 
@@ -17,20 +16,16 @@ GraphTree_leaf.prototype.constructor = GraphTree_leaf;
 
 
 /**
- * Initializes primitive corresponding to the leaf's type with the arguments (args)
- * @param {object} scene 
+ * Initializes the first 4 primitives corresponding to the leaf's type with the arguments (args)
+ * @param {object} scene
+ * @param {args} args of scene 
  */
-GraphTree_leaf.prototype.createObject = function(scene) {
+GraphTree_leaf.prototype.createSimpleObjects = function(scene,args) {
     var array = [];
 
 	//remove espaços entre argumentos com o uso de regex
-    var str_splited = this.args.split(/\s+/g); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
-            /*for(var i=0;i<str_splited.length;i++){
-                if(str_splited[i]===""){
-                    str_splited.splice(i,1);
-                }
-            }*/
-
+    var str_splited = args.split(/\s+/g); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
+      
 	//inicializa o this.object com primitiva correspondente
     switch(this.type){        
        
@@ -77,3 +72,6 @@ GraphTree_leaf.prototype.createObject = function(scene) {
 };
 
 
+GraphTree_leaf.prototype.createPlaneObject = function(scene,parts){
+    this.object=new MyPlane(scene,parts);               
+}

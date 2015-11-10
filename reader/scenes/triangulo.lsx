@@ -7,11 +7,11 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="0" />                          <!-- axis length; "0" means no axis-->
+    <reference length="3" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
 <ILLUMINATION>
-    <ambient r="0" g="0" b="0" a="1.0" />            <!-- global ambient -->
+    <ambient r="0.8" g="0.8" b="0.8" a="1.0" />            <!-- global ambient -->
     <background r="0.0" g="0.0" b="0" a="1.0" />         <!-- background color -->
 </ILLUMINATION>
 
@@ -73,6 +73,7 @@
 	<LEAF id="vasoTronco" type ="cylinder" args="1 0.2 0.5 5 20" />
 	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0  0.5 0 0  0 1 0" />
 	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
+	<LEAF id="plano" type="plane" parts="5" />
 </LEAVES>
 
 
@@ -95,7 +96,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
         	
-        	<DESCENDANT id="incensoTriangulo" />
+        	<DESCENDANT id="plano" />
 
         </DESCENDANTS>
 

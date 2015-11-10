@@ -443,11 +443,19 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 
 		var id = this.reader.getString(leavesList[i],"id",true);		
 		var type = this.reader.getString(leavesList[i],"type",true);
-		var args = this.reader.getString(leavesList[i],"args",true);
+		var leaf_Obj = new GraphTree_leaf(id,type);
 
-		var leaf_Obj = new GraphTree_leaf(id,type,args);
 		
-		leaf_Obj.createObject(this.scene);
+		if(type=="triangle"||type=="rectangle"||type=="cylinder"||type=="sphere"){
+			var args = this.reader.getString(leavesList[i],"args",true);
+			leaf_Obj.createSimpleObjects(this.scene,args);
+		}
+
+		if(type=="plane"){
+			var parts = this.reader.getInteger(leavesList[i],"parts",true);
+			leaf_Obj.createPlaneObject(this.scene,parts);
+		}
+		
 
 		this.scene.graph_tree.graphElements.add(id,leaf_Obj); 
 	}
