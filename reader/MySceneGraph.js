@@ -445,7 +445,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		var type = this.reader.getString(leavesList[i],"type",true);
 		var leaf_Obj = new GraphTree_leaf(id,type);
 
-		
+
 		if(type=="triangle"||type=="rectangle"||type=="cylinder"||type=="sphere"){
 			var args = this.reader.getString(leavesList[i],"args",true);
 			leaf_Obj.createSimpleObjects(this.scene,args);
@@ -454,6 +454,24 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		if(type=="plane"){
 			var parts = this.reader.getInteger(leavesList[i],"parts",true);
 			leaf_Obj.createPlaneObject(this.scene,parts);
+		}
+
+		if(type=="patch"){
+			var order = this.reader.getInteger(leavesList[i],"order",true);
+			var partsU = this.reader.getInteger(leavesList[i],"partsU",true);
+			var partsV = this.reader.getInteger(leavesList[i],"partsV",true);
+			var controlpoints=[];
+
+			for(var cp=0;cp<leavesList[i].children.length;cp++){
+				if(leavesList[i].children[cp].nodeName=="controlpoint"){
+					var x=this.reader.getFloat(leavesList[i].children[cp],"xx",true);
+					var y=this.reader.getFloat(leavesList[i].children[cp],"yy",true);
+					var z=this.reader.getFloat(leavesList[i].children[cp],"zz",true);
+				}
+				controlpoint.push([x,y,z]);
+			}
+
+			leaf_Obj.createPatchObject(this.scene,order,partsU,partsV,controlpoints);
 		}
 		
 
