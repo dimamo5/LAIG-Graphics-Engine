@@ -81,8 +81,9 @@ XMLscene.prototype.onGraphLoaded = function()
     
     for (var i = 0; i < this.animations.length; i++) {
         this.animations[i].init();
-        //inicia distancia / velocidade
-        console.log(this.animations[i].totalDistance, this.animations[i].velocity);
+        
+        //console.log(this.animations[i]);
+        //console.log(this.animations[i].totalDistance, this.animations[i].velocity);
     }
     
     this.interface.updateInterface();
@@ -135,7 +136,7 @@ XMLscene.prototype.display = function() {
         this.updateLights();
         this.getObjects(this.graph_tree.root_id);
         
-        console.log(this.animations[0].getMatrix());
+       // console.log(this.animations[1].getMatrix());
     }
     
     
@@ -153,7 +154,7 @@ XMLscene.prototype.display = function() {
 XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
     var currNode = this.graph_tree.graphElements.get(currNodeId);
     var nextTextId, nextMaterialId;
-    var matrixAnim= mat4.create();
+    var matrixAnim = mat4.create();
     
     if (currNode instanceof GraphTree_node) {
         
@@ -170,15 +171,15 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         } else {
             nextMaterialId = currNode.material_id;
         }
-
-        if(currNode.animation_id != "null"){
-            for(var i=0;i<this.animations.length;i++){
-                if(this.animations[i].id==currNode.animation_id){
-                    matrixAnim=this.animations[i].getMatrix();  
+        
+        if (currNode.animation_id != "null") {
+            for (var i = 0; i < this.animations.length; i++) {
+                if (this.animations[i].id == currNode.animation_id) {
+                    matrixAnim = this.animations[i].getMatrix();
                     break;
                 }
             }
-                      
+        
         }
         
         for (var i = 0; i < currNode.descendants.length; i++) {
@@ -230,7 +231,6 @@ XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
                 this.lights[i].disable();
             } else
                 this.lights[i].enable();
-        
         }
     }
     return;
@@ -238,6 +238,7 @@ XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
 
 
 XMLscene.prototype.update = function(currTime) {
+    
     for (var i = 0; i < this.animations.length; i++) {
         //enquanto animacao nao terminar
         if (!this.animations[i].done) {

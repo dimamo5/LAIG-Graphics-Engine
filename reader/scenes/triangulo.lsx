@@ -77,6 +77,8 @@
 		<CONTROLPOINT xx="2" yy="2" zz="2"/>
 	</ANIMATION>
 
+	<ANIMATION id="circAnim" span="0.1" type="circular" center="0 0 0" radius="4" startang="22.5" rotang="90"/>
+
 </ANIMATIONS>
 
 <LEAVES>
@@ -111,7 +113,7 @@
 		<ROTATION axis="x" angle="-90" />
 		
 
-		<ANIMATION id="testeAnim" />
+		<ANIMATION id="circAnim" />
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 

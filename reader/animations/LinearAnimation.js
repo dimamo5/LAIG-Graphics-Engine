@@ -31,7 +31,9 @@ LinearAnimation.prototype.getDeslocationVector = function() {
 
 LinearAnimation.prototype.getMatrix = function() {
     var timeControlPoint = vec3.length(this.deslocationVector) / this.velocity;
-    
+        
+    console.log(this.velocity, timeControlPoint, this.frameTime);
+        
     if (this.frameTime > timeControlPoint && this.currentControlPoint <= (this.controlPoint.length) && !this.done) {
         
         this.currentControlPoint++;
@@ -54,9 +56,9 @@ LinearAnimation.prototype.getMatrix = function() {
     mat4.identity(matrix);
     
     mat4.translate(matrix, matrix, vec3.fromValues(
-    this.deslocationVector[0] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint - 1][0], 
-    this.deslocationVector[1] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint - 1][1], 
-    this.deslocationVector[2] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint - 1][2]));
+    this.deslocationVector[0] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint -1][0], 
+    this.deslocationVector[1] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint -1][1], 
+    this.deslocationVector[2] * this.frameTime / timeControlPoint + this.controlPoint[this.currentControlPoint -1][2]));
       
     if (this.done == true) {  //mantem posicao final        
         var vector = vec3.create();
@@ -84,7 +86,7 @@ LinearAnimation.prototype.calcVelocity = function() {
     this.velocity = this.totalDistance / (this.span * 1000);
 }
 
-//0º angle is ZZ
+
 LinearAnimation.prototype.calcRotation = function(deslocationVector) {
     return Math.atan2(deslocationVector[0], deslocationVector[2]);
 }

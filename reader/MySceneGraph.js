@@ -449,13 +449,16 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 		var type = this.reader.getString(animationList[i],"type",true);		
 
 		if(type !== null && type=="circular") {
-			var center=this.reader.getString(animationList[i],"center",true);
+						
+			var center = this.reader.getString(animationList[i],"center",true);
 			var radius=this.reader.getFloat(animationList[i],"radius",true);
 			var startang=this.reader.getFloat(animationList[i],"startang",true);
 			var rotang=this.reader.getFloat(animationList[i],"rotang",true);
+	
+			anim = new CircularAnimation(id, span, type, center.split(" "), radius, startang, rotang);
 
 		}else if(type !== null && type=="linear") {
-			anim= new LinearAnimation(id,span,type);
+			anim = new LinearAnimation(id,span,type);
 
 			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
 			if (controlpoints === null && controlpoints<2) {
