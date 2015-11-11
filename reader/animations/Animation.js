@@ -20,6 +20,6 @@ Animation.prototype.getMatrix= function(){
 Animation.prototype.addTime=function(currTime){
 	
 	if(this.currentTime !== undefined)
-		this.frameTime+=(currTime-this.currentTime);
+		this.frameTime += (currTime-this.currentTime);
 	this.currentTime=currTime;
 }

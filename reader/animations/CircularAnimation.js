@@ -10,6 +10,10 @@ function CircularAnimation(id, type, span, center, radius, startAng, rotAng) {
     this.endAng = startAng + rotAng;
     this.velocity;
     this.initialMatrix;
+    this.ups = 50;
+    this.timeDelta;
+    
+    this.lastMatrix;
 }
 
 CircularAnimation.prototype.constructor = CircularAnimation;
@@ -18,56 +22,55 @@ CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.init = function() {
     this.calcVelocity();
     this.initMatrix();
+    this.timeDelta = 1000 / this.ups;
 }
 
-CircularAnimation.prototype.calcVelocity = function() {
-    this.velocity = this.rotAng / (this.span * 1000);
-}
-
-//inicializa matriz inicial
 CircularAnimation.prototype.initMatrix = function() {
     
     this.initMatrix = mat4.create();
     mat4.identity(this.initMatrix);
     
-    mat4.translate(this.initMatrix, this.initMatrix, this.center);        
-    mat4.rotateY(this.initMatrix, this.initMatrix, degToRad(this.startAng));            
+    mat4.translate(this.initMatrix, this.initMatrix, this.center);
+    mat4.rotateY(this.initMatrix, this.initMatrix, degToRad(this.startAng));
     mat4.translate(this.initMatrix, this.initMatrix, vec3.fromValues(0, 0, this.radius));
+    
+    this.lastMatrix = this.initMatrix;
+}
+
+
+CircularAnimation.prototype.calcVelocity = function() {
+    this.velocity = this.rotAng / (this.span * 1000);
 }
 
 
 CircularAnimation.prototype.getMatrix = function() {
+        
+    if (this.frameTime >= this.timeDelta && this.currAng < this.endAng && !this.done) {
+        
+        this.frameTime -= this.timeDelta;
+        this.currAng += this.velocity * this.timeDelta;
+      
+        this.lastMatrix = this.rotate(this.currAng);
+    }
     
+    if (this.currAng >= this.endAng) {
+        this.done = true;
+    }
+    
+    return this.lastMatrix;
+}
+
+CircularAnimation.prototype.rotate = function(angle) {    
     var rotMatrix = mat4.create();
     mat4.identity(rotMatrix);
         
-    var timeDelta = this.rotAng / this.velocity ;
+    mat4.translate(rotMatrix, rotMatrix, this.center);    
+    mat4.rotateY(rotMatrix, rotMatrix, degToRad(angle));
 
-    console.log(this.velocity,timeDelta, this.frameTime);    
+    //puxa centro para origem
+    mat4.translate(rotMatrix, rotMatrix,vec3.fromValues(-this.center[0],-this.center[1],-this.center[2]));
 
-    if (this.frameTime > timeDelta && this.currAng < this.endAng && !this.done) {
-        
-        this.frameTime -= timeDelta;
-        this.currAng += this.velocity;
-    } 
-    if(this.currAng >= this.endAng) {
-        this.done = true;
-    }
-       
-    rotMatrix = this.rotate(this.currAng);
-      
     mat4.multiply(rotMatrix, rotMatrix, this.initMatrix);
     
     return rotMatrix;
-}
-
-CircularAnimation.prototype.rotate = function(angle) {
-    
-    var matrix = mat4.create();
-    mat4.identity(matrix);
-    
-    mat4.translate(matrix, matrix, this.center);
-    mat4.rotateY(matrix, matrix, degToRad(angle));
-
-    return matrix;
 }
