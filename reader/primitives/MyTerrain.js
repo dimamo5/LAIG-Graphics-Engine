@@ -2,8 +2,8 @@ function MyTerrain(scene, heightImage, dataImage) {
     CGFobject.call(this, scene);
     this.scene = scene;
     
-    this.heightMap = new CGFtexture(this.scene,"resources/heightmap_128.jpg");
-    this.colorMap = new CGFtexture(this.scene,"resources/terrain.jpg");
+    this.heightMap = new CGFtexture(this.scene,heightImage);
+    this.colorMap = new CGFtexture(this.scene,dataImage);
 
     this.testShader = new CGFshader(this.scene.gl,"shaders/terrain.vert","shaders/terrain.frag");
     
