@@ -11,7 +11,7 @@
 </INITIALS>
 
 <ILLUMINATION>
-    <ambient r="0.8" g="0.8" b="0.8" a="1.0" />            <!-- global ambient -->
+    <ambient r="0.2" g="0.2" b="0.2" a="1.0" />            <!-- global ambient -->
     <background r="0.0" g="0.0" b="0" a="1.0" />         <!-- background color -->
 </ILLUMINATION>
 
@@ -79,7 +79,7 @@
 	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0  0.5 0 0  0 1 0" />
 	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
 	<!-- <LEAF id="plano" type="plane" parts="5" /> -->
-	<LEAF id="plano" type="patch" order="2" partsU="15" partsV="15">
+	<!-- <LEAF id="plano" type="patch" order="2" partsU="15" partsV="15">
 		<controlpoint xx="-1" yy="0.5" zz="0" />
 		<controlpoint xx="-1" yy="0" zz="0" />
 		<controlpoint xx="-1" yy="-0.5" zz="0" />
@@ -91,7 +91,8 @@
 		<controlpoint xx="1" yy="0.5" zz="0" />
 		<controlpoint xx="1" yy="0" zz="0" />
 		<controlpoint xx="1" yy="-0.5" zz="0" />
-	</LEAF>
+	</LEAF>-->
+	<LEAF id="terreno" type="terrain" texture="resources/terrain.jpg" heightmap="resources/heightmap_128.jpg" />
 
 </LEAVES>
 
@@ -111,11 +112,14 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-
+		
+		<SCALE sx="3" sy="3" sz="3" />
+		
+		
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
         	
-        	<DESCENDANT id="plano" />
+        	<DESCENDANT id="terreno" />
 
         </DESCENDANTS>
 

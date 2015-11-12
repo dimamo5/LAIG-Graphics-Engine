@@ -477,6 +477,13 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 		if(type=="vehicle"){
 			leaf_Obj.createVehicleObject(this.scene);
 		}
+
+		if(type=="terrain"){
+			var texture = this.reader.getString(leavesList[i],"texture",true);
+			var heightmap = this.reader.getString(leavesList[i],"heightmap",true);
+			
+			leaf_Obj.createTerrainObject(this.scene,heightmap,texture);
+		}
 		
 
 		this.scene.graph_tree.graphElements.add(id,leaf_Obj); 

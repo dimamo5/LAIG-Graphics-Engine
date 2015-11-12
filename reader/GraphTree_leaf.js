@@ -83,3 +83,7 @@ GraphTree_leaf.prototype.createPatchObject = function(scene, order,partsU,partsV
 GraphTree_leaf.prototype.createVehicleObject = function(scene){
     this.object = new MyVehicle(scene);
 }
+
+GraphTree_leaf.prototype.createTerrainObject = function(scene,heigthMap,colorMap){
+    this.object = new MyTerrain(scene,heigthMap,colorMap);
+}

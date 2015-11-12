@@ -41,6 +41,7 @@ XMLscene.prototype.init = function (application) {
 	this.axis=new CGFaxis(this);
 
 	this.interface={};
+
 };
 
 /** Initializes cameras */
