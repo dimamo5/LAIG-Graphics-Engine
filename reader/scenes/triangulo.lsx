@@ -7,7 +7,7 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="3" />                          <!-- axis length; "0" means no axis-->
+    <reference length="2" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
 <ILLUMINATION>
@@ -41,6 +41,10 @@
         <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     </TEXTURE>
 	
+	<TEXTURE id="rainbow">									<!-- Table texture -->
+        <file path="resources/rainbow.jpg" />        <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
 
 
 
@@ -93,6 +97,8 @@
 		<controlpoint xx="1" yy="-0.5" zz="0" />
 	</LEAF>-->
 	<LEAF id="terreno" type="terrain" texture="resources/terrain.jpg" heightmap="resources/heightmap_128.jpg" />
+	<LEAF id="himalaias" type="terrain" texture="resources/himalaiasColor.png" heightmap="resources/himalaiasHeightMap.png" />
+	<LEAF id="balao" type="vehicle" />
 
 </LEAVES>
 
@@ -107,7 +113,7 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="prof" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="rainbow" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
@@ -119,7 +125,7 @@
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
         	
-        	<DESCENDANT id="terreno" />
+        	<DESCENDANT id="balao" />
 
         </DESCENDANTS>
 
