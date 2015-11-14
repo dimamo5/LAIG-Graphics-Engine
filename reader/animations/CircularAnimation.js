@@ -4,10 +4,10 @@ function CircularAnimation(id, type, span, center, radius, startAng, rotAng) {
     this.center = center;
     this.radius = radius;
     this.startAng = startAng;
-    this.currAng = startAng;
+    this.currAng = 0;
     this.rotAng = rotAng;
     //medido em relação à direção positiva do eixo XX
-    this.endAng = startAng + rotAng;
+    this.endAng = rotAng;
     this.velocity;
     this.initialMatrix;
     this.ups = 50;
@@ -30,7 +30,7 @@ CircularAnimation.prototype.initMatrix = function() {
     this.initMatrix = mat4.create();
     mat4.identity(this.initMatrix);
     
-    mat4.translate(this.initMatrix, this.initMatrix, this.center);
+   // mat4.translate(this.initMatrix, this.initMatrix, this.center);
     mat4.rotateY(this.initMatrix, this.initMatrix, degToRad(this.startAng));
     mat4.translate(this.initMatrix, this.initMatrix, vec3.fromValues(0, 0, this.radius));
     
