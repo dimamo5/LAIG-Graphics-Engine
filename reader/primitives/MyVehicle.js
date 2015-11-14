@@ -57,7 +57,9 @@ MyVehicle.prototype.initAnimations = function() {
 
 MyVehicle.prototype.display = function() {
     
+    this.scene.pushMatrix();
     this.scene.translate(1, 0.15, 1.5);
+    this.scene.popMatrix();
     
     this.scene.pushMatrix();
     this.scene.scale(0.1, 0.1, 0.1);

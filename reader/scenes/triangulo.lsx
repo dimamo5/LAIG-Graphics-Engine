@@ -81,10 +81,10 @@
 
 <ANIMATIONS>
 	 <ANIMATION id="testeAnim" span="8" type="linear">
-		<CONTROLPOINT xx="1" yy="0.15" zz="1.5"/>
-		<CONTROLPOINT xx="1.5" yy="0.5" zz="2"/>
-		<CONTROLPOINT xx="2" yy="1" zz="2"/>
-		<CONTROLPOINT xx="2.5" yy="2" zz="2.5"/>
+		<CONTROLPOINT xx="0" yy="0.2" zz="1.5"/>
+		<CONTROLPOINT xx="-0.2" yy="0.4" zz="1.8"/>
+		<CONTROLPOINT xx="-0.4" yy="0.8" zz="2.2"/>
+		<CONTROLPOINT xx="-0.8" yy="1.4" zz="2.8"/>
 	</ANIMATION>
 
 	<ANIMATION id="circAnim" span="3" type="circular" center="0 0 0" radius="1.5" startang="0" rotang="45"/> 

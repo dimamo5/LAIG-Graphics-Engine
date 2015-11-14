@@ -32,7 +32,7 @@ LinearAnimation.prototype.getDeslocationVector = function() {
 LinearAnimation.prototype.getMatrix = function() {
     var timeControlPoint = vec3.length(this.deslocationVector) / this.velocity;
         
-    console.log(this.velocity, timeControlPoint, this.frameTime);
+   //console.log(this.velocity, timeControlPoint, this.frameTime);
         
     if (this.frameTime > timeControlPoint && this.currentControlPoint <= (this.controlPoint.length) && !this.done) {
         
@@ -43,7 +43,6 @@ LinearAnimation.prototype.getMatrix = function() {
             this.deslocationVector = vec3.fromValues(0, 0, 0);
         } else {
             this.deslocationVector = this.getDeslocationVector();
-            //console.log(this.calcRotation(this.deslocationVector));
         }
     }
     
