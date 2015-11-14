@@ -41,7 +41,7 @@ MySceneGraph.prototype.verifyError = function(error){
  * @param {object} rootElement - root node
  */
 MySceneGraph.prototype.checkOrder=function(rootElement){
-	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
+	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS","ANIMATIONS", "LEAVES", "NODES"];
 	for(var i =0;i<rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
@@ -419,6 +419,65 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	}
 };
 
+
+MySceneGraph.prototype.parseAnimations = function(rootElement) {
+
+	var elems = rootElement.getElementsByTagName('ANIMATIONS');	
+	if (elems === null) {
+		return "ANIMATIONS element is missing.";
+	}
+
+	if (elems.length != 1) {
+		return "either zero or more than one ANIMATIONS element found.";
+	}
+	
+	var animationList = elems[0].getElementsByTagName('ANIMATION');
+	if(animationList.length === 0){
+		return "no animation found";
+	}
+
+	this.scene.animations=[];
+
+	//carrega todos os elementos "materials"
+	for(var i = 0; i < animationList.length; i++){
+		var anim;
+
+		var id = this.reader.getString(animationList[i],"id",true);
+
+		var span = this.reader.getFloat(animationList[i],"span",true);
+
+		var type = this.reader.getString(animationList[i],"type",true);		
+
+		if(type !== null && type=="circular") {
+						
+			var center = this.reader.getString(animationList[i],"center",true);
+			var radius=this.reader.getFloat(animationList[i],"radius",true);
+			var startang=this.reader.getFloat(animationList[i],"startang",true);
+			var rotang=this.reader.getFloat(animationList[i],"rotang",true);
+	
+			anim = new CircularAnimation(id, span, type, center.split(" "), radius, startang, rotang);
+
+		}else if(type !== null && type=="linear") {
+			anim = new LinearAnimation(id,span,type);
+
+			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
+			if (controlpoints === null && controlpoints<2) {
+				return "Control Points element is missing.";
+			}
+
+			for(var cp=0;cp<controlpoints.length;cp++){
+				var x=this.reader.getFloat(controlpoints[cp],"xx",true);
+				var y=this.reader.getFloat(controlpoints[cp],"yy",true);
+				var z=this.reader.getFloat(controlpoints[cp],"zz",true);
+				anim.addControlPoint(x,y,z);
+			}			
+		}
+
+		this.scene.animations.push(anim); //carrega elemento "material" para arraya associativo
+		//console.log(this.scene.animations);
+	}
+};
+
 /**
  * Parses the leafs
  * @param {object} rootElement - root node
@@ -499,8 +558,18 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 		var texture_id = this.reader.getString(texture[0], "id",true);
 
+		var animation = nodeslist[i].getElementsByTagName('ANIMATION');
+		
+		var animation_id="null";
+
+		if(animation.length > 1)
+			return "node ANIMATION more that one found";	
+		else if(animation.length!=0){
+			animation_id = this.reader.getString(animation[0], "id",true);
+		}
+
 		//instanciação do node
-		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
+		var node_Obj = new GraphTree_node(node_id, material_id, texture_id, animation_id);
 
 		//tamanho da lista dos filhos do node (texture,material,translation...)
 		var childList_length = nodeslist[i].childNodes.length;
@@ -588,7 +657,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
 	var parser = [ this.checkOrder,this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
-				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
+				   this.parseMaterials,this.parseAnimations, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i < parser.length; i++){
