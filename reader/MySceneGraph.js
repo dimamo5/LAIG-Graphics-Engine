@@ -426,14 +426,14 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 	if (elems === null) {
 		return "ANIMATIONS element is missing.";
 	}
-
+	
 	if (elems.length != 1) {
 		return "either zero or more than one ANIMATIONS element found.";
 	}
 	
 	var animationList = elems[0].getElementsByTagName('ANIMATION');
 	if(animationList.length === 0){
-		return "no animation found";
+		return;
 	}
 
 	this.scene.animations=[];
@@ -458,7 +458,7 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 			anim = new CircularAnimation(id, span, type, center.split(" "), radius, startang, rotang);
 
 		}else if(type !== null && type=="linear") {
-			anim = new LinearAnimation(id,span,type);
+				anim = new LinearAnimation(id,span,type);
 
 			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
 			if (controlpoints === null && controlpoints<2) {

@@ -7,7 +7,7 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="2" />                          <!-- axis length; "0" means no axis-->
+    <reference length="3" />                          <!-- axis length; "0" means no axis-->
 
 </INITIALS>
 
@@ -80,16 +80,16 @@
 </MATERIALS>
 
 <ANIMATIONS>
-	<ANIMATION id="testeAnim" span="4" type="linear">
-		<CONTROLPOINT xx="0" yy="0" zz="0"/>
-		<CONTROLPOINT xx="0" yy="0" zz="2"/>
-		<CONTROLPOINT xx="0" yy="2" zz="2"/>
-		<CONTROLPOINT xx="2" yy="2" zz="2"/>
+	 <ANIMATION id="testeAnim" span="8" type="linear">
+		<CONTROLPOINT xx="1" yy="0.15" zz="1.5"/>
+		<CONTROLPOINT xx="1.5" yy="0.5" zz="2"/>
+		<CONTROLPOINT xx="2" yy="1" zz="2"/>
+		<CONTROLPOINT xx="2.5" yy="2" zz="2.5"/>
 	</ANIMATION>
 
-	<ANIMATION id="circAnim" span="3" type="circular" center="0 0 0" radius="3" startang="45" rotang="45"/>
+	<ANIMATION id="circAnim" span="3" type="circular" center="0 0 0" radius="1.5" startang="0" rotang="45"/> 
 
-</ANIMATIONS>
+</ANIMATIONS> 
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
@@ -137,25 +137,73 @@
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 		
-		<ROTATION axis="y" angle="-180" />
-		<ROTATION axis="x" angle="-90" />
 		
 
-		<ANIMATION id="circAnim" />
-
+		<!-- <ROTATION axis="y" angle="-180" />
+		<ROTATION axis="x" angle="-90" /> -->
+		
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 		
-		<SCALE sx="3" sy="3" sz="3" />
+		<!-- <SCALE sx="3" sy="3" sz="3" /> -->
+		
 		
 		
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
         	
-        	<DESCENDANT id="balao" />
+        	<DESCENDANT id="ballon" />
+        	<DESCENDANT id="terrain"/>
 
         </DESCENDANTS>
 
     </NODE>
+
+	<NODE id="terrain" >
+	<!-- next two lines are mandatory -->
+        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+        <TRANSLATION x="0" y="-0.5" z="0" />
+        <SCALE sx="10" sy="5" sz="10" />
+        
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+            <DESCENDANT id="himalaias" />       <!-- "ss" is the identifier of a node or of leaf; -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
+                                          <!--      identifier of another node, later defined in the lsx file. -->
+        </DESCENDANTS>
+
+    </NODE>
+
+    <NODE id="ballon" >
+	<!-- next two lines are mandatory -->
+        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="clear" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+		
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+    	<TRANSLATION x="0" y="0.1" z="0" />    	
+         
+         <ANIMATION id="testeAnim" />    
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+            <DESCENDANT id="balao" />       <!-- "ss" is the identifier of a node or of leaf; -->
+                                          <!--     may be repeatad as necessary. It can refer an -->
+                                          <!--      identifier of another node, later defined in the lsx file. -->
+        	</DESCENDANTS>
+
+    </NODE>
+
+
 
 	
 </NODES>

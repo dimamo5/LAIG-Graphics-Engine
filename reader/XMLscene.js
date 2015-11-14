@@ -79,10 +79,7 @@ XMLscene.prototype.onGraphLoaded = function()
     }
     
     for (var i = 0; i < this.animations.length; i++) {
-        this.animations[i].init();
-        
-        //console.log(this.animations[i]);
-        //console.log(this.animations[i].totalDistance, this.animations[i].velocity);
+        this.animations[i].init();        
     }
     
     this.interface.updateInterface();
@@ -232,7 +229,7 @@ XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
 
 XMLscene.prototype.update = function(currTime) {
     
-    for (var i = 0; i < this.animations.length; i++) {
+    for (var i = 0; i < this.animations.length; i++) {    	
         //enquanto animacao nao terminar
         if (!this.animations[i].done) {
             this.animations[i].addTime(currTime);
