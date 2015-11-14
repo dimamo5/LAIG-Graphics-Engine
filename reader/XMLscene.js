@@ -104,26 +104,17 @@ XMLscene.prototype.setInterface = function(interface) {
 }
 
 /** Displays the scene */
-<<<<<<< HEAD
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
     //this.setActiveShader();
-	
-	// Clear image and depth buffer everytime we update the scene
-=======
-XMLscene.prototype.display = function() {
-    // ---- BEGIN Background, camera and axis setup
-    this.shader.bind();
     
     // Clear image and depth buffer everytime we update the scene
->>>>>>> eb756aaff3d3393c31bd63c7f8cd1a7c14fb90d4
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     
     // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
-<<<<<<< HEAD
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
@@ -145,38 +136,7 @@ XMLscene.prototype.display = function() {
 		this.getObjects(this.graph_tree.root_id);
 	}
 
-    //this.shader.unbind();
 };
-=======
-    
-    // Apply transformations corresponding to the camera position relative to the origin
-    this.applyViewMatrix();
-    
-    this.setDefaultAppearance();
-    
-    this.axis.display();
-    
-    // ---- END Background, camera and axis setup
-    
-    // it is important that things depending on the proper loading of the graph
-    // only get executed after the graph has loaded correctly.
-    // This is one possible way to do it
-    
-    if (this.graph.loadedOk === true) 
-    {
-        this.multMatrix(this.initialTransformation);
-        this.updateLights();
-        this.getObjects(this.graph_tree.root_id);
-        
-       // console.log(this.animations[1].getMatrix());
-    }
-    
-    
-    
-    this.shader.unbind();
-}
-;
->>>>>>> eb756aaff3d3393c31bd63c7f8cd1a7c14fb90d4
 
 /**
  * Core recursive function responsible to interpret the graphtree elements as well as apllying the correct textures/materials and transformations
