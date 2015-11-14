@@ -7,11 +7,11 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="0" />                          <!-- axis length; "0" means no axis-->
+    <reference length="2" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
 <ILLUMINATION>
-    <ambient r="0" g="0" b="0" a="1.0" />            <!-- global ambient -->
+    <ambient r="0.2" g="0.2" b="0.2" a="1.0" />            <!-- global ambient -->
     <background r="0.0" g="0.0" b="0" a="1.0" />         <!-- background color -->
 </ILLUMINATION>
 
@@ -35,7 +35,16 @@
         <file path="resources/image.jpg" />        <!-- path to file -->
         <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     </TEXTURE>
+
+     <TEXTURE id="prof">									<!-- Table texture -->
+        <file path="resources/prof.jpg" />        <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
 	
+	<TEXTURE id="rainbow">									<!-- Table texture -->
+        <file path="resources/rainbow.jpg" />        <!-- path to file -->
+        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    </TEXTURE>
 
 
 
@@ -73,6 +82,24 @@
 	<LEAF id="vasoTronco" type ="cylinder" args="1 0.2 0.5 5 20" />
 	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0  0.5 0 0  0 1 0" />
 	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
+	<!-- <LEAF id="plano" type="plane" parts="5" /> -->
+	<!-- <LEAF id="plano" type="patch" order="2" partsU="15" partsV="15">
+		<controlpoint xx="-1" yy="0.5" zz="0" />
+		<controlpoint xx="-1" yy="0" zz="0" />
+		<controlpoint xx="-1" yy="-0.5" zz="0" />
+
+		<controlpoint xx="0" yy="0" zz="3" />
+		<controlpoint xx="0" yy="-2" zz="3" />
+		<controlpoint xx="0" yy="2" zz="3" />
+
+		<controlpoint xx="1" yy="0.5" zz="0" />
+		<controlpoint xx="1" yy="0" zz="0" />
+		<controlpoint xx="1" yy="-0.5" zz="0" />
+	</LEAF>-->
+	<LEAF id="terreno" type="terrain" texture="resources/terrain.jpg" heightmap="resources/heightmap_128.jpg" />
+	<LEAF id="himalaias" type="terrain" texture="resources/himalaiasColor.png" heightmap="resources/himalaiasHeightMap.png" />
+	<LEAF id="balao" type="vehicle" />
+
 </LEAVES>
 
 
@@ -86,16 +113,19 @@
         <!-- next two lines are mandatory -->
         <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="minion" />       <!-- declared texture superimposes the texture received from parent node -->
+        <TEXTURE id="rainbow" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-
+		
+		<SCALE sx="3" sy="3" sz="3" />
+		
+		
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
         	
-        	<DESCENDANT id="incensoTriangulo" />
+        	<DESCENDANT id="balao" />
 
         </DESCENDANTS>
 

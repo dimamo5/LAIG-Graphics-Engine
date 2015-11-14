@@ -41,6 +41,7 @@ XMLscene.prototype.init = function (application) {
 	this.axis=new CGFaxis(this);
 
 	this.interface={};
+
 };
 
 /** Initializes cameras */
@@ -91,7 +92,7 @@ XMLscene.prototype.setInterface=function(interface){
 /** Displays the scene */
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
-    this.shader.bind();
+    //this.setActiveShader();
 	
 	// Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -121,7 +122,7 @@ XMLscene.prototype.display = function () {
 		this.getObjects(this.graph_tree.root_id);
 	}
 
-    this.shader.unbind();
+    //this.shader.unbind();
 };
 
 /**
