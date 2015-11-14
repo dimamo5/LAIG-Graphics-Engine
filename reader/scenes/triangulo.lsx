@@ -8,6 +8,7 @@
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
     <reference length="2" />                          <!-- axis length; "0" means no axis-->
+
 </INITIALS>
 
 <ILLUMINATION>
@@ -62,6 +63,14 @@
         <ambient r="0.4" g="0.2" b="0.2" a="1" />         <!-- ambient reflection -->
         <emission r="0" g="0" b="0" a="1" />        <!-- emission component -->
      </MATERIAL>
+	 
+	 <MATERIAL id="metal">                                  
+            <shininess value="5" />
+            <specular r="0.8" g="0.8" b="0.8" a="1" /> 
+            <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1" />
+            <emission r="0" g="0" b="0" a="1" /> 
+        </MATERIAL>
 
 
 
@@ -70,6 +79,17 @@
 
 </MATERIALS>
 
+<ANIMATIONS>
+	<ANIMATION id="testeAnim" span="4" type="linear">
+		<CONTROLPOINT xx="0" yy="0" zz="0"/>
+		<CONTROLPOINT xx="0" yy="0" zz="2"/>
+		<CONTROLPOINT xx="0" yy="2" zz="2"/>
+		<CONTROLPOINT xx="2" yy="2" zz="2"/>
+	</ANIMATION>
+
+	<ANIMATION id="circAnim" span="3" type="circular" center="0 0 0" radius="3" startang="45" rotang="45"/>
+
+</ANIMATIONS>
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
@@ -111,11 +131,17 @@
 	<NODE id="root">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+        <MATERIAL id="metal" />      <!-- declared material superimposes the material received from parent node -->
                                   <!-- id="null" maintains material from parent node        -->
         <TEXTURE id="rainbow" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
+		
+		<ROTATION axis="y" angle="-180" />
+		<ROTATION axis="x" angle="-90" />
+		
+
+		<ANIMATION id="circAnim" />
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
 		
