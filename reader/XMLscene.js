@@ -195,8 +195,7 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
                 this.multMatrix(matrixAnim);            
                 this.multMatrix(currNode.getMatrix());           
                 this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
-            this.popMatrix();
-        
+            this.popMatrix();        
         }
     
     } else if (currNode instanceof GraphTree_leaf) {
@@ -220,8 +219,7 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         
         if (material !== undefined) {
             this.materialDefault.apply();
-        }
-    
+        }    
     }
 }
 

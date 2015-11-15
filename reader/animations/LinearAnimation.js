@@ -65,6 +65,8 @@ LinearAnimation.prototype.getMatrix = function() {
         if(this.active){
             this.scene.updateCurrAnim();
             this.setInactive();
+            //this.init();
+            //this.currentControlPoint = 1;
         }
 
     } 
