@@ -29,7 +29,7 @@ MyVehicle.prototype = Object.create(CGFobject.prototype);
 MyVehicle.prototype.constructor = MyVehicle;
 
 MyVehicle.prototype.initAnimations = function() {
-    
+    /*
     var cps = [];
     
     //1ª animacao a executar
@@ -51,7 +51,7 @@ MyVehicle.prototype.initAnimations = function() {
         for (var j = 0; j < cps[k].length; j++) {         
             this.scene.animations[i].addControlPoint(cps[k][j][0], cps[k][j][1], cps[k][j][2]);      // x, y, z  
         }
-    }
+    }*/
 }
 
 

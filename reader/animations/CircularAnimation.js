@@ -1,12 +1,11 @@
-function CircularAnimation(id, type, span, center, radius, startAng, rotAng) {
-    Animation.call(this, id, type, span);
+function CircularAnimation(scene,id, type, span, center, radius, startAng, rotAng) {
+    Animation.call(this, scene, id, type, span);
     
     this.center = center;
     this.radius = radius;
     this.startAng = startAng;
     this.currAng = 0;
     this.rotAng = rotAng;
-    //medido em relação à direção positiva do eixo XX
     this.endAng = rotAng;
     this.velocity;
     this.initialMatrix;
@@ -14,6 +13,7 @@ function CircularAnimation(id, type, span, center, radius, startAng, rotAng) {
     this.timeDelta;
     
     this.lastMatrix;
+    //this.init();
 }
 
 CircularAnimation.prototype.constructor = CircularAnimation;
@@ -44,7 +44,7 @@ CircularAnimation.prototype.calcVelocity = function() {
 
 
 CircularAnimation.prototype.getMatrix = function() {
-        
+                
     if (this.frameTime >= this.timeDelta && this.currAng < this.endAng && !this.done) {
         
         this.frameTime -= this.timeDelta;
@@ -54,7 +54,10 @@ CircularAnimation.prototype.getMatrix = function() {
     }
     
     if (this.currAng >= this.endAng) {
-        this.done = true;
+        this.done = true;  //>>>>>>>>>>>>>>>>>>>>>>>>>>apagar linhas abaixo se houverem problemas
+        this.currAng = 0;
+        this.setInactive();
+        this.scene.currentAnimation++;
     }
     
     return this.lastMatrix;

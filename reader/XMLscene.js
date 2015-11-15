@@ -5,8 +5,9 @@
 function XMLscene() {
     CGFscene.call(this);
     
-    this.graph_tree = new GraphTree();
     //cria arvore (grafo) que aramazena nodes/leafs
+    this.graph_tree = new GraphTree();  
+    this.currentAnimation = 0;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -142,6 +143,7 @@ XMLscene.prototype.display = function () {
  * @param {integer} materialId - material's id
  */
 XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
+
     var currNode = this.graph_tree.graphElements.get(currNodeId);
     var nextTextId, nextMaterialId;
     var matrixAnim = mat4.create();
@@ -162,15 +164,22 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
             nextMaterialId = currNode.material_id;
         }
         
-        if (currNode.animation_id != "null") {
+        
+        if (currNode.cmpAnims.animationsIDs.length != 0) {			
+        	
             for (var i = 0; i < this.animations.length; i++) {
-                if (this.animations[i].id == currNode.animation_id) {
+                
+                //index outside bounds
+				if(this.currentAnimation >= currNode.cmpAnims.animationsIDs.length ) 
+					break;
+
+                if ( currNode.getCurrAnim(this.currentAnimation) == this.animations[i].id ) {
+                	this.animations[i].setActive();
                     matrixAnim = this.animations[i].getMatrix();
                     break;
                 }
-            }
-        
-        }
+            }        
+        }	
         
         for (var i = 0; i < currNode.descendants.length; i++) {
             this.pushMatrix();
@@ -190,7 +199,7 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         if (material !== undefined) {
             material.apply();
         }
-        
+        	
         if (text !== undefined) {
             currNode.object.updateTexCoords(text.amplif_s, text.amplif_t);
             text.bind();
@@ -229,9 +238,12 @@ XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
 
 XMLscene.prototype.update = function(currTime) {
     
+	//problema: da update mesmo que animacao nao esteja activa
+	//edited provavelmente ja nao da update
+
     for (var i = 0; i < this.animations.length; i++) {    	
         //enquanto animacao nao terminar
-        if (!this.animations[i].done) {
+        if (!this.animations[i].done && this.animations[i].active) { 
             this.animations[i].addTime(currTime);
         }
     }

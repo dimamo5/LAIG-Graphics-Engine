@@ -455,10 +455,10 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 			var startang=this.reader.getFloat(animationList[i],"startang",true);
 			var rotang=this.reader.getFloat(animationList[i],"rotang",true);
 	
-			anim = new CircularAnimation(id, span, type, center.split(" "), radius, startang, rotang);
+			anim = new CircularAnimation(this.scene, id, span, type, center.split(" "), radius, startang, rotang);
 
 		}else if(type !== null && type=="linear") {
-				anim = new LinearAnimation(id,span,type);
+				anim = new LinearAnimation(this.scene, id,span,type);
 
 			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
 			if (controlpoints === null && controlpoints<2) {
@@ -473,9 +473,8 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 			}			
 		}
 
-		this.scene.animations.push(anim); //carrega elemento "material" para arraya associativo
-		//console.log(this.scene.animations);
-	}
+		this.scene.animations.push(anim); 		
+	}	
 };
 
 /**
@@ -556,6 +555,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
  */
 MySceneGraph.prototype.parseNodes = function(rootElement){
 
+
 	var elems = rootElement.getElementsByTagName('NODES');	
 	if (elems === null) {
 		return "NODES element is missing.";
@@ -577,7 +577,8 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 	if(nodeslist.length === 0){
 		return "no nodes found";
 	}
-
+	
+	
 	//leitura dos nodes
 	for(var i = 0; i < nodeslist.length; i++){
 
@@ -597,17 +598,14 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 		var animation = nodeslist[i].getElementsByTagName('ANIMATION');
 		
-		var animation_id="null";
-
-		if(animation.length > 1)
-			return "node ANIMATION more that one found";	
-		else if(animation.length!=0){
-			animation_id = this.reader.getString(animation[0], "id",true);
-		}
-
 		//instanciação do node
-		var node_Obj = new GraphTree_node(node_id, material_id, texture_id, animation_id);
-
+		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
+		
+		//add dos ids das animacoes
+		for(var l = 0; l < animation.length ; l++){
+			node_Obj.addAnimation(this.reader.getString(animation[l], "id",true));
+		}
+		
 		//tamanho da lista dos filhos do node (texture,material,translation...)
 		var childList_length = nodeslist[i].childNodes.length;
 		var child = nodeslist[i].firstChild;
@@ -679,6 +677,8 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
 
+	//console.log(this.scene.animations);
+
 };
 
 	
@@ -699,12 +699,13 @@ MySceneGraph.prototype.onXMLReady=function()
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i < parser.length; i++){
 		error = parser[i].call(this,rootElement);
-
+		
 		if (error !== null && error !== undefined) {
 			this.onXMLError(error);
 		return;
 		}
 	}
+	
 
 	this.loadedOk=true;
 	

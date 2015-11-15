@@ -5,15 +5,25 @@
  * @param {integer} material_id - material's id
  * @param {integer} texture_id - texture's id
  */
-function GraphTree_node(id,material_id,texture_id, animation_id) {
+function GraphTree_node(id,material_id,texture_id) {
 
     this.id = id;
     this.material_id = material_id;
     this.texture_id = texture_id;
-    this.animation_id = animation_id;
-    this.descendants = [];
+        
+    this.cmpAnims = new ComposedAnimation();
+    console.log(this.cmpAnims);
     
-    this.transformations= []; //formato : { ["tipo_transf",val1,val2,...] , [] , ...}
+    this.descendants = [];
+    this.transformations = [];
+}
+
+GraphTree_node.prototype.addAnimation = function(id){
+    this.cmpAnims.addAnimation(id);
+}
+
+GraphTree_node.prototype.getCurrAnim = function(indice){
+    return this.cmpAnims.getAnim(indice);
 }
 
 

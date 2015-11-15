@@ -1,13 +1,13 @@
-function LinearAnimation(id, type, span) {
-    Animation.call(this, id, type, span);
+function LinearAnimation(scene, id, type, span) {
+    Animation.call(this,scene, id, type, span);
     //super
     this.controlPoint = [];
     this.currentControlPoint = 1;
     this.velocity;
     this.totalDistance = 0;
     this.deslocationVector;
-
 }
+
 LinearAnimation.prototype.constructor = LinearAnimation;
 LinearAnimation.prototype = Object.create(Animation.prototype);
 
@@ -48,7 +48,7 @@ LinearAnimation.prototype.getMatrix = function() {
     
     if (this.currentControlPoint == this.controlPoint.length) {
         this.done = true;
-        timeControlPoint = 1;
+        timeControlPoint = 1; 
     }
     
     var matrix = mat4.create();
@@ -63,6 +63,12 @@ LinearAnimation.prototype.getMatrix = function() {
         var vector = vec3.create();
         vec3.subtract(vector, this.controlPoint[this.currentControlPoint - 1], this.controlPoint[this.currentControlPoint - 2]);
         mat4.rotateY(matrix, matrix, this.calcRotation(vector));
+      
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2 linhas abaixo sao apra apagar se estiver a haver problemas com animacoes
+        this.scene.currentAnimation++;
+        this.setInactive();
+        //this.init();
+
     } 
     else {
         mat4.rotateY(matrix, matrix, this.calcRotation(this.deslocationVector));
