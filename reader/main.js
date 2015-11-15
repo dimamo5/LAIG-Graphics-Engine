@@ -42,8 +42,6 @@ main=function()
 	// Check console for loading errors	
 	var myGraph = new MySceneGraph(filename, myScene);
 	
-	console.log(myScene);
-	
 	// start
     app.run();
 }

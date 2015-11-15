@@ -6,12 +6,19 @@ function XMLscene() {
     CGFscene.call(this);
     
     //cria arvore (grafo) que aramazena nodes/leafs
-    this.graph_tree = new GraphTree();  
+    this.graph_tree = new GraphTree();
+    
     this.currentAnimation = 0;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
+
+
+XMLscene.prototype.updateCurrAnim = function() {
+    this.currentAnimation++;
+}
+
 
 /**
  * Initializes lights, camera, axis and other scene's properties
@@ -30,7 +37,7 @@ XMLscene.prototype.init = function(application) {
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
-    this.gl.depthFunc(this.gl.LEQUAL);   
+    this.gl.depthFunc(this.gl.LEQUAL);
     
     //Transparencia nas texturas
     this.gl.enable(this.gl.BLEND);
@@ -80,7 +87,7 @@ XMLscene.prototype.onGraphLoaded = function()
     }
     
     for (var i = 0; i < this.animations.length; i++) {
-        this.animations[i].init();        
+        this.animations[i].init();
     }
     
     this.interface.updateInterface();
@@ -102,8 +109,8 @@ XMLscene.prototype.setInterface = function(interface) {
 }
 
 /** Displays the scene */
-XMLscene.prototype.display = function () {
-	// ---- BEGIN Background, camera and axis setup
+XMLscene.prototype.display = function() {
+    // ---- BEGIN Background, camera and axis setup
     //this.setActiveShader();
     
     // Clear image and depth buffer everytime we update the scene
@@ -113,28 +120,29 @@ XMLscene.prototype.display = function () {
     // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
+    
+    // Apply transformations corresponding to the camera position relative to the origin
+    this.applyViewMatrix();
+    
+    this.setDefaultAppearance();
+    
+    this.axis.display();
+    
+    // ---- END Background, camera and axis setup
+    
+    // it is important that things depending on the proper loading of the graph
+    // only get executed after the graph has loaded correctly.
+    // This is one possible way to do it
+    
+    if (this.graph.loadedOk === true) 
+    {
+        this.multMatrix(this.initialTransformation);
+        this.updateLights();
+        this.getObjects(this.graph_tree.root_id);
+    }
 
-	// Apply transformations corresponding to the camera position relative to the origin
-	this.applyViewMatrix();
-
-	this.setDefaultAppearance();
-	
-	this.axis.display();		
-	
-	// ---- END Background, camera and axis setup
-
-	// it is important that things depending on the proper loading of the graph
-	// only get executed after the graph has loaded correctly.
-	// This is one possible way to do it
-
-	if (this.graph.loadedOk === true)
-	{
-		this.multMatrix(this.initialTransformation);
-		this.updateLights();
-		this.getObjects(this.graph_tree.root_id);
-	}
-
-};
+}
+;
 
 /**
  * Core recursive function responsible to interpret the graphtree elements as well as apllying the correct textures/materials and transformations
@@ -143,7 +151,7 @@ XMLscene.prototype.display = function () {
  * @param {integer} materialId - material's id
  */
 XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
-
+    
     var currNode = this.graph_tree.graphElements.get(currNodeId);
     var nextTextId, nextMaterialId;
     var matrixAnim = mat4.create();
@@ -165,29 +173,28 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         }
         
         
-        if (currNode.cmpAnims.animationsIDs.length != 0) {			
-        	
+        if (currNode.cmpAnims.animationsIDs.length != 0) {
+            
+            //index outside bounds
+            if (this.currentAnimation >= currNode.cmpAnims.animationsIDs.length) {
+                //last index
+                this.currentAnimation = 2;
+            }
+                    
             for (var i = 0; i < this.animations.length; i++) {
-                
-                //index outside bounds
-				if(this.currentAnimation >= currNode.cmpAnims.animationsIDs.length ) 
-					break;
-
-                if ( currNode.getCurrAnim(this.currentAnimation) == this.animations[i].id ) {
-                	this.animations[i].setActive();
+                if (currNode.getCurrAnim(this.currentAnimation) == this.animations[i].id) {
+                    this.animations[i].setActive();
                     matrixAnim = this.animations[i].getMatrix();
                     break;
                 }
-            }        
-        }	
+            }
+        }
         
         for (var i = 0; i < currNode.descendants.length; i++) {
-            this.pushMatrix();
-            this.multMatrix(matrixAnim);
-            this.multMatrix(currNode.getMatrix());
-            
-            
-            this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
+            this.pushMatrix();            
+                this.multMatrix(matrixAnim);            
+                this.multMatrix(currNode.getMatrix());           
+                this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
             this.popMatrix();
         
         }
@@ -199,7 +206,7 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         if (material !== undefined) {
             material.apply();
         }
-        	
+        
         if (text !== undefined) {
             currNode.object.updateTexCoords(text.amplif_s, text.amplif_t);
             text.bind();
@@ -217,6 +224,8 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
     
     }
 }
+
+
 
 /**
  * Updates the scene lights.
@@ -238,12 +247,12 @@ XMLscene.prototype.updateGuiLights = function(lightId, enabled) {
 
 XMLscene.prototype.update = function(currTime) {
     
-	//problema: da update mesmo que animacao nao esteja activa
-	//edited provavelmente ja nao da update
-
-    for (var i = 0; i < this.animations.length; i++) {    	
+    //problema: da update mesmo que animacao nao esteja activa
+    //edited provavelmente ja nao da update
+    
+    for (var i = 0; i < this.animations.length; i++) {
         //enquanto animacao nao terminar
-        if (!this.animations[i].done && this.animations[i].active) { 
+        if (!this.animations[i].done && this.animations[i].active) {
             this.animations[i].addTime(currTime);
         }
     }

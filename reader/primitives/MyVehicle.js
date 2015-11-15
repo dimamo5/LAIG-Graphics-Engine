@@ -21,38 +21,11 @@ function MyVehicle(scene) {
     this.box = new MyCylinderSurface(scene,1,1,1,2,10);
     this.base = new MyCylinderSurface(scene,0.01,0,1,2,15);
 
-    //this.initAnimations(); 
 }
 ;
 
 MyVehicle.prototype = Object.create(CGFobject.prototype);
 MyVehicle.prototype.constructor = MyVehicle;
-
-MyVehicle.prototype.initAnimations = function() {
-    /*
-    var cps = [];
-    
-    //1ª animacao a executar
-    this.scene.animations.push(new LinearAnimation(1,3,"linear"));
-    var cp1 = [vec3.fromValues(0, 0.20, 1.5), vec3.fromValues(-0.2, 0.4, 1.8), vec3.fromValues(-0.4, 0.8, 2.2), vec3.fromValues(-0.8, 1.4, 2.8)];
-    cps.push(cp1);
-    
-    //2º animacao a executar     
-    this.scene.animations.push(new CircularAnimation(3,8,"circular","000",2.8,0,360));        //TODO ACTUALIZAR CONSTRUTOR CONVENIENTEMENTE
-
-    //3º animacao a executar  
-    this.scene.animations.push(new LinearAnimation(2,3,"linear"));
-    var cp2 = cp1.slice().reverse();     //inverte ordem dos control point para fazer movimento reverso (aterrar)
-    cps.push(cp2);
-
-    console.log(cps);
-    //adiciona controlpoints a animacao respectiva   
-    for (var i = 0, k=0; i < 3; i+=2, k++) {
-        for (var j = 0; j < cps[k].length; j++) {         
-            this.scene.animations[i].addControlPoint(cps[k][j][0], cps[k][j][1], cps[k][j][2]);      // x, y, z  
-        }
-    }*/
-}
 
 
 MyVehicle.prototype.display = function() {

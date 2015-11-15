@@ -31,9 +31,7 @@ LinearAnimation.prototype.getDeslocationVector = function() {
 
 LinearAnimation.prototype.getMatrix = function() {
     var timeControlPoint = vec3.length(this.deslocationVector) / this.velocity;
-        
-   //console.log(this.velocity, timeControlPoint, this.frameTime);
-        
+                
     if (this.frameTime > timeControlPoint && this.currentControlPoint <= (this.controlPoint.length) && !this.done) {
         
         this.currentControlPoint++;
@@ -63,11 +61,11 @@ LinearAnimation.prototype.getMatrix = function() {
         var vector = vec3.create();
         vec3.subtract(vector, this.controlPoint[this.currentControlPoint - 1], this.controlPoint[this.currentControlPoint - 2]);
         mat4.rotateY(matrix, matrix, this.calcRotation(vector));
-      
-        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2 linhas abaixo sao apra apagar se estiver a haver problemas com animacoes
-        this.scene.currentAnimation++;
-        this.setInactive();
-        //this.init();
+              
+        if(this.active){
+            this.scene.updateCurrAnim();
+            this.setInactive();
+        }
 
     } 
     else {

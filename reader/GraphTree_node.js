@@ -12,7 +12,6 @@ function GraphTree_node(id,material_id,texture_id) {
     this.texture_id = texture_id;
         
     this.cmpAnims = new ComposedAnimation();
-    console.log(this.cmpAnims);
     
     this.descendants = [];
     this.transformations = [];

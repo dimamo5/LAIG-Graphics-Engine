@@ -53,11 +53,11 @@ CircularAnimation.prototype.getMatrix = function() {
         this.lastMatrix = this.rotate(this.currAng);
     }
     
-    if (this.currAng >= this.endAng) {
-        this.done = true;  //>>>>>>>>>>>>>>>>>>>>>>>>>>apagar linhas abaixo se houverem problemas
+    if (this.currAng >= this.endAng && this.active) {
+        this.done = true;  
         this.currAng = 0;
         this.setInactive();
-        this.scene.currentAnimation++;
+        this.scene.updateCurrAnim();
     }
     
     return this.lastMatrix;
