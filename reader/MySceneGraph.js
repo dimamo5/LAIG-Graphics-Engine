@@ -41,7 +41,7 @@ MySceneGraph.prototype.verifyError = function(error){
  * @param {object} rootElement - root node
  */
 MySceneGraph.prototype.checkOrder=function(rootElement){
-	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS","ANIMATIONS", "LEAVES", "NODES"];
+	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS","animations", "LEAVES", "NODES"];
 	for(var i =0;i<rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
@@ -422,16 +422,16 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 MySceneGraph.prototype.parseAnimations = function(rootElement) {
 
-	var elems = rootElement.getElementsByTagName('ANIMATIONS');	
+	var elems = rootElement.getElementsByTagName('animations');	
 	if (elems === null) {
-		return "ANIMATIONS element is missing.";
+		return "animations element is missing.";
 	}
 	
 	if (elems.length != 1) {
-		return "either zero or more than one ANIMATIONS element found.";
+		return "either zero or more than one animations element found.";
 	}
 	
-	var animationList = elems[0].getElementsByTagName('ANIMATION');
+	var animationList = elems[0].getElementsByTagName('animation');
 	if(animationList.length === 0){
 		return;
 	}
@@ -596,7 +596,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 		var texture_id = this.reader.getString(texture[0], "id",true);
 
-		var animation = nodeslist[i].getElementsByTagName('ANIMATION');
+		var animation = nodeslist[i].getElementsByTagName('animationref');
 		
 		//instanciação do node
 		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
@@ -676,9 +676,6 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		//adiciona node ao graphTree da cena		
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
-
-	//console.log(this.scene.animations);
-
 };
 
 	

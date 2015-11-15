@@ -79,27 +79,27 @@
 
 </MATERIALS>
 
-<ANIMATIONS>
+<animations>
 
-	<ANIMATION id="linear1" span="6" type="linear">
+	<animation id="linear1" span="6" type="linear">
 		
 		<CONTROLPOINT xx="0.2" yy="-1.9" zz="1.6"/>
 		<CONTROLPOINT xx="0.4" yy="-1.5" zz="2.2"/>
 		<CONTROLPOINT xx="0.0" yy="-0.5" zz="2.8"/>	
 		<CONTROLPOINT xx="0.0" yy="0" zz="2.8"/>	
-	</ANIMATION>
+	</animation>
 
-	 <ANIMATION id="linear2" span="6" type="linear">
+	 <animation id="linear2" span="6" type="linear">
 		<CONTROLPOINT xx="0.0" yy="0" zz="2.8"/>
 		<CONTROLPOINT xx="0.0" yy="-0.5" zz="2.8"/>	
 		<CONTROLPOINT xx="0.4" yy="-1.5" zz="2.2"/>
 		<CONTROLPOINT xx="0.2" yy="-1.9" zz="1.6"/>
 		
-	</ANIMATION>
+	</animation>
 	
-	<ANIMATION id="circAnim" span="8" type="circular" center="0 1.4 0" radius="2.8" startang="0" rotang="360"/> 
+	<animation id="circAnim" span="8" type="circular" center="0 1.4 0" radius="2.8" startang="0" rotang="360"/> 
 
-</ANIMATIONS> 
+</animations> 
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
@@ -202,9 +202,9 @@
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
     	<TRANSLATION x="0" y="0.1" z="0" />    	
          
-         <ANIMATION id="linear1" />
-         <ANIMATION id="circAnim" />
-         <ANIMATION id="linear2" />  
+         <animationref id="linear1" />
+         <animationref id="circAnim" />
+         <animationref id="linear2" />  
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
