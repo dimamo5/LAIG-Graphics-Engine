@@ -81,8 +81,7 @@
 
 <animations>
 
-	<animation id="linear1" span="6" type="linear">
-		
+	<animation id="linear1" span="6" type="linear">		
 		<controlpoint xx="0.2" yy="-1.9" zz="1.6"/>
 		<controlpoint xx="0.4" yy="-1.5" zz="2.2"/>
 		<controlpoint xx="0.0" yy="-0.5" zz="2.8"/>	

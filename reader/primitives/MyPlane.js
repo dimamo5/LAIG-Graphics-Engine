@@ -1,3 +1,9 @@
+/**
+ * Represents a plane
+ * @constructor
+ * @param {object} scene 
+ * @param {int} nrDivs 
+ */
 function MyPlane(scene, nrDivs) {
     CGFobject.call(this, scene);
     this.scene = scene;
@@ -21,6 +27,9 @@ function MyPlane(scene, nrDivs) {
 MyPlane.prototype = Object.create(CGFobject.prototype);
 MyPlane.prototype.constructor = MyPlane;
 
+/**
+* MyPlane display method
+*/
 MyPlane.prototype.display = function() {
    
     this.obj.display();

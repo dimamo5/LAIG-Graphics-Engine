@@ -69,10 +69,9 @@ MySceneGraph.prototype.verifyError = function(error){
  * @param {object} rootElement - root node
  */
 MySceneGraph.prototype.checkOrder=function(rootElement){
-	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS", "LEAVES", "NODES"];
+	var order =["INITIALS", "ILLUMINATION", "LIGHTS", "TEXTURES", "MATERIALS","animations", "LEAVES", "NODES"];
 	for(var i =0;i&lt;rootElement.children.length;i++){
 		if(rootElement.children[i].nodeName!=order[i]){
-			//return rootElement.children[i].nodeName+" is in the wrong place!\t";
 			console.warn(rootElement.children[i].nodeName+" is in the wrong place!\t");
 		}
 	}
@@ -112,7 +111,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "translate element is missing or there are more than one element found.";
 	}
 
-	this.scene.translation = { x : this.reader.getFloat(translate[0],"x",true),
+	var translation = { x : this.reader.getFloat(translate[0],"x",true),
 					   y : this.reader.getFloat(translate[0],"y",true),
 					   z : this.reader.getFloat(translate[0],"z",true) };
 
@@ -127,6 +126,8 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "the number of rotation elements is diferent than expected";
 	}
 
+	var rotationX_angle,rotationY_angle,rotationZ_angle;
+
 	for(var i=0; i &lt; nrot; i++){
 
 		var e = rotation[i];
@@ -134,15 +135,15 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 
 		switch (axis)	{
 			case "x":
-				this.scene.rotationX_angle = this.reader.getFloat(e,"angle",true);
+				rotationX_angle = this.reader.getFloat(e,"angle",true);
 				break;
 
 			case "y":			
-				this.scene.rotationY_angle = this.reader.getFloat(e,"angle",true);
+				rotationY_angle = this.reader.getFloat(e,"angle",true);
 				break;			
 
 			case "z":
-				this.scene.rotationZ_angle = this.reader.getFloat(e,"angle",true);
+				rotationZ_angle = this.reader.getFloat(e,"angle",true);
 				break;	
 
 			default:
@@ -151,7 +152,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 	}
 
 	//verifica se algum dos eixos ficou por preencher
-	if( this.scene.rotationX_angle === undefined || this.scene.rotationY_angle === undefined || this.scene.rotationZ_angle === undefined)
+	if(rotationX_angle === undefined ||rotationY_angle === undefined ||rotationZ_angle === undefined)
 		return "error defining axis";
 
 	
@@ -161,18 +162,18 @@ MySceneGraph.prototype.parseInitials = function(rootElement){
 		return "scale element is missing or there are more than one element found.";
 	}
 
-	this.scene.scale_initial = { sx : this.reader.getFloat(scale[0],"sx",true),
+	var scale_initial = { sx : this.reader.getFloat(scale[0],"sx",true),
 								 sy : this.reader.getFloat(scale[0],"sy",true),
 								 sz : this.reader.getFloat(scale[0],"sz",true) };
 
 
 	var matrix =mat4.create();
 
-	mat4.translate(matrix,matrix,vec3.fromValues(this.scene.translation.x,this.scene.translation.y,this.scene.translation.z));
-	mat4.rotateX(matrix,matrix,degToRad(this.scene.rotationX_angle));
-	mat4.rotateY(matrix,matrix,degToRad(this.scene.rotationY_angle));
-	mat4.rotateZ(matrix,matrix,degToRad(this.scene.rotationZ_angle));
-	mat4.scale(matrix,matrix,vec3.fromValues(this.scene.scale_initial.sx,this.scene.scale_initial.sy,this.scene.scale_initial.sz))
+	mat4.translate(matrix,matrix,vec3.fromValues(translation.x,translation.y,translation.z));
+	mat4.rotateX(matrix,matrix,degToRad(rotationX_angle));
+	mat4.rotateY(matrix,matrix,degToRad(rotationY_angle));
+	mat4.rotateZ(matrix,matrix,degToRad(rotationZ_angle));
+	mat4.scale(matrix,matrix,vec3.fromValues(scale_initial.sx,scale_initial.sy,scale_initial.sz));
 
 	this.scene.initialTransformation=matrix;
 
@@ -379,7 +380,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		return "no materials found";
 	}
 
-	this.scene.materials = new assocMap(); //boa pratica??
+	this.scene.materials = new assocMap();
 
 	//carrega todos os elementos "materials"
 	for(var i = 0; i &lt; materialsList.length; i++){
@@ -447,6 +448,67 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 };
 
 /**
+ * Parser of the animations nodes
+ * @param {object} rootElement - root node
+ */
+MySceneGraph.prototype.parseAnimations = function(rootElement) {
+
+	var elems = rootElement.getElementsByTagName('animations');	
+	if (elems === null) {
+		return "animations element is missing.";
+	}
+	
+	if (elems.length != 1) {
+		return "either zero or more than one animations element found.";
+	}
+	
+	var animationList = elems[0].getElementsByTagName('animation');
+	if(animationList.length === 0){
+		return;
+	}
+
+	this.scene.animations=[];
+
+	//carrega todos os elementos "materials"
+	for(var i = 0; i &lt; animationList.length; i++){
+		var anim;
+
+		var id = this.reader.getString(animationList[i],"id",true);
+
+		var span = this.reader.getFloat(animationList[i],"span",true);
+
+		var type = this.reader.getString(animationList[i],"type",true);		
+
+		if(type !== null &amp;&amp; type=="circular") {
+						
+			var center = this.reader.getString(animationList[i],"center",true);
+			var radius=this.reader.getFloat(animationList[i],"radius",true);
+			var startang=this.reader.getFloat(animationList[i],"startang",true);
+			var rotang=this.reader.getFloat(animationList[i],"rotang",true);
+	
+			anim = new CircularAnimation(this.scene, id, type, span, center.split(" "), radius, startang, rotang);
+
+		}else if(type !== null &amp;&amp; type=="linear") {
+				anim = new LinearAnimation(this.scene, id,type,span);
+
+			var controlpoints = animationList[i].getElementsByTagName('controlpoint');	
+			if (controlpoints === null &amp;&amp; controlpoints&lt;2) {
+				return "Control Points element is missing.";
+			}
+
+			for(var cp=0;cp&lt;controlpoints.length;cp++){
+				var x=this.reader.getFloat(controlpoints[cp],"xx",true);
+				var y=this.reader.getFloat(controlpoints[cp],"yy",true);
+				var z=this.reader.getFloat(controlpoints[cp],"zz",true);
+				anim.addControlPoint(x,y,z);
+			}			
+		}
+
+		this.scene.animations.push(anim); 		
+	}	
+};
+
+/**
  * Parses the leafs
  * @param {object} rootElement - root node
  */
@@ -470,11 +532,48 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 
 		var id = this.reader.getString(leavesList[i],"id",true);		
 		var type = this.reader.getString(leavesList[i],"type",true);
-		var args = this.reader.getString(leavesList[i],"args",true);
+		var leaf_Obj = new GraphTree_leaf(id,type);
 
-		var leaf_Obj = new GraphTree_leaf(id,type,args);
+
+		if(type=="triangle"||type=="rectangle"||type=="cylinder"||type=="sphere"){
+			var args = this.reader.getString(leavesList[i],"args",true);
+			leaf_Obj.createSimpleObjects(this.scene,args);
+		}
+
+		if(type=="plane"){
+			var parts = this.reader.getInteger(leavesList[i],"parts",true);
+			leaf_Obj.createPlaneObject(this.scene,parts);
+		}
+
+		if(type=="patch"){
+			var order = this.reader.getInteger(leavesList[i],"order",true);
+			var partsU = this.reader.getInteger(leavesList[i],"partsU",true);
+			var partsV = this.reader.getInteger(leavesList[i],"partsV",true);
+			var controlpoints=[];
+
+			for(var cp=0;cp&lt;leavesList[i].children.length;cp++){
+				if(leavesList[i].children[cp].nodeName=="controlpoint"){
+					var x=this.reader.getFloat(leavesList[i].children[cp],"x",true);
+					var y=this.reader.getFloat(leavesList[i].children[cp],"y",true);
+					var z=this.reader.getFloat(leavesList[i].children[cp],"z",true);
+				}
+				controlpoints.push([x,y,z,1]);
+			}
+
+			leaf_Obj.createPatchObject(this.scene,order,partsU,partsV,controlpoints);
+		}
+
+		if(type=="vehicle"){
+			leaf_Obj.createVehicleObject(this.scene);
+		}
+
+		if(type=="terrain"){
+			var texture = this.reader.getString(leavesList[i],"texture",true);
+			var heightmap = this.reader.getString(leavesList[i],"heightmap",true);
+			
+			leaf_Obj.createTerrainObject(this.scene,heightmap,texture);
+		}
 		
-		leaf_Obj.createObject(this.scene);
 
 		this.scene.graph_tree.graphElements.add(id,leaf_Obj); 
 	}
@@ -486,6 +585,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
  * @param {object} rootElement - root node
  */
 MySceneGraph.prototype.parseNodes = function(rootElement){
+
 
 	var elems = rootElement.getElementsByTagName('NODES');	
 	if (elems === null) {
@@ -508,7 +608,8 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 	if(nodeslist.length === 0){
 		return "no nodes found";
 	}
-
+	
+	
 	//leitura dos nodes
 	for(var i = 0; i &lt; nodeslist.length; i++){
 
@@ -526,9 +627,16 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 		var texture_id = this.reader.getString(texture[0], "id",true);
 
+		var animation = nodeslist[i].getElementsByTagName('animationref');
+		
 		//instanciação do node
 		var node_Obj = new GraphTree_node(node_id, material_id, texture_id);
-
+		
+		//add dos ids das animacoes
+		for(var l = 0; l &lt; animation.length ; l++){
+			node_Obj.addAnimation(this.reader.getString(animation[l], "id",true));
+		}
+		
 		//tamanho da lista dos filhos do node (texture,material,translation...)
 		var childList_length = nodeslist[i].childNodes.length;
 		var child = nodeslist[i].firstChild;
@@ -540,16 +648,16 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		
 			if(child.nodeName == "TRANSLATION" ){				
 				transf.push(child.nodeName); 		//tipo da transformacao
-				transf.push(child.getAttributeNode("x").nodeValue);
-				transf.push(child.getAttributeNode("y").nodeValue);
-				transf.push(child.getAttributeNode("z").nodeValue);
+				transf.push(this.reader.getFloat(child,"x",true));
+				transf.push(this.reader.getFloat(child,"y",true));
+				transf.push(this.reader.getFloat(child,"z",true));
 
 				node_Obj.transformations.push(transf); 
 
 			}else if(child.nodeName == "ROTATION" ){				
 				transf.push(child.nodeName);		//tipo da transformacao
 
-				var axis=child.getAttributeNode("axis").nodeValue;
+				var axis=this.reader.getString(child,"axis",true);
 				switch(axis){
 					case("x"):
 						transf.push([1,0,0]);
@@ -562,16 +670,18 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 					case("z"):
 						transf.push([0,0,1]);
 					break;
+					default:
+						return "Undefined axis in node rotation";
 				}
-				transf.push(child.getAttributeNode("angle").nodeValue);
+				transf.push(this.reader.getFloat(child,"angle",true));
 
 				node_Obj.transformations.push(transf); 
 
 			}else if(child.nodeName == "SCALE" ){				
 				transf.push(child.nodeName);		//tipo da transformacao	
-				transf.push(child.getAttributeNode("sx").nodeValue);
-				transf.push(child.getAttributeNode("sy").nodeValue);
-				transf.push(child.getAttributeNode("sz").nodeValue);
+				transf.push(this.reader.getFloat(child,"sx",true));
+				transf.push(this.reader.getFloat(child,"sy",true));
+				transf.push(this.reader.getFloat(child,"sz",true));
 
 				node_Obj.transformations.push(transf); 
 
@@ -597,7 +707,6 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		//adiciona node ao graphTree da cena		
 		this.scene.graph_tree.graphElements.add(node_id, node_Obj);
 	}
-
 };
 
 	
@@ -613,17 +722,18 @@ MySceneGraph.prototype.onXMLReady=function()
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
 	var parser = [ this.checkOrder,this.parseInitials, this.parseIlumination, this.parseLights, this.parseTextures,
-				   this.parseMaterials, this.parseLeaves,	this.parseNodes ];
+				   this.parseMaterials,this.parseAnimations, this.parseLeaves,	this.parseNodes ];
 				  
 	//executa as chamadas aos parsers e verifica a ocorrencia de erros
 	for(var i = 0; i &lt; parser.length; i++){
 		error = parser[i].call(this,rootElement);
-
+		
 		if (error !== null &amp;&amp; error !== undefined) {
 			this.onXMLError(error);
 		return;
 		}
 	}
+	
 
 	this.loadedOk=true;
 	
@@ -649,13 +759,13 @@ MySceneGraph.prototype.onXMLError=function (message) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="assocMap.html">assocMap</a></li><li><a href="GraphTree.html">GraphTree</a></li><li><a href="GraphTree_leaf.html">GraphTree_leaf</a></li><li><a href="GraphTree_node.html">GraphTree_node</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MyTexture.html">MyTexture</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#degToRad">degToRad</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Animation.html">Animation</a></li><li><a href="assocMap.html">assocMap</a></li><li><a href="CircularAnimation.html">CircularAnimation</a></li><li><a href="ComposedAnimation.html">ComposedAnimation</a></li><li><a href="GraphTree.html">GraphTree</a></li><li><a href="GraphTree_leaf.html">GraphTree_leaf</a></li><li><a href="GraphTree_node.html">GraphTree_node</a></li><li><a href="LinearAnimation.html">LinearAnimation</a></li><li><a href="MyCylinderSurface.html">MyCylinderSurface</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MyPatch.html">MyPatch</a></li><li><a href="MyPlane.html">MyPlane</a></li><li><a href="MyRectangle.html">MyRectangle</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MySphere.html">MySphere</a></li><li><a href="MyTerrain.html">MyTerrain</a></li><li><a href="MyTexture.html">MyTexture</a></li><li><a href="MyTriangle.html">MyTriangle</a></li><li><a href="MyVehicle.html">MyVehicle</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#degToRad">degToRad</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Sun Oct 18 2015 17:02:10 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Nov 16 2015 03:00:59 GMT-0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>

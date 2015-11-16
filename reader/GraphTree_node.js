@@ -26,7 +26,9 @@ GraphTree_node.prototype.getCurrAnim = function(indice){
 }
 
 
-/** Creates transformations's matrix */
+/** 
+ * Creates transformations's matrix 
+ */
 GraphTree_node.prototype.getMatrix=function(){
     var matrix=mat4.create(); //gera matriz
     mat4.identity(matrix);

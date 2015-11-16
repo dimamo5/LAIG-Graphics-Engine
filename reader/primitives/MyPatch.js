@@ -1,3 +1,13 @@
+/**
+ * Represents a patch
+ * @constructor
+ * @param {object} scene  
+ * @param {int} orderU 
+ * @param {int} orderV 
+ * @param {int} nrDivsU 
+ * @param {int} nrDivsV 
+ * @param {array} controlPoint
+ */
 function MyPatch(scene, orderU, orderV, nrDivsU, nrDivsV, controlPoint) {
     CGFobject.call(this, scene);
     this.scene = scene;
@@ -27,14 +37,17 @@ function MyPatch(scene, orderU, orderV, nrDivsU, nrDivsV, controlPoint) {
 MyPatch.prototype = Object.create(CGFobject.prototype);
 MyPatch.prototype.constructor = MyPatch;
 
-MyPatch.prototype.display = function() {
-    
-    
+/**
+* Display of the patch
+*/
+MyPatch.prototype.display = function() {    
     this.obj.display();
-
 }
 ;
 
+/**
+* Generate controlpoints
+*/
 MyPatch.prototype.getControlPoints = function() {
     var controlPoints = [];
     var ind = 0;
@@ -49,6 +62,9 @@ MyPatch.prototype.getControlPoints = function() {
     return controlPoints;
 }
 
+/**
+* Generate knot U Points
+*/
 MyPatch.prototype.getKnotPointU = function() {
     var antes = Array(this.orderU + 1).fill(0);
     var depois = Array(this.orderU + 1).fill(1);
@@ -56,6 +72,9 @@ MyPatch.prototype.getKnotPointU = function() {
 
 }
 
+/**
+* Generate knot V Points
+*/
 MyPatch.prototype.getKnotPointV = function() {
     var antes = Array(this.orderV + 1).fill(0);
     var depois = Array(this.orderV + 1).fill(1);
@@ -63,7 +82,6 @@ MyPatch.prototype.getKnotPointV = function() {
 
 }
 
-//[-1.0, 0.0, 1.0, 1],[-1.0, 0.0, -1.0, 1], [1.0, 0.0, 1.0, 1],[1.0, 0.0, -1.0, 1]
 
 MyPatch.prototype.updateTexCoords = function(s, t) {
 }

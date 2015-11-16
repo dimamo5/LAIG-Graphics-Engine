@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: MyRectangle</title>
+    <title>JSDoc: Class: Animation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: MyRectangle</h1>
+    <h1 class="page-title">Class: Animation</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2>MyRectangle</h2>
+        <h2>Animation</h2>
         
     
 </header>
@@ -40,14 +40,14 @@
 
     
 
-    <h4 class="name" id="MyRectangle"><span class="type-signature"></span>new MyRectangle<span class="signature">(scene, x1, y1, x2, y2)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Animation"><span class="type-signature"></span>new Animation<span class="signature">(scene, id, type, span)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Represents a rectangle primitive.
+    Represents an abstract animation
 </div>
 
 
@@ -99,20 +99,20 @@
 
             
 
-            <td class="description last">-</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>x1</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">float</span>
+<span class="param-type">string</span>
 
 
             
@@ -122,20 +122,20 @@
 
             
 
-            <td class="description last">top left corner x</td>
+            <td class="description last">linear animation's id</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>y1</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">float</span>
+<span class="param-type">string</span>
 
 
             
@@ -145,20 +145,20 @@
 
             
 
-            <td class="description last">top left corner y</td>
+            <td class="description last">animation's type</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>x2</code></td>
+                <td class="name"><code>span</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">float</span>
+<span class="param-type">int</span>
 
 
             
@@ -168,30 +168,7 @@
 
             
 
-            <td class="description last">bottom right corner x</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">float</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">bottom right corner y</td>
+            <td class="description last">animation's duration</td>
         </tr>
 
     
@@ -232,7 +209,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MyRectangle.js.html">MyRectangle.js</a>, <a href="MyRectangle.js.html#line10">line 10</a>
+        <a href="Animation.js.html">Animation.js</a>, <a href="Animation.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -281,96 +258,14 @@
 
     
 
-    <h4 class="name" id="initBuffers"><span class="type-signature"></span>initBuffers<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addTime"><span class="type-signature"></span>addTime<span class="signature">(nexTime)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Initialize buffers (indexs/vertexs/normals/texture coords)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MyRectangle.js.html">MyRectangle.js</a>, <a href="MyRectangle.js.html#line29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="updateTexCoords"><span class="type-signature"></span>updateTexCoords<span class="signature">(s, t)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Updates texture coordinates
+    Updates frametime with the given value
 </div>
 
 
@@ -406,13 +301,13 @@
 
         <tr>
             
-                <td class="name"><code>s</code></td>
+                <td class="name"><code>nexTime</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">float</span>
+<span class="param-type">int</span>
 
 
             
@@ -422,30 +317,7 @@
 
             
 
-            <td class="description last">amplifying factor s</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>t</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">float</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">amplifying factor t</td>
+            <td class="description last">fraction to be added</td>
         </tr>
 
     
@@ -486,7 +358,302 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MyRectangle.js.html">MyRectangle.js</a>, <a href="MyRectangle.js.html#line67">line 67</a>
+        <a href="Animation.js.html">Animation.js</a>, <a href="Animation.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setActive"><span class="type-signature"></span>setActive<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Set animation as active.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Animation.js.html">Animation.js</a>, <a href="Animation.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setInactive"><span class="type-signature"></span>setInactive<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Set animation as inactive.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Animation.js.html">Animation.js</a>, <a href="Animation.js.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="updateFrameTime"><span class="type-signature"></span>updateFrameTime<span class="signature">(nexTime)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Updates frametime with the given value
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nexTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">fraction to be added</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Animation.js.html">Animation.js</a>, <a href="Animation.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -534,7 +701,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Nov 16 2015 03:01:00 GMT-0000 (GMT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Nov 16 2015 03:00:59 GMT-0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>

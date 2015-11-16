@@ -33,11 +33,10 @@
  * @param {string} type - leaf's type 
  * @param {array} args - arguments's array 
  */
-function GraphTree_leaf(id,type, args) {
+function GraphTree_leaf(id,type) {
 
     this.id = id;
     this.type = type;
-    this.args = args;
     this.object={};
 }
 
@@ -45,26 +44,22 @@ GraphTree_leaf.prototype.constructor = GraphTree_leaf;
 
 
 /**
- * Initializes primitive corresponding to the leaf's type with the arguments (args)
- * @param {object} scene 
+ * Initializes the first 4 primitives corresponding to the leaf's type with the arguments (args)
+ * @param {object} scene
+ * @param {args} args of scene 
  */
-GraphTree_leaf.prototype.createObject = function(scene) {
+GraphTree_leaf.prototype.createSimpleObjects = function(scene,args) {
     var array = [];
 
 	//remove espaços entre argumentos com o uso de regex
-    var str_splited = this.args.split(/\s+/g); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
-            /*for(var i=0;i&lt;str_splited.length;i++){
-                if(str_splited[i]===""){
-                    str_splited.splice(i,1);
-                }
-            }*/
-
-	//initializes primitive
+    var str_splited = args.split(/\s+/g); //original: ["arg1 arg2 arg3 ..."] > split > { "arg1","arg2","arg3",...}
+      
+	//inicializa o this.object com primitiva correspondente
     switch(this.type){        
        
         case "triangle":                
             for(var i = 0; i &lt; 9 ; i++){
-                array.push( parseFloat( str_splited[i]) ); //converte elementos da string e carrega-os para o array a ser retornado
+                array.push( parseFloat( str_splited[i]) );
             }
             this.object=new MyTriangle(scene,array[0],array[1],array[2],array[3],array[4],array[5],array[6],array[7],array[8]);
             
@@ -104,8 +99,44 @@ GraphTree_leaf.prototype.createObject = function(scene) {
     }
 };
 
+/**
+ * Creates a MyPLane Object with the given parameters
+ * @param {object} scene
+ * @param {int} parts 
+ */
+GraphTree_leaf.prototype.createPlaneObject = function(scene,parts){
+    this.object=new MyPlane(scene,parts);               
+}
 
-</code></pre>
+/**
+ * Creates a MyPLane Object with the given parameters
+ * @param {object} scene
+ * @param {int} order
+ * @param {object} partsU
+ * @param {int} partsV  
+ * @param {array} controlPoints  
+ */
+GraphTree_leaf.prototype.createPatchObject = function(scene, order,partsU,partsV,controlPoints){
+    this.object=new MyPatch(scene,order,order,partsU,partsV,controlPoints);  
+}
+
+/**
+ * Creates a MyVehicle Object with the given parameters
+ * @param {object} scene
+ */
+GraphTree_leaf.prototype.createVehicleObject = function(scene){
+    this.object = new MyVehicle(scene);
+}
+
+/**
+ * Creates a MyTerrain Object with the given parameters
+ * @param {object} scene
+ * @param {object} heightMap 
+ * @param {object} colorMap 
+ */
+GraphTree_leaf.prototype.createTerrainObject = function(scene,heigthMap,colorMap){
+    this.object = new MyTerrain(scene,heigthMap,colorMap);
+}</code></pre>
         </article>
     </section>
 
@@ -115,13 +146,13 @@ GraphTree_leaf.prototype.createObject = function(scene) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="assocMap.html">assocMap</a></li><li><a href="GraphTree.html">GraphTree</a></li><li><a href="GraphTree_leaf.html">GraphTree_leaf</a></li><li><a href="GraphTree_node.html">GraphTree_node</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MyTexture.html">MyTexture</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#degToRad">degToRad</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Animation.html">Animation</a></li><li><a href="assocMap.html">assocMap</a></li><li><a href="CircularAnimation.html">CircularAnimation</a></li><li><a href="ComposedAnimation.html">ComposedAnimation</a></li><li><a href="GraphTree.html">GraphTree</a></li><li><a href="GraphTree_leaf.html">GraphTree_leaf</a></li><li><a href="GraphTree_node.html">GraphTree_node</a></li><li><a href="LinearAnimation.html">LinearAnimation</a></li><li><a href="MyCylinderSurface.html">MyCylinderSurface</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MyPatch.html">MyPatch</a></li><li><a href="MyPlane.html">MyPlane</a></li><li><a href="MyRectangle.html">MyRectangle</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MySphere.html">MySphere</a></li><li><a href="MyTerrain.html">MyTerrain</a></li><li><a href="MyTexture.html">MyTexture</a></li><li><a href="MyTriangle.html">MyTriangle</a></li><li><a href="MyVehicle.html">MyVehicle</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#degToRad">degToRad</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Sun Oct 18 2015 17:02:10 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Nov 16 2015 03:00:59 GMT-0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>

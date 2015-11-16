@@ -1,3 +1,10 @@
+/**
+ * Represents a terrain according to height/color map
+ * @constructor
+ * @param {object} scene  
+ * @param {object} heightImage 
+ * @param {object} dataImage 
+ */
 function MyTerrain(scene, heightImage, dataImage) {
     CGFobject.call(this, scene);
     this.scene = scene;
@@ -13,13 +20,16 @@ function MyTerrain(scene, heightImage, dataImage) {
     });
     
     this.plane=new MyPlane(scene,128);
-
 }
 ;
 
 MyTerrain.prototype = Object.create(CGFobject.prototype);
 MyTerrain.prototype.constructor = MyTerrain;
 
+
+/**
+* MyTerrain display method
+*/
 MyTerrain.prototype.display = function() {
     
     

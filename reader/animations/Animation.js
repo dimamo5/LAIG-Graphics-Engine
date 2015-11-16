@@ -1,4 +1,12 @@
-function Animation(scene, id, span, type){
+/**
+ * Represents an abstract animation
+ * @constructor 
+ * @param {object} scene
+ * @param {string} id - linear animation's id  
+ * @param {string} type - animation's type
+ * @param {int} span - animation's duration 
+ */
+function Animation(scene, id, type, span){
 	this.scene = scene;
 	this.id=id;
 	this.type=type;
@@ -11,13 +19,18 @@ function Animation(scene, id, span, type){
 
 Animation.prototype.constructor = Animation;
 
+/**
+ * Updates frametime with the given value
+ * @param {int} nexTime - fraction to be added
+ */
 Animation.prototype.updateFrameTime = function(nextTime){
 	this.frameTime+=nextTime;
 }
 
-Animation.prototype.getMatrix= function(){
-}
-
+/**
+ * Updates frametime with the given value
+ * @param {int} nexTime - fraction to be added
+ */
 Animation.prototype.addTime=function(currTime){
 	
 	if(this.currentTime !== undefined)
@@ -25,10 +38,16 @@ Animation.prototype.addTime=function(currTime){
 	this.currentTime=currTime;
 }
 
+/**
+* Set animation as active.
+*/
 Animation.prototype.setActive = function(){
 	this.active = true;
 }
 
+/**
+* Set animation as inactive.
+*/
 Animation.prototype.setInactive = function(){
 	this.active = false;
 	this.done = false;

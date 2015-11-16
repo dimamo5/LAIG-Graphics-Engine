@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: MySphere.js</title>
+    <title>JSDoc: Source: ComposedAnimation.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: MySphere.js</h1>
+    <h1 class="page-title">Source: ComposedAnimation.js</h1>
 
     
 
@@ -27,83 +27,32 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Represents a sphere primitive
+ * Represents a composed animation
  * @constructor
- * @param {object} scene - 
- * @param {float} radius -
- * @param {integer} slices - 
- * @param {integer} stacks -
- */ 
- function MySphere(scene, radius, slices, stacks) {
- 	CGFobject.call(this,scene);
-	
-	this.slices=slices;
-	this.stacks=stacks;
-	this.radius=radius;
+ */
+function ComposedAnimation(){
+    
+   this.animationsIDs = [];
+}
 
- 	this.initBuffers();
- }
+ComposedAnimation.prototype.constructor = ComposedAnimation;
 
- MySphere.prototype = Object.create(CGFobject.prototype);
- MySphere.prototype.constructor = MySphere;
+/**
+ * Stores an animation id
+ * @param {string} id - animation id
+ */
+ComposedAnimation.prototype.addAnimation = function(id){
+    this.animationsIDs.push(id);
+}
 
- /** Initialize buffers (indexs/vertexs/normals/texture coords) */
- MySphere.prototype.initBuffers = function() {
-
-this.vertices = []; 	
- 	this.indices = [];
- 	this.normals = [];
- 	this.texCoords=[];
-	
-	
-	var teta = (Math.PI)/this.stacks; //phi radians
-	var phi = 2*Math.PI/this.slices; //teta radians
-	var comprimento = 1;
-	var raio = 1;
-	var inc = comprimento/this.stacks; //incremento em z
-	var x,y,z;
-
-	var stepS=0;
-	var stepT=0;
-
-	for(var stack=0; stack &lt;= this.stacks; stack++){
-		for(var slice = 0; slice &lt;= this.slices; slice++){
-
-			x = this.radius*Math.sin(stack*teta)*Math.cos(slice*phi); //x = rsin0cosf			
-			y = this.radius*Math.sin(stack*teta)*Math.sin(slice*phi); //y = rsin0sinf			
-			z = this.radius*Math.cos(stack*teta); // z
-			
-			stepS=slice/(this.slices);
-			stepT= stack/(this.stacks);
-
-			this.vertices.push(x); //x
-			this.vertices.push(y); //y
-			this.vertices.push(z); //z 
-
-			this.texCoords.push(stepS,stepT);
-
-			this.normals.push(x,y,z);
-
-		}
-		
-	}
-
-
-	for(var i=0; i &lt; this.stacks;i++){
-		for(var k = 0; k &lt; this.slices ; k++){
-			
-				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k  ,(i+1)*(this.slices+1)+k+1);
-				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k+1, i*(this.slices+1) + k+1);
-		}
-	}
-
-
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
-
-MySphere.prototype.updateTexCoords = function(s, t) {
-};</code></pre>
+/**
+ * Returns an animation id
+ * @param {int} indice - animations index 
+ */
+ComposedAnimation.prototype.getAnim = function(indice){
+    return indice &lt; this.animationsIDs.length ? this.animationsIDs[indice] : "Composed Animation: trying to access outside of array";
+}
+</code></pre>
         </article>
     </section>
 

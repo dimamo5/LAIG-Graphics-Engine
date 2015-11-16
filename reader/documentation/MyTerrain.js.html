@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: MySphere.js</title>
+    <title>JSDoc: Source: MyTerrain.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: MySphere.js</h1>
+    <h1 class="page-title">Source: MyTerrain.js</h1>
 
     
 
@@ -27,83 +27,55 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Represents a sphere primitive
+ * Represents a terrain according to height/color map
  * @constructor
- * @param {object} scene - 
- * @param {float} radius -
- * @param {integer} slices - 
- * @param {integer} stacks -
- */ 
- function MySphere(scene, radius, slices, stacks) {
- 	CGFobject.call(this,scene);
-	
-	this.slices=slices;
-	this.stacks=stacks;
-	this.radius=radius;
+ * @param {object} scene  
+ * @param {object} heightImage 
+ * @param {object} dataImage 
+ */
+function MyTerrain(scene, heightImage, dataImage) {
+    CGFobject.call(this, scene);
+    this.scene = scene;
+    
+    this.heightMap = new CGFtexture(this.scene,heightImage);
+    this.colorMap = new CGFtexture(this.scene,dataImage);
 
- 	this.initBuffers();
- }
+    this.testShader = new CGFshader(this.scene.gl,"shaders/terrain.vert","shaders/terrain.frag");
+    
+    this.testShader.setUniformsValues({
+        heightMap: 1,
+        colorMap:2
+    });
+    
+    this.plane=new MyPlane(scene,128);
+}
+;
 
- MySphere.prototype = Object.create(CGFobject.prototype);
- MySphere.prototype.constructor = MySphere;
-
- /** Initialize buffers (indexs/vertexs/normals/texture coords) */
- MySphere.prototype.initBuffers = function() {
-
-this.vertices = []; 	
- 	this.indices = [];
- 	this.normals = [];
- 	this.texCoords=[];
-	
-	
-	var teta = (Math.PI)/this.stacks; //phi radians
-	var phi = 2*Math.PI/this.slices; //teta radians
-	var comprimento = 1;
-	var raio = 1;
-	var inc = comprimento/this.stacks; //incremento em z
-	var x,y,z;
-
-	var stepS=0;
-	var stepT=0;
-
-	for(var stack=0; stack &lt;= this.stacks; stack++){
-		for(var slice = 0; slice &lt;= this.slices; slice++){
-
-			x = this.radius*Math.sin(stack*teta)*Math.cos(slice*phi); //x = rsin0cosf			
-			y = this.radius*Math.sin(stack*teta)*Math.sin(slice*phi); //y = rsin0sinf			
-			z = this.radius*Math.cos(stack*teta); // z
-			
-			stepS=slice/(this.slices);
-			stepT= stack/(this.stacks);
-
-			this.vertices.push(x); //x
-			this.vertices.push(y); //y
-			this.vertices.push(z); //z 
-
-			this.texCoords.push(stepS,stepT);
-
-			this.normals.push(x,y,z);
-
-		}
-		
-	}
+MyTerrain.prototype = Object.create(CGFobject.prototype);
+MyTerrain.prototype.constructor = MyTerrain;
 
 
-	for(var i=0; i &lt; this.stacks;i++){
-		for(var k = 0; k &lt; this.slices ; k++){
-			
-				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k  ,(i+1)*(this.slices+1)+k+1);
-				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k+1, i*(this.slices+1) + k+1);
-		}
-	}
+/**
+* MyTerrain display method
+*/
+MyTerrain.prototype.display = function() {
+    
+    
+    this.scene.setActiveShader(this.testShader);
 
+        this.heightMap.bind(1);
+        this.colorMap.bind(2);
+        this.plane.display();
 
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
+    this.scene.setActiveShader(this.scene.defaultShader);
 
-MySphere.prototype.updateTexCoords = function(s, t) {
-};</code></pre>
+}
+;
+
+MyTerrain.prototype.updateTexCoords = function(s, t) {
+}
+;
+</code></pre>
         </article>
     </section>
 

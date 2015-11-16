@@ -419,7 +419,10 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	}
 };
 
-
+/**
+ * Parser of the animations nodes
+ * @param {object} rootElement - root node
+ */
 MySceneGraph.prototype.parseAnimations = function(rootElement) {
 
 	var elems = rootElement.getElementsByTagName('animations');	
@@ -455,10 +458,10 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 			var startang=this.reader.getFloat(animationList[i],"startang",true);
 			var rotang=this.reader.getFloat(animationList[i],"rotang",true);
 	
-			anim = new CircularAnimation(this.scene, id, span, type, center.split(" "), radius, startang, rotang);
+			anim = new CircularAnimation(this.scene, id, type, span, center.split(" "), radius, startang, rotang);
 
 		}else if(type !== null && type=="linear") {
-				anim = new LinearAnimation(this.scene, id,span,type);
+				anim = new LinearAnimation(this.scene, id,type,span);
 
 			var controlpoints = animationList[i].getElementsByTagName('controlpoint');	
 			if (controlpoints === null && controlpoints<2) {

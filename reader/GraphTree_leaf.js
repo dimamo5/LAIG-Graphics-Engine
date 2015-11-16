@@ -71,19 +71,41 @@ GraphTree_leaf.prototype.createSimpleObjects = function(scene,args) {
     }
 };
 
-
+/**
+ * Creates a MyPLane Object with the given parameters
+ * @param {object} scene
+ * @param {int} parts 
+ */
 GraphTree_leaf.prototype.createPlaneObject = function(scene,parts){
     this.object=new MyPlane(scene,parts);               
 }
 
+/**
+ * Creates a MyPLane Object with the given parameters
+ * @param {object} scene
+ * @param {int} order
+ * @param {object} partsU
+ * @param {int} partsV  
+ * @param {array} controlPoints  
+ */
 GraphTree_leaf.prototype.createPatchObject = function(scene, order,partsU,partsV,controlPoints){
     this.object=new MyPatch(scene,order,order,partsU,partsV,controlPoints);  
 }
 
+/**
+ * Creates a MyVehicle Object with the given parameters
+ * @param {object} scene
+ */
 GraphTree_leaf.prototype.createVehicleObject = function(scene){
     this.object = new MyVehicle(scene);
 }
 
+/**
+ * Creates a MyTerrain Object with the given parameters
+ * @param {object} scene
+ * @param {object} heightMap 
+ * @param {object} colorMap 
+ */
 GraphTree_leaf.prototype.createTerrainObject = function(scene,heigthMap,colorMap){
     this.object = new MyTerrain(scene,heigthMap,colorMap);
 }

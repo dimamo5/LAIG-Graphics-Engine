@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: MySphere.js</title>
+    <title>JSDoc: Source: MyPatch.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: MySphere.js</h1>
+    <h1 class="page-title">Source: MyPatch.js</h1>
 
     
 
@@ -27,83 +27,94 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Represents a sphere primitive
+ * Represents a patch
  * @constructor
- * @param {object} scene - 
- * @param {float} radius -
- * @param {integer} slices - 
- * @param {integer} stacks -
- */ 
- function MySphere(scene, radius, slices, stacks) {
- 	CGFobject.call(this,scene);
-	
-	this.slices=slices;
-	this.stacks=stacks;
-	this.radius=radius;
+ * @param {object} scene  
+ * @param {int} orderU 
+ * @param {int} orderV 
+ * @param {int} nrDivsU 
+ * @param {int} nrDivsV 
+ * @param {array} controlPoint
+ */
+function MyPatch(scene, orderU, orderV, nrDivsU, nrDivsV, controlPoint) {
+    CGFobject.call(this, scene);
+    this.scene = scene;
+    this.orderU = orderU;
+    this.orderV = orderV;
+    this.nrDivsU = nrDivsU;
+    this.nrDivsV = nrDivsV;
+    this.controlPoint = controlPoint;
+    
+    var cp = this.getControlPoints();
+    var knotU = this.getKnotPointU();
+    var knotV = this.getKnotPointV();
+    
+    var nurbsSurface = new CGFnurbsSurface(this.orderU,this.orderV,knotU,knotV,cp);
+    
+    
+    getSurfacePoint = function(u, v) {
+        return nurbsSurface.getPoint(u, v);
+    }
+    ;
+    
+    this.obj = new CGFnurbsObject(this.scene,getSurfacePoint,this.nrDivsU,this.nrDivsV);
 
- 	this.initBuffers();
- }
+}
+;
 
- MySphere.prototype = Object.create(CGFobject.prototype);
- MySphere.prototype.constructor = MySphere;
+MyPatch.prototype = Object.create(CGFobject.prototype);
+MyPatch.prototype.constructor = MyPatch;
 
- /** Initialize buffers (indexs/vertexs/normals/texture coords) */
- MySphere.prototype.initBuffers = function() {
+/**
+* Display of the patch
+*/
+MyPatch.prototype.display = function() {    
+    this.obj.display();
+}
+;
 
-this.vertices = []; 	
- 	this.indices = [];
- 	this.normals = [];
- 	this.texCoords=[];
-	
-	
-	var teta = (Math.PI)/this.stacks; //phi radians
-	var phi = 2*Math.PI/this.slices; //teta radians
-	var comprimento = 1;
-	var raio = 1;
-	var inc = comprimento/this.stacks; //incremento em z
-	var x,y,z;
+/**
+* Generate controlpoints
+*/
+MyPatch.prototype.getControlPoints = function() {
+    var controlPoints = [];
+    var ind = 0;
+    for (var s = 0; s &lt;= this.orderU; s++) {
+        var temp = [];
+        for (var t = 0; t &lt;= this.orderV; t++) {
+            temp.push(this.controlPoint[ind]);
+            ind++;
+        }
+        controlPoints.push(temp);
+    }
+    return controlPoints;
+}
 
-	var stepS=0;
-	var stepT=0;
+/**
+* Generate knot U Points
+*/
+MyPatch.prototype.getKnotPointU = function() {
+    var antes = Array(this.orderU + 1).fill(0);
+    var depois = Array(this.orderU + 1).fill(1);
+    return antes.concat(depois);
 
-	for(var stack=0; stack &lt;= this.stacks; stack++){
-		for(var slice = 0; slice &lt;= this.slices; slice++){
+}
 
-			x = this.radius*Math.sin(stack*teta)*Math.cos(slice*phi); //x = rsin0cosf			
-			y = this.radius*Math.sin(stack*teta)*Math.sin(slice*phi); //y = rsin0sinf			
-			z = this.radius*Math.cos(stack*teta); // z
-			
-			stepS=slice/(this.slices);
-			stepT= stack/(this.stacks);
+/**
+* Generate knot V Points
+*/
+MyPatch.prototype.getKnotPointV = function() {
+    var antes = Array(this.orderV + 1).fill(0);
+    var depois = Array(this.orderV + 1).fill(1);
+    return antes.concat(depois);
 
-			this.vertices.push(x); //x
-			this.vertices.push(y); //y
-			this.vertices.push(z); //z 
-
-			this.texCoords.push(stepS,stepT);
-
-			this.normals.push(x,y,z);
-
-		}
-		
-	}
-
-
-	for(var i=0; i &lt; this.stacks;i++){
-		for(var k = 0; k &lt; this.slices ; k++){
-			
-				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k  ,(i+1)*(this.slices+1)+k+1);
-				this.indices.push(i*(this.slices+1) + k,(i+1)*(this.slices+1) + k+1, i*(this.slices+1) + k+1);
-		}
-	}
+}
 
 
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
-
-MySphere.prototype.updateTexCoords = function(s, t) {
-};</code></pre>
+MyPatch.prototype.updateTexCoords = function(s, t) {
+}
+;
+</code></pre>
         </article>
     </section>
 
