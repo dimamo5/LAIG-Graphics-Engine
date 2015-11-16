@@ -460,7 +460,7 @@ MySceneGraph.prototype.parseAnimations = function(rootElement) {
 		}else if(type !== null && type=="linear") {
 				anim = new LinearAnimation(this.scene, id,span,type);
 
-			var controlpoints = animationList[i].getElementsByTagName('CONTROLPOINT');	
+			var controlpoints = animationList[i].getElementsByTagName('controlpoint');	
 			if (controlpoints === null && controlpoints<2) {
 				return "Control Points element is missing.";
 			}
@@ -522,9 +522,9 @@ MySceneGraph.prototype.parseLeaves = function(rootElement){
 
 			for(var cp=0;cp<leavesList[i].children.length;cp++){
 				if(leavesList[i].children[cp].nodeName=="controlpoint"){
-					var x=this.reader.getFloat(leavesList[i].children[cp],"xx",true);
-					var y=this.reader.getFloat(leavesList[i].children[cp],"yy",true);
-					var z=this.reader.getFloat(leavesList[i].children[cp],"zz",true);
+					var x=this.reader.getFloat(leavesList[i].children[cp],"x",true);
+					var y=this.reader.getFloat(leavesList[i].children[cp],"y",true);
+					var z=this.reader.getFloat(leavesList[i].children[cp],"z",true);
 				}
 				controlpoints.push([x,y,z,1]);
 			}

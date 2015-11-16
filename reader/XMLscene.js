@@ -178,7 +178,7 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
             //index outside bounds
             if (this.currentAnimation >= currNode.cmpAnims.animationsIDs.length) {
                 //last index
-                this.currentAnimation = 2;
+                this.currentAnimation = currNode.cmpAnims.animationsIDs.length -1 ;
             }
                     
             for (var i = 0; i < this.animations.length; i++) {
@@ -191,9 +191,10 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         }
         
         for (var i = 0; i < currNode.descendants.length; i++) {
-            this.pushMatrix();            
-                this.multMatrix(matrixAnim);            
-                this.multMatrix(currNode.getMatrix());           
+            this.pushMatrix();
+                  
+                this.multMatrix(matrixAnim);      
+                this.multMatrix(currNode.getMatrix());            
                 this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
             this.popMatrix();        
         }

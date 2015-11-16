@@ -8,6 +8,9 @@ function MyVehicle(scene) {
     [[0, 1, 0, 1], [0.8, 0.9, 0.8, 1], [0.5, 0.3, 0.5, 1], [0.1, 0, 0.1, 1]], 
     [[0, 1, 0, 1], [0, 0.9, 1, 1], [0, 0.3, 0.3, 1], [0, 0, 0.1, 1]]]);
     
+    this.ballon = new MyPatch(scene,2,3,10,10,[[0, 1, 0, 1], [1, 0.9, 0, 1], [0.3, 0.3, 0, 1], [0.1, 0, 0, 1], 
+    [0, 1, 0, 1], [0.8, 0.9, 0.8, 1], [0.5, 0.3, 0.5, 1], [0.1, 0, 0.1, 1], 
+    [0, 1, 0, 1], [0, 0.9, 1, 1], [0, 0.3, 0.3, 1], [0, 0, 0.1, 1]]);
     
     getSurfacePoint = function(u, v) {
         return nurbsSurface.getPoint(u, v);
@@ -17,7 +20,7 @@ function MyVehicle(scene) {
     this.boxTexture = new CGFtexture(scene,"resources/wood.png");
     this.balaoTexture = new CGFtexture(scene,"resources/rainbow.jpg");
     
-    this.ballon = new CGFnurbsObject(this.scene,getSurfacePoint,10,10);
+    //this.ballon = new CGFnurbsObject(this.scene,getSurfacePoint,10,10);
     this.box = new MyCylinderSurface(scene,1,1,1,2,10);
     this.base = new MyCylinderSurface(scene,0.01,0,1,2,15);
 
